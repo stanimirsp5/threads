@@ -82,7 +82,7 @@ public class ThreadPool
         // if the service is not shut down, the existence of the threads will stop the Java Virtual Machine from shutting down after other threads have exited.
         pool.shutdown();
 
-        //pool.shutdownNow();  similar to executor.shutdown() but it discards any waiting tasks that are still in the queue. Before exiting, the threads in the pool will complete any tasks they have already removed from the queue.
+        //pool.shutdownNow();
 
     }
 }
