@@ -23,7 +23,7 @@ public class ThreadPool {
         // synchronized block
         synchronized (queue){ // You do not have to synchronize a whole method. Sometimes it is preferable to synchronize only part of a method. Java synchronized blocks inside methods makes this possible.
             queue.add(task);
-            queue.notify();
+            queue.notify(); // This method does not notify queue of anything! It notifies a thread that has called queue.wait()
         }
     }
 
@@ -44,7 +44,7 @@ public class ThreadPool {
                 synchronized (queue){
                     while (queue.isEmpty()){
                         try {
-                            queue.wait();
+                            queue.wait(); // it's not queue that is waiting for something; it's the thread that calls the method.
                             System.out.println("wait..." + Thread.currentThread().getName());
 
                         }catch (InterruptedException e){
