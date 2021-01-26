@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
         import java.util.concurrent.Executors;
 
 // Task class to be executed (Step 1)
-class Task implements Runnable
+class Task extends Thread implements Runnable
 {
     private String name;
 
@@ -60,8 +60,8 @@ public class ThreadPool
     public static void main(String[] args)
     {
         // creates five tasks
-        Runnable r1 = new Task("task 1");
-        Runnable r2 = new Task("task 2");
+        Task r1 = new Task("task 1");
+        Thread r2 = new Task("task 2");
         Runnable r3 = new Task("task 3");
         Runnable r4 = new Task("task 4");
         Runnable r5 = new Task("task 5");
@@ -76,7 +76,7 @@ public class ThreadPool
         pool.execute(r3);
         pool.execute(r4);
         pool.execute(r5);
-        pool.execute(r1);
+        //pool.execute(r1);
 
         // pool shutdown ( Step 4) tells the thread pool to shut down after all waiting tasks have been executed.
         // if the service is not shut down, the existence of the threads will stop the Java Virtual Machine from shutting down after other threads have exited.

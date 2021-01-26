@@ -20,14 +20,14 @@ import javafx.scene.paint.Color;
  * Initially, the bars are sorted.  There is a Start button.  When
  * the user clicks this button, the order of the bars is randomized
  * and then Quicksort is applied.  During the sort, a black bar
- * marks the location of an "empty" space in the array.  
+ * marks the location of an "empty" space in the array.
  * The user can abort the sort by clicking the button again.
  *
  * The main point of this program is to demonstrate threads, with
  * very simple inter-thread communication. The recursive Quicksort
  * algorithm is run in a separate thread. All shanges to the canvas
- * by that thread are made using Platform.runLater().  The abort 
- * operation is implemented by setting the value of a volatile variable 
+ * by that thread are made using Platform.runLater().  The abort
+ * operation is implemented by setting the value of a volatile variable
  * that is checked periodically by the thread.  When the user aborts
  * the sort before it finishes, the value of the variable changes;
  * the thread sees the change and exits.
@@ -180,7 +180,7 @@ public class QuicksortThreadDemo extends Application {
      * the recursion, in order to insert delays.  The delay
      * will give the system a chance to update the display, and it
      * gives the user a chance to see what is going on in the sort.
-     * Since this method is called regularly while the recursion is in 
+     * Since this method is called regularly while the recursion is in
      * progress, it is also used as a convenient place to check the value
      * of the signaling variable, running.  If the value of running has
      * been set to false, this method throws an exception of type
@@ -204,7 +204,7 @@ public class QuicksortThreadDemo extends Application {
 
     /**
      * The basic non-recursive QuickSortStep algorithm, which
-     * uses hue[lo] as a "pivot" and rearranges elements of the 
+     * uses hue[lo] as a "pivot" and rearranges elements of the
      * hue array from positions lo through hi so that
      * the pivot value is in its correct location, with smaller
      * items to the left and bigger items to the right.  The
@@ -248,7 +248,7 @@ public class QuicksortThreadDemo extends Application {
      * The recursive quickSort algorithm, for sorting the hue
      * array from positions lo through hi into increasing order.
      * Most of the actual work is done in quickSortStep().
-     * This method is called by the animation thread as  
+     * This method is called by the animation thread as
      * quickSort(0,hue.length-1)  to sort the entire array.
      */
     private void quickSort(int lo, int hi) {
@@ -268,7 +268,7 @@ public class QuicksortThreadDemo extends Application {
      * which would be caused by the user clicking the Finish button,
      * then the thread will restore the array to sorted order before
      * terminating, so that whether or not the quickSort is aborted,
-     * the array ends up sorted.  In any case, in the end, it 
+     * the array ends up sorted.  In any case, in the end, it
      * resets the text on the button to "Start".
      */
     private class Runner extends Thread {

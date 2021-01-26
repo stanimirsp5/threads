@@ -138,7 +138,7 @@ public class RandomArtWithThreads extends Application {
 
     /**
      * This method is called when the user clicks the Start button,
-     * If no thread is running, it sets the signaling variable, running, 
+     * If no thread is running, it sets the signaling variable, running,
      * to true and starts a new thread; it also changes
      * the text on the Start button to "Stop". If the user clicks the button while
      * a thread is running, then a signal is sent to the thread to terminate,

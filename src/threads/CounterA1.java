@@ -42,7 +42,7 @@ public class CounterA1 extends JPanel implements Runnable {
     }
     class StopL implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            if(selfThread != null) {https://ff.tu-sofia.bg/AdvJava/Threads/Threads.html#Creat
+            if(selfThread != null) {//https://ff.tu-sofia.bg/AdvJava/Threads/Threads.html#Creat
             //  selfThread.stop();     deprecated
             runFlag =false;
             }

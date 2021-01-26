@@ -16,11 +16,13 @@ public class OneThreadCounter implements Runnable{
         Thread t = new Thread(OneThreadCounter.this);
         t.start();
 
-        Scanner myObj = new Scanner(System.in);
-        String command = myObj.nextLine();
+        Scanner scanner  = new Scanner(System.in);
+        while (true) {
+            String command = scanner .nextLine();
 
-        if(command.equals("")){
-            isRunning = !isRunning;
+            if (command.equals("")) {
+                isRunning = !isRunning;
+            }
         }
     }
 
@@ -30,14 +32,13 @@ public class OneThreadCounter implements Runnable{
         while (true){
 
             try {
-                Thread.sleep(100);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
             if (isRunning){
-                System.out.println(count++);
-                System.out.println(Thread.currentThread().getName());
+                System.out.print(count++ + " " + Thread.currentThread().getName() + " ");
             }
 
         }
