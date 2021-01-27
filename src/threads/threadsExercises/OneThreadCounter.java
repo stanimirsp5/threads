@@ -4,11 +4,14 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Scanner;
+import java.util.Set;
+
 //https://www.javatpoint.com/java-jtextfield
 public class OneThreadCounter implements Runnable{
     public volatile boolean isRunning = true;
     public int count;
     static JTextField textField = new JTextField();
+    private Thread selfThread = null;
 
     public static void main(String[] args) throws InterruptedException {
 
@@ -26,50 +29,61 @@ public class OneThreadCounter implements Runnable{
         f.setLayout(null);//using no layout managers
         f.setVisible(true);//making the frame visible
 
-        b.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                OneThreadCounter o = new OneThreadCounter();
-                o.startThread();
-            }
-        });
-        for (int i = 0; i < 100; i++) {
-            Thread.sleep(100);
-            textField.setText(String.valueOf(i));
+//        b.addActionListener(new ActionListener(){
+//            public void actionPerformed(ActionEvent e){
+//                OneThreadCounter o = new OneThreadCounter();
+//                o.startThread();
+//            }
+//        });
+        OneThreadCounter o = new OneThreadCounter();
+        o.startThread();
+        o.showActiveThreads();
 
-        }
+    }
+
+    public void showActiveThreads(){
+//        Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
+//        System.out.println(threadSet);
+
+        Thread.getAllStackTraces().keySet().forEach((t) -> System.out.println(t.getName()));
     }
 
     public void startThread(){
-        Thread t = new Thread(OneThreadCounter.this);
-        t.start();
+//        Thread t = new Thread(OneThreadCounter.this);
+//        t.start();
+        selfThread = new Thread(OneThreadCounter.this);
+        selfThread.start();
 
-        Scanner scanner  = new Scanner(System.in);
-        while (true) {
-            String command = scanner .nextLine();
-
-            if (command.equals("")) {
-                isRunning = !isRunning;
-            }
-        }
+//        Scanner scanner  = new Scanner(System.in);
+//        while (true) {
+//            String command = scanner .nextLine();
+//
+//            if (command.equals("")) {
+//                isRunning = !isRunning;
+//            }
+//        }
     }
 
     @Override
     public void run() {
 
-        while (true){
-
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            if (isRunning){
-                textField.setText(count++ + " " + Thread.currentThread().getName() + " ");
-                System.out.print(count++ + " " + Thread.currentThread().getName() + " ");
-            }
-
-        }
+//        while (true){
+//
+//            try {
+//                Thread.sleep(100);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//
+////            if (isRunning){
+////                textField.setText(count++ + " " + selfThread.getName() + " ");
+////                System.out.print(count++ + " " + selfThread.getName() + " ");
+////            }
+//
+//
+//        }
+        //System.out.println(Thread.currentThread().getName());
+        //System.out.println(selfThread.getName());
 
     }
 }
