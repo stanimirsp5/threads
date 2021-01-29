@@ -8,8 +8,7 @@ import javax.swing.*;
 public class CounterA1 extends JPanel implements Runnable {
     private int count = 0;
     private Thread selfThread = null;
-    private Button    stop = new Button("Stop"),
-            start = new Button("Start");
+    private Button stop = new Button("Stop"), start = new Button("Start");
     private TextField t = new TextField(10);
     private Label  l = new Label("Thread: no Thread counter yet");
     private boolean runFlag=true;

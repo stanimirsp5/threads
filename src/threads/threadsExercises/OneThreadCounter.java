@@ -8,7 +8,7 @@ import java.util.Set;
 
 //https://www.javatpoint.com/java-jtextfield
 public class OneThreadCounter implements Runnable{
-    public boolean isRunning;
+    public static boolean isRunning = true;
     public int count;
     static JTextField textField = new JTextField();
     static JLabel runnableLabel = new JLabel();
@@ -60,7 +60,6 @@ public class OneThreadCounter implements Runnable{
     }
 
     public void startThread(){
-        isRunning = true;
         Thread t = new Thread(OneThreadCounter.this);
         t.start();
 //        selfThread = new Thread(OneThreadCounter.this);
@@ -85,15 +84,9 @@ public class OneThreadCounter implements Runnable{
             }
 
             if (isRunning){
-               // textField.setText(count++ + " " + selfThread.getName() + " ");
                 textField.setText(count++ + " " + Thread.currentThread().getName() + " ");
-//                System.out.print(count++ + " " + selfThread.getName() + " ");
             }
-
-
         }
-        //System.out.println(selfThread.getName());
-
     }
 }
 
