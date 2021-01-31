@@ -14,7 +14,7 @@ public class NewThreadCounter{
     static JTextField textField = new JTextField();
     static JLabel runnableLabel = new JLabel();
     static JButton startB = new JButton("Start"), pauseB = new JButton("Pause");
-    static Thread selfThread = new Thread();
+    static Thread selfThread = null;
     
     public static void main(String[] args){
         UI ui = new UI();
@@ -28,23 +28,27 @@ public class NewThreadCounter{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            selfThread = null;
-            Counter counter = new Counter();
-            selfThread = new Thread(counter);
-            selfThread.start();
+
+            if(selfThread==null) {
+                isRunning = true;
+                Counter counter = new Counter();
+                selfThread = new Thread(counter);
+                selfThread.start();
+            }
         }
     }
     static class StopThread implements ActionListener{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            isRunning = !isRunning;
+            isRunning = false;//!isRunning;
+
         }
     }
 
     static class Counter implements Runnable{
         @Override
-        public void run() {
+       synchronized public void run() {
            while (isRunning){
                 try {
                     Thread.sleep(500);
@@ -54,7 +58,7 @@ public class NewThreadCounter{
                 
                 textField.setText(Thread.currentThread().getName() + " " + counter++);
             }
-
+            selfThread = null;
 
         }
     }
