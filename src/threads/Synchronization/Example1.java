@@ -1,48 +1,48 @@
 package threads.Synchronization;
 
-        class IntShare {
-            private int intShared = -1;
-            public void setIntShared( int val ){
-                System.out.println( Thread.currentThread().getName() +
-                        " set intShared: " + val );
-                intShared = val;
+//        class IntShare {
+//            private int intShared = -1;
+//            public void setIntShared( int val ){
+//                System.out.println( Thread.currentThread().getName() +
+//                        " set intShared: " + val );
+//                intShared = val;
+//            }
+//            public int getIntShared(){
+//                System.out.println( Thread.currentThread().getName() +
+//                        " get intShared " + intShared );
+//                return intShared;
+//            }
+//        }
+      class IntShare {
+        private int intShared = -1;
+        private boolean writable= true;
+        public synchronized void setIntShared( int val ){
+            while(!writable) {
+                try{     wait();   }
+                catch(InterruptedException e){
+                    System.err.println(e);
+                }
             }
-            public int getIntShared(){
-                System.out.println( Thread.currentThread().getName() +
-                        " get intShared " + intShared );
-                return intShared;
-            }
+            System.out.println( Thread.currentThread().getName() +
+                    " set intShared: " + val );
+            intShared = val;
+            writable=false;
+            notify();
         }
-//      class IntShare {
-//        private int intShared = -1;
-//        private boolean writable= true;
-//        public synchronized void setIntShared( int val ){
-//            while(!writable) {
-//                try{     wait();   }
-//                catch(InterruptedException e){
-//                    System.err.println(e);
-//                }
-//            }
-//            System.out.println( Thread.currentThread().getName() +
-//                    " set intShared: " + val );
-//            intShared = val;
-//            writable=false;
-//            notify();
-//        }
-//        public synchronized int getIntShared(){
-//            while(writable) {
-//                try{     wait();   }
-//                catch(InterruptedException e){
-//                    System.err.println(e);
-//                }
-//            }
-//            System.out.println( Thread.currentThread().getName() +
-//                    " get intShared " + intShared );
-//            writable=true;
-//            notify();
-//            return intShared;
-//        }
-//    }
+        public synchronized int getIntShared(){
+            while(writable) {
+                try{     wait();   }
+                catch(InterruptedException e){
+                    System.err.println(e);
+                }
+            }
+            System.out.println( Thread.currentThread().getName() +
+                    " get intShared " + intShared );
+            writable=true;
+            notify();
+            return intShared;
+        }
+    }
 
     class SetShared extends Thread {
         private IntShare pGuarde;

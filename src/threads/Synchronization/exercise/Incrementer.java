@@ -7,9 +7,10 @@ public class Incrementer {
         Counter counter = new Counter();
 
         Thread producerThread = new Thread(new ProducerThread(counter));
-        producerThread.start();
         Thread consumerThread = new Thread(new ConsumerThread(counter));
+        producerThread.start();
         consumerThread.start();
+
     }
 
     static class ProducerThread implements Runnable {
@@ -21,9 +22,9 @@ public class Incrementer {
 
         @Override
         public void run() {
-            for (int i = 0; i < N; i++) {
+            for (int i = 1; i <= N; i++) {
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(50);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -43,26 +44,51 @@ public class Incrementer {
         @Override
         public void run() {
             int val = 0;
-            while (val <= 10) {
+            int sum = 0;
+            while (val <= N) {
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 val = counter.getValue();
+                sum += val;
+                System.out.println("Calculate sum "+ sum);
+
             }
+            System.out.println("Total sum: "+ sum);
         }
     }
 
 
     static class Counter {
         int value;
+        private boolean isValueGet = true;
 
-        public void setValue(int inc) {
+        public synchronized void setValue(int inc) {
+//            while (!isValueGet){
+//                try {
+//                    wait();
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+            isValueGet = false;
+//            notify();
             value += inc;
         }
 
-        public int getValue() {
+        public synchronized int getValue() {
+
+//            while (isValueGet){
+//                try {
+//                    wait();
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+            isValueGet = true;
+//            notify();
             System.out.println(value);
             return value;
         }
