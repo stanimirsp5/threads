@@ -44,9 +44,9 @@ package threads.Synchronization;
         }
     }
 
-    class SetShared extends Thread {
+    class SetShared1 extends Thread {
         private IntShare1 pGuarde;
-        public SetShared( IntShare1 h ){
+        public SetShared1( IntShare1 h ){
             super( "Set Shared" );
             pGuarde = h;
         }
@@ -62,10 +62,10 @@ package threads.Synchronization;
             System.out.println( getName() + " finished"  );
         }
     }
-    class GetShared extends Thread {
+    class GetShared1 extends Thread {
         private IntShare1 cGuarde;
-        public GetShared( IntShare1 h ){
-            super( "GetShared" );
+        public GetShared1( IntShare1 h ){
+            super( "GetShared1" );
             cGuarde = h;
         }
         public void run(){
@@ -86,8 +86,8 @@ package threads.Synchronization;
     public class Example1 {
         public static void main( String args[] ){
             IntShare1 h =new IntShare1();
-            SetShared p = new SetShared( h );
-            GetShared c = new GetShared( h );
+            SetShared1 p = new SetShared1( h );
+            GetShared1 c = new GetShared1( h );
             p.start();
             c.start();
         }

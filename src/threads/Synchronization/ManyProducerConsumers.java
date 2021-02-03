@@ -1,6 +1,6 @@
 package threads.Synchronization;
 
-class ManyProducerConsumers {
+public class ManyProducerConsumers {
     public static void main( String args[] ){
         IntShare h =new IntShare();
         for(int i=0;i<3;i++){
@@ -53,7 +53,7 @@ class IntShare {
     }
 }
 
-public class SetShared extends Thread {
+class SetShared extends Thread {
     private IntShare pGarde;
     public SetShared( IntShare h ){
         super( "SetShared " +(int)(Math.random()*1000));
