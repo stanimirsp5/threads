@@ -1,6 +1,6 @@
 package threads.Synchronization;
 
-//        class IntShare {
+//        class IntShare1 {
 //            private int intShared = -1;
 //            public void setIntShared( int val ){
 //                System.out.println( Thread.currentThread().getName() +
@@ -13,7 +13,7 @@ package threads.Synchronization;
 //                return intShared;
 //            }
 //        }
-      class IntShare {
+      class IntShare1 {
         private int intShared = -1;
         private boolean writable= true;
         public synchronized void setIntShared( int val ){
@@ -45,8 +45,8 @@ package threads.Synchronization;
     }
 
     class SetShared extends Thread {
-        private IntShare pGuarde;
-        public SetShared( IntShare h ){
+        private IntShare1 pGuarde;
+        public SetShared( IntShare1 h ){
             super( "Set Shared" );
             pGuarde = h;
         }
@@ -63,8 +63,8 @@ package threads.Synchronization;
         }
     }
     class GetShared extends Thread {
-        private IntShare cGuarde;
-        public GetShared( IntShare h ){
+        private IntShare1 cGuarde;
+        public GetShared( IntShare1 h ){
             super( "GetShared" );
             cGuarde = h;
         }
@@ -85,7 +85,7 @@ package threads.Synchronization;
     }
     public class Example1 {
         public static void main( String args[] ){
-            IntShare h =new IntShare();
+            IntShare1 h =new IntShare1();
             SetShared p = new SetShared( h );
             GetShared c = new GetShared( h );
             p.start();

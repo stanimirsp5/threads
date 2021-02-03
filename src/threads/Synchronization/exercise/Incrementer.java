@@ -37,7 +37,6 @@ public class Incrementer {
         Counter counter;
 
         public ConsumerThread(Counter counter) {
-            //super("Set Shared");
             this.counter = counter;
         }
 
@@ -53,7 +52,7 @@ public class Incrementer {
                 }
                 val = counter.getValue();
                 sum += val;
-                System.out.println("Calculate sum "+ sum);
+                System.out.println("Val "+ val);
 
             }
             System.out.println("Total sum: "+ sum);
@@ -66,30 +65,30 @@ public class Incrementer {
         private boolean isValueGet = true;
 
         public synchronized void setValue(int inc) {
-//            while (!isValueGet){
-//                try {
-//                    wait();
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
+            while (!isValueGet){
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
             isValueGet = false;
-//            notify();
+            notify();
             value += inc;
         }
 
         public synchronized int getValue() {
 
-//            while (isValueGet){
-//                try {
-//                    wait();
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
+            while (isValueGet){
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
             isValueGet = true;
-//            notify();
-            System.out.println(value);
+            notify();
+            //System.out.println(value);
             return value;
         }
     }
