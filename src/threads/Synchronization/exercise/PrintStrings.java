@@ -18,9 +18,10 @@ public class PrintStrings {
 
 class Printer{
 
+//    public synchronized void print(String str1,String str2) throws InterruptedException { // lock method
     public void print(String str1,String str2) throws InterruptedException {
         System.out.print(str1);
-        Thread.sleep(1000);
+        Thread.sleep(50);
         System.out.println(str2);
     }
 
@@ -28,7 +29,7 @@ class Printer{
 
 class ThreadPrinter extends Thread{
     String msg1, msg2;
-    Printer p;// = new Printer();
+    Printer p;//=new Printer();
 
     public ThreadPrinter(String msg1,String msg2,Printer p) {
         this.msg1 = msg1;
@@ -40,7 +41,10 @@ class ThreadPrinter extends Thread{
     @Override
     public void run() {
         try {
-            p.print(msg1,msg2);
+
+            //synchronized (p){ // lock object
+                p.print(msg1,msg2);
+            //}
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
