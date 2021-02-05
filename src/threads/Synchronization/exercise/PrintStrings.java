@@ -11,9 +11,6 @@ public class PrintStrings {
         //Thread thread = new Thread(printer);
         //thread.start();
     }
-
-
-
 }
 
 class Printer{
