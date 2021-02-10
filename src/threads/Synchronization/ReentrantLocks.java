@@ -1,5 +1,6 @@
 package threads.Synchronization;
-
+//https://ducmanhphan.github.io/2019-12-23-How-to-use-Reentrant-lock-in-java/
+//https://www.geeksforgeeks.org/reentrant-lock-java/
 // Java code to illustrate Reentrant Locks
 import java.text.SimpleDateFormat;
         import java.util.Date;
