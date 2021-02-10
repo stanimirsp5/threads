@@ -2,6 +2,7 @@ package threads.Synchronization;
 
 // https://ducmanhphan.github.io/2019-12-23-How-to-use-Reentrant-lock-in-java/
 //https://www.geeksforgeeks.org/reentrant-lock-java/
+//http://tutorials.jenkov.com/java-concurrency/locks.html#reentrance
 // Java code to illustrate Reentrant Locks
 import java.text.SimpleDateFormat;
         import java.util.Date;
@@ -10,11 +11,11 @@ import java.text.SimpleDateFormat;
         import java.util.concurrent.Executors;
         import java.util.concurrent.locks.ReentrantLock;
 
-class worker implements Runnable
+class ThreadWorker implements Runnable
 {
     String name;
     ReentrantLock re;
-    public worker(ReentrantLock rl, String n)
+    public ThreadWorker(ReentrantLock rl, String n)
     {
         re = rl;
         name = n;
@@ -109,10 +110,10 @@ public class ReentrantLocks
     {
         ReentrantLock rel = new ReentrantLock();
         ExecutorService pool = Executors.newFixedThreadPool(MAX_T);
-        Runnable w1 = new worker(rel, "Job1");
-        Runnable w2 = new worker(rel, "Job2");
-        Runnable w3 = new worker(rel, "Job3");
-        Runnable w4 = new worker(rel, "Job4");
+        Runnable w1 = new ThreadWorker(rel, "Job1");
+        Runnable w2 = new ThreadWorker(rel, "Job2");
+        Runnable w3 = new ThreadWorker(rel, "Job3");
+        Runnable w4 = new ThreadWorker(rel, "Job4");
 
         pool.execute(w1);
         pool.execute(w2);

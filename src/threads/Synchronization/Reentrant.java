@@ -39,9 +39,6 @@ class Worker implements Runnable{
     public void run() {
 
         counter.add();
-
-
-
     }
 }
 
@@ -66,7 +63,7 @@ class Counter{
         }
         number--;
         System.out.println(Thread.currentThread().getName() + " Extract "+number);
-
+        add();
     }
     public int getNum(){
         return number;
