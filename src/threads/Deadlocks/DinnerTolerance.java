@@ -2,7 +2,7 @@ package threads.Deadlocks;
 
 public class DinnerTolerance {
     public static void main(String arg[]){
-        int number=5;
+        int number=3;
         MyPhilosopher ph[]= new MyPhilosopher[number];
         MyFork fk[]= new MyFork[number];
         for(int i=0;i<number;i++){

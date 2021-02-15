@@ -5,11 +5,11 @@ package threads.Synchronization;
 //http://tutorials.jenkov.com/java-concurrency/locks.html#reentrance
 // Java code to illustrate Reentrant Locks
 import java.text.SimpleDateFormat;
-        import java.util.Date;
+import java.util.Date;
 
-        import java.util.concurrent.ExecutorService;
-        import java.util.concurrent.Executors;
-        import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.locks.ReentrantLock;
 
 class ThreadWorker implements Runnable
 {

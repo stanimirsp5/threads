@@ -8,7 +8,7 @@ public class EatingTolerance {
 
         Mice[] mices = new Mice[NUM_MICES];
         for (int i = 0; i < NUM_MICES; i++) {
-            mices[i] = new Mice(i%2==0?" left mice " + i:" right mice " + i);
+            mices[i] = new Mice(" mice " + i);
         }
 
         for (int i = 0; i < NUM_PROGRAMMERS; i++) {
@@ -34,7 +34,7 @@ class Programmer implements Runnable{
 
         while (true) {
             try {
-                System.out.println("left only");
+                //System.out.println("left only");
                 leftMice.take(this);
             } catch (TakenExc takenExc) {
                 try {
@@ -60,7 +60,11 @@ class Programmer implements Runnable{
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                leftMice.pose(this);
 //                rightMice.pose(this);
+                try {
+                    Thread.sleep((int)(Math.random()*600));
+                } catch (InterruptedException e){}
                 continue;
             }
 
@@ -89,7 +93,7 @@ class Mice {
 
     synchronized public void take(Programmer p) throws TakenExc {
         if (isMiceTaken){
-            throw new TakenExc("Error: "+name +" is busy " + p.name);
+            throw new TakenExc("Error: "+name +" is taken " + p.name);
         }
 
         isMiceTaken = true;
