@@ -74,6 +74,12 @@ class Dinner{
         }
         for(int i=0; i<number;i++){
             ph[i] = new Philosopher("P"+(i+1),fk[i],fk[(i+1)%number]);
+
+            // deadlock solution
+            // one of the philosophers must take right fork instead left
+            if(i == number-1){
+                ph[i] = new Philosopher("P"+(i+1),fk[(i+1)%number],fk[i]);
+            }
             ph[i].start();
         }
     }
