@@ -1,0 +1,1 @@
+workshop - make client/server with dining philosophers
