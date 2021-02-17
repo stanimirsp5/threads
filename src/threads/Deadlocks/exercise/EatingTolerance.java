@@ -1,8 +1,8 @@
 package threads.Deadlocks.exercise;
 
 public class EatingTolerance {
-    public static final int NUM_MICES = 3;
-    public static final int NUM_PROGRAMMERS = 3;
+    public static final int NUM_MICES = 5;
+    public static final int NUM_PROGRAMMERS = 5;
 
     public static void main(String arg[]) {
 
@@ -55,13 +55,7 @@ class Programmer implements Runnable{
             try {
                 rightMice.take(this);
             } catch (TakenExc takenExc) {
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
                 leftMice.pose(this);
-//                rightMice.pose(this);
                 try {
                     Thread.sleep((int)(Math.random()*600));
                 } catch (InterruptedException e){}
