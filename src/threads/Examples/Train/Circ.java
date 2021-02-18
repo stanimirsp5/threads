@@ -67,7 +67,7 @@ class Monitor {
     }
     public synchronized void leavetA(){
         while(!onA){
-            //System.out.println("\t"+Thread.currentThread().getName()+" traveling in the train");
+            System.out.println("\t"+Thread.currentThread().getName()+" synchronized");
             try{     wait();   }
             catch(InterruptedException e){
                 System.err.println(e);
@@ -80,7 +80,7 @@ class Monitor {
     }
     public synchronized void leavetB(){
         while(!onB){
-            //System.out.println(Thread.currentThread().getName()+" traveling in the train");
+            System.out.println(Thread.currentThread().getName()+" traveling in the train");
             try{     wait();   }
             catch(InterruptedException e){
                 System.err.println(e);
