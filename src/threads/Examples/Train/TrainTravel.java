@@ -1,7 +1,7 @@
 package threads.Examples.Train;
 
 public class TrainTravel {
-    public static final int SHIP_MAX_CAPACITY = 5;
+    public static final int SHIP_MAX_CAPACITY = 3;
     public static void main(String[] args){
         MonitorSpace monitor = new MonitorSpace(SHIP_MAX_CAPACITY);
         SpaceShip spaceShip = new SpaceShip(monitor);
@@ -30,7 +30,7 @@ class SpaceShip implements Runnable{
 
     @Override
     public void run() {
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 4; i++) {
             //monitorSpace.arriveAtPlanetA(Position.PlanetA);
 
             try {
@@ -116,27 +116,26 @@ class MonitorSpace{
         shipPosition = direction;
         onA = true;
         System.out.println("|-- train arrived planet A");
-
+        notifyAll();
     }
 
     public synchronized void leavePlanetB(Position direction){
         shipPosition = direction;
         onB = false;
         System.out.println("<-- train left planet B. Position is "+ shipPosition.name());
-
     }
 
     public synchronized void arriveAtPlanetB(Position direction){
         shipPosition = direction;
         onB = true;
         System.out.println("--| train arrived planet B");
-
+        notifyAll();
     }
 
     public synchronized void jediLeaveShipInPlanetA(String name) throws InterruptedException {
 //        while(shipPosition != Position.PlanetA){
         while(!onA){
-            System.out.printf("jedi %s can't leave the ship A, because ship is on Planet B \n", name);
+            System.out.printf("jedi %s travel to Planet A \n", name);
             wait();
         }
         totalJediOnShip--;
@@ -147,7 +146,7 @@ class MonitorSpace{
     public synchronized void jediLeaveShipInPlanetB(String name) throws InterruptedException {
 //        while(shipPosition != Position.PlanetB){
         while(!onB){
-            System.out.printf("jedi %s can't leave the ship B, because ship is on Planet A\n", name);
+            System.out.printf("jedi %s travel to Planet B\n", name);
             wait();
         }
         totalJediOnShip--;
@@ -157,26 +156,18 @@ class MonitorSpace{
     }
 
     public synchronized void jediTakeShipFromPlanetA(String name) throws InterruptedException {
-        if(maxCapacity == totalJediOnShip){
-            System.out.printf("Ship A -> B is full %d (capacity). Jedi %s is waiting\n", totalJediOnShip, name);
-            wait();
-//        }else if(shipPosition != Position.PlanetA){
-        }else if(!onA){ // TODO fix logic?
-            System.out.printf("Ship is on planet B, must be on A. Jedi %s is waiting\n", totalJediOnShip, name);
+        while(maxCapacity <= totalJediOnShip || !onA){
+            System.out.printf("Ship A -> B is waiting %d (capacity). Jedi %s \n", totalJediOnShip, name);
             wait();
         }
         totalJediOnShip++;
-        System.out.printf("^ jedi %s take ship A\n", name);
+        System.out.printf("^ jedi %s take ship A. onA is %b\n", name, onA);
 
     }
 
     public synchronized void jediTakeShipFromPlanetB(String name) throws InterruptedException {
-        if(maxCapacity == totalJediOnShip){
-            System.out.printf("Ship B -> A is full %d (capacity). Jedi %s is waiting\n",totalJediOnShip, name);
-            wait();
-//        }else if(shipPosition != Position.PlanetB){
-        }else if(!onB){
-            System.out.printf("Ship is on planet A, must be on B. Jedi %s is waiting\n", totalJediOnShip, name);
+        if(maxCapacity <= totalJediOnShip || !onB){
+            System.out.printf("Ship B -> A is waiting %d (capacity). Jedi %s \n",totalJediOnShip, name);
             wait();
         }
         totalJediOnShip++;
