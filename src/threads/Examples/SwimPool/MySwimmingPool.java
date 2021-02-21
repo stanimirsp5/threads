@@ -24,23 +24,43 @@ class MySwimmer extends Thread{
 
     @Override
     public void run(){
+        try {
+            sleep(200);
+            System.out.println(name + " try to take skep");
 
-        skep.takeSkep(name);
+            skep.takeSkep(name);
 
-        wardrobe.enterWardrobe(name);
+            sleep(200);
+            System.out.println(name + " try to enter wardrobe before swim");
 
-        wardrobe.leaveWardrobe(name);
+            wardrobe.enterWardrobe(name);
 
-        System.out.println(name + " ^ is swimming");
+            sleep(200);
 
-        wardrobe.enterWardrobe(name);
+            wardrobe.leaveWardrobe(name);
 
-        wardrobe.leaveWardrobe(name);
+            System.out.println(name + " ^ is swimming");
 
-        skep.returnSkep(name);
+            sleep(600);
 
-        System.out.println(name + " _ finished swimming");
+            System.out.println(name + " _ finished swimming");
+            System.out.println(name + " > try to enter wardrobe after swim");
 
+            wardrobe.enterWardrobe(name);
+
+            sleep(200);
+
+            wardrobe.leaveWardrobe(name);
+
+            sleep(200);
+
+            skep.returnSkep(name);
+
+            System.out.println(name + " leave the pool");
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
 
@@ -52,7 +72,7 @@ class Wardrobe{
     }
 
     public synchronized void enterWardrobe(String name){
-        if(capacity == 0){
+        while(capacity == 0){ // or if - difference?
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -65,6 +85,7 @@ class Wardrobe{
     public synchronized void leaveWardrobe(String name){
         capacity++;
         System.out.println(name + " left wardrobe. Capacity is " + capacity);
+        notifyAll();
     }
 
 }
@@ -77,7 +98,7 @@ class Skep{
     }
 
     public synchronized void takeSkep(String name){
-        if(availableUnits == 0){
+        while(availableUnits == 0){
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -90,5 +111,6 @@ class Skep{
     public synchronized void returnSkep(String name){
         availableUnits++;
         System.out.println(name + " return skep. Skeps are " + availableUnits);
+        notifyAll();
     }
 }
