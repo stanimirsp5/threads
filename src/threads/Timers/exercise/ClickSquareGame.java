@@ -3,6 +3,9 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.*;
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class ClickSquareGame {
 
     ClickSquareGame()
@@ -22,6 +25,7 @@ public class ClickSquareGame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 frameSquare.addNum();
+                frameSquare.move(panel);
             }
         });
         f.addMouseListener(new MouseAdapter() {
@@ -57,6 +61,17 @@ class FrameSquare{
     public void extractNum(){
         number--;
         l.setText(String.valueOf(number));
+    }
+
+    public void move(JPanel panel){
+        panel.setBounds(140,180,50,50);
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+
+            }
+        },1000);
     }
 }
 
