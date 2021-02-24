@@ -4,7 +4,11 @@ public class Fibonacci {
     public final static int NUM = 100;
     public static void main(String[] args){
         Worker worker = new Worker();
+        System.out.print("1 ");
         worker.fibonacciLoop(NUM);
+        System.out.println();
+        System.out.print("1 ");
+        worker.fibonacciRec(NUM,1,1);
     }
 }
 class Worker{
@@ -12,20 +16,25 @@ class Worker{
         int prev = 1;
         int curr = 1;
         int newN = 0;
-        System.out.print(prev + " ");
         System.out.print(curr + " ");
 
-//        for (int newN = 1; newN < n; newN+= prev) {
-//
-//            System.out.println(newN);
-//            prev = newN;
-//        }
         while (newN < n){
             newN = curr+prev;
             System.out.print(newN + " ");
             prev = curr;
             curr = newN;
         }
+
+    }
+
+    public void fibonacciRec(int n,int curr, int prev){
+
+        if(n <= curr){
+
+            return;
+        }
+        System.out.print(curr +" ");
+        fibonacciRec(n,prev+curr, curr);
 
     }
 }
