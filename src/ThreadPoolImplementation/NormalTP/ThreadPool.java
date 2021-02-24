@@ -4,8 +4,8 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-//    public ThreadPoolExecutor(int corePoolSize - the number of threads to keep in the pool, even if they are idle
-//                              int maximumPoolSize - the maximum number of threads to allow in the pool
+//    public ThreadPoolExecutor(int corePoolSize - the number of threads to keep in the pool, even if they are idle;
+//                              int maximumPoolSize - the maximum number of threads to allow in the pool;
 //                              long keepAliveTime - when the number of threads is greater than the core,
 //                                                      this is the maximum time that excess idle threads will wait for new tasks before terminating.
 //                              TimeUnit unit - the time unit for the keepAliveTime argument
