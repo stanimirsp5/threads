@@ -13,6 +13,7 @@ public class ClickSquareGame {
     {
 
         JFrame f= new JFrame("Panel Example");
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel panel=new JPanel();
         panel.setBounds(40,80,50,50);
         panel.setBackground(Color.gray);
