@@ -1,4 +1,4 @@
-package ThreadPoolImplementation.TPool;
+package ThreadPoolImplementation.TPoolExample;
 
 import java.util.ArrayList;
 import java.util.List;

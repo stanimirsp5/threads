@@ -7,7 +7,7 @@ import java.text.*;
 
 public class FibonacciNumber {
     public static void main(String[] args) {
-        int nTasks = 2;    // number of tasks to be submitted to pool
+        int nTasks = 10;    // number of tasks to be submitted to pool
         long n = 30;       //Fibonacci number
         int tpSize = 1;  // corePoolSize
         LinkedBlockingQueue<Runnable> q;

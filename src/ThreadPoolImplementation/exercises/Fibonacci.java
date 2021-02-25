@@ -8,7 +8,7 @@ public class Fibonacci {
         worker.fibonacciLoop(NUM);
         System.out.println();
         System.out.print("1 ");
-        worker.fibonacciRec(NUM,1,1);
+        worker.fibonacciRec(8);
     }
 }
 class Worker{
@@ -27,14 +27,24 @@ class Worker{
 
     }
 
-    public void fibonacciRec(int n,int curr, int prev){
+    public void fibonacciRec(int n){
 
-        if(n <= curr){
-
-            return;
-        }
-        System.out.print(curr +" ");
-        fibonacciRec(n,prev+curr, curr);
+//        if(n <= curr){
+//
+//            return;
+//        }
+//        System.out.print(curr +" ");
+//        fibonacciRec(n,prev+curr, curr);
 
     }
+//    public void fibonacciRec(int n,int curr, int prev){
+//
+//        if(n <= curr){
+//
+//            return;
+//        }
+//        System.out.print(curr +" ");
+//        fibonacciRec(n,prev+curr, curr);
+//
+//    }
 }
