@@ -28,7 +28,7 @@ public class ThreadPool {
 
             Runnable r1 = new Task();
 
-            ExecutorService pool = Executors.newFixedThreadPool(5);//.newFixedThreadPool(THREAD_NUM);
+            ExecutorService pool = Executors.newFixedThreadPool(4);//.newFixedThreadPool(THREAD_NUM);
             pool.execute(r1);
             pool.execute(new Task());
             pool.execute(new Task());

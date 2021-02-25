@@ -7,9 +7,9 @@ import java.text.*;
 
 public class FibonacciNumber {
     public static void main(String[] args) {
-        int nTasks = 20;    // number of tasks to be submitted to pool
+        int nTasks = 2;    // number of tasks to be submitted to pool
         long n = 30;       //Fibonacci number
-        int tpSize = 5;  // corePoolSize
+        int tpSize = 1;  // corePoolSize
         LinkedBlockingQueue<Runnable> q;
 
         ThreadPoolExecutor tpe = new ThreadPoolExecutor(
@@ -39,18 +39,20 @@ class Task implements Runnable {
     long n;
     String id;
     ThreadPoolExecutor tpe;
-    private long fib(long n) {
+    private long fib(long n, String m) {
         if (n == 0)
             return 0L;
         if (n == 1)
             return 1L;
-        return fib(n - 1) + fib(n - 2);
+        return fib(n - 1,"f") + fib(n - 2,"s");
     }
+
     public Task(long n, String id, ThreadPoolExecutor tpe) {
         this.n = n;
         this.id = id;
         this.tpe=tpe;
     }
+
     public void run( ) {
         Date d = new Date( );
         DateFormat df = new SimpleDateFormat("HH:mm:ss:SSS");
@@ -58,7 +60,7 @@ class Task implements Runnable {
         d.setTime(startTime);
         System.out.println("Starting task " + id + " at " + df.format(d)+ "; active threads:"
                 +tpe.getActiveCount());
-        System.out.println("\tfibonatchi "+ n+":"+ fib(n));
+        System.out.println("\tfibonatchi "+ n+":"+ fib(n,"s"));
         long endTime = System.currentTimeMillis( );
         d.setTime(endTime);
         System.out.println("\tEnding task " + id + " at " + df.format(d) +" after "
