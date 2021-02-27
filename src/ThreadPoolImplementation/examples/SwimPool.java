@@ -29,12 +29,16 @@ class Swimmer implements Runnable{
         //this.name = name;
         //poolManagement.swimmerName = name;
     }
+
+    @Override
     public String toString(){
         return name;
     }
+
+    @Override
     public void run() {
 
-        System.out.println(this + " enters pool");
+        System.out.println(this.toString() + " enters pool");
         try {Thread.sleep(100);} catch (InterruptedException e) {e.printStackTrace();}
         poolManagement.takeBasket();
         try {Thread.sleep(100);} catch (InterruptedException e) {e.printStackTrace();}
