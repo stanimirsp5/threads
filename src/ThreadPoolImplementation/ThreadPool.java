@@ -22,6 +22,7 @@ public class ThreadPool {
     public void execute(Runnable task){
         // synchronized block
         synchronized (queue){ // You do not have to synchronize a whole method. Sometimes it is preferable to synchronize only part of a method. Java synchronized blocks inside methods makes this possible.
+            System.out.println(Thread.currentThread().getName() + " add task to queue");
             queue.add(task);
             queue.notify(); // This method does not notify queue of anything! It notifies a thread that has called queue.wait()
         }
@@ -51,6 +52,8 @@ public class ThreadPool {
                             System.out.println("Error while queue is waiting: " + e.getMessage());
                         }
                     }
+                    System.out.println(Thread.currentThread().getName() + " remove task from queue");
+
                     task = (Runnable) queue.poll(); // Retrieves and removes the head of this queue, or returns null if this queue is empty.
                 }
 

@@ -5,11 +5,12 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public class Act {
-    public static final int NUM_CARS = 6;
+    public static final int NUM_CARS = 10;
+    public static final int NUM_THREADS = 5;
     public static void main(String[] args){
         Bridge bridge = new Bridge();
         LinkedBlockingQueue queue = new LinkedBlockingQueue();
-        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(6,6, 5000L, TimeUnit.MICROSECONDS, queue);
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(NUM_THREADS,NUM_THREADS, 5000L, TimeUnit.MICROSECONDS, queue);
 
         for (int i = 0; i < NUM_CARS; i++) {
             Position position = i % 2 == 0 ? Position.LEFT : Position.RIGHT;
@@ -33,7 +34,7 @@ class Car implements Runnable{
     Position position;
 
     public Car(String name, Bridge bridge, Position position) {
-        this.name = name;
+        this.name = String.format("%s %s",name,position.name());
         this.bridge = bridge;
         this.position = position;
     }
@@ -43,30 +44,25 @@ class Car implements Runnable{
 
         String destination = position==Position.LEFT ? " > Right" : " < Left ";
 
-        System.out.println(destination + " " + name + " trying to take on bridge. ");
+        System.out.println(name + " trying to take on bridge to destination " + destination);
         try { Thread.sleep(200);} catch (InterruptedException e) {e.printStackTrace();}
         bridge.takeBridge(this);
 
-        System.out.println(name + " is on bridge. Travel to destination " + destination);
+        System.out.println(name + " travelling to destination " + destination);
 
         bridge.leaveBridge(this);
 
-        System.out.println(name + " arrived at " + destination + " side of the bridge");
-
-    }
-
-    @Override
-    public String toString(){
-        return String.format("%s %s",name,position.name());
     }
 }
 
 class Bridge{
     Direction direction = Direction.NONE;
-    //int isAtSameDirection = 0; // 1 left, 2 right
     int carsOnBridge = 0;
+    int bridgeCapacity = 3;
+    boolean isClosed;
+
     public synchronized void takeBridge(Car car){
-        if (direction != Direction.NONE && !direction.name().equals(car.position.name())){
+        while (direction != Direction.NONE && direction.name().equals(car.position.name()) || isClosed){
             System.out.println(car.name + " is waiting");
             try {
                 wait();
@@ -75,8 +71,13 @@ class Bridge{
             }
         }
         carsOnBridge++;
-        direction = car.position == Position.LEFT ? Direction.RIGHT : Direction.RIGHT;
-        System.out.println(car.name + " is on the bridge");
+        direction = car.position == Position.LEFT ? Direction.RIGHT : Direction.LEFT;
+        System.out.println(car.name + " is on the bridge. Direction " + direction);
+
+        if(carsOnBridge >= bridgeCapacity){
+            isClosed = true;
+            System.out.println("Bridge is closed");
+        }
     }
 
     public synchronized void leaveBridge(Car car){
@@ -85,6 +86,14 @@ class Bridge{
         if(carsOnBridge==0){
             direction = Direction.NONE;
         }
-        System.out.println(car.name + " left the bridge. Cars left on bridge " + carsOnBridge);
+//        if(carsOnBridge >= bridgeCapacity){
+//            isClosed = false;
+//            System.out.println("Bridge is open");
+//        }
+        System.out.println(car.name + " left the bridge. Cars left on bridge " + carsOnBridge + " direction "+ direction.name());
+        if(carsOnBridge==0){
+            isClosed = false;
+            System.out.println("Bridge is open");
+        }
     }
 }
