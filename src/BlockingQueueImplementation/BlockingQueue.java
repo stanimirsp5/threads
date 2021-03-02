@@ -16,7 +16,7 @@ public class BlockingQueue<E> {
 
     public synchronized void enqueue(E item){
         if(queue.size() == boundLimit){
-            System.out.println("queue is full. waiting " + item);
+            System.out.printf("queue is full for item %d. Waiting %s \n", item, Thread.currentThread().getName());
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -30,7 +30,7 @@ public class BlockingQueue<E> {
 
     public synchronized E dequeue(){
         if(queue.size() == 0){
-            System.out.println("No elements in queue, notify all");
+            System.out.println("No elements in queue, notify all threads " + Thread.currentThread().getName());
 
             notifyAll();
         }
