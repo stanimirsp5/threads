@@ -2,35 +2,67 @@ package BlockingQueueImplementation;
 
 public class ItemsAdder {
     public static final int QUEUE_LIMIT = 5;
+
     public static void main(String[] args){
 
         BlockingQueue<Integer> queue = new BlockingQueue<>(QUEUE_LIMIT);
-        Worker producer;
-        Worker consumer;
-        for (int i = 0; i < 20; i++) {
-            producer = new Worker(queue,i, true);
-            producer.start();
-        }
+        Worker producer = new Worker(queue, WorkerType.PRODUCER, QUEUE_LIMIT);
+        Worker consumer = new Worker(queue, WorkerType.CONSUMER, QUEUE_LIMIT);
+        producer.start();
+        consumer.start();
     }
 }
+enum WorkerType{
+    PRODUCER,
+    CONSUMER
+}
+
 class Worker<E> extends Thread{
     BlockingQueue<E> queue;
-    E item;
-    boolean pOc;
+    WorkerType workerType;
+    public static final int MAX_NUM = 20;
+    int queueLimit;
+    Integer i = 0;
 
-    public Worker(BlockingQueue<E> queue,E item,boolean pOc){
+    public Worker(BlockingQueue<E> queue, WorkerType workerType, int queueLimit){
         this.queue = queue;
-        this.item = item;
-        this.pOc = pOc;
+        this.workerType = workerType;
+        this.queueLimit = queueLimit;
+    }
+
+    public void addItem(E item){
+        queue.enqueue(item);
     }
 
     @Override
     public void run() {
 
-        if (pOc) {
-            queue.enqueue(item);
+        if (workerType.equals(WorkerType.PRODUCER)) {
+            for (i = 0; i < MAX_NUM; i++) {
+//                if(queue.size() >= queueLimit)
+                addItem((E) i);
+                System.out.println(" added item " + i);
+            }
         } else {
-            queue.dequeue();
+
+            while ( i <= MAX_NUM){
+                if(queue.isQueueFull()){
+                    System.out.printf("queue is full. %s will dequeue\n", Thread.currentThread().getName());
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    for (int j = 0; j < queueLimit; j++) {
+                        System.out.println( j + " dequeue " + Thread.currentThread().getName());
+                        queue.dequeue();
+
+                    }
+
+                }
+            }
+
+
         }
 
     }

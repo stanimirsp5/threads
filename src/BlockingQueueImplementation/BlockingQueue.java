@@ -8,7 +8,7 @@ import java.util.*;
 public class BlockingQueue<E> {
 
     List<E> queue = new LinkedList<>();
-    private int boundLimit = 10;
+    private int boundLimit;
 
     public BlockingQueue(int boundLimit){
         this.boundLimit = boundLimit;
@@ -38,5 +38,10 @@ public class BlockingQueue<E> {
 
         return queue.remove(0);
     }
-
+    public int size(){
+        return queue.size();
+    }
+    public boolean isQueueFull(){
+        return queue.size() >= boundLimit;
+    }
 }
