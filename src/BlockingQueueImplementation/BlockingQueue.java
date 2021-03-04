@@ -23,25 +23,27 @@ public class BlockingQueue<E> {
                 e.printStackTrace();
             }
         }
-        System.out.println("element is added");
+        System.out.println("element is added by " + Thread.currentThread().getName());
 
         queue.add(item);
     }
 
     public synchronized E dequeue(){
+        E item = queue.remove(0);
         if(queue.size() == 0){
             System.out.println("No elements in queue, notify all threads " + Thread.currentThread().getName());
 
             notifyAll();
         }
-        System.out.println("element is removed");
+        System.out.println("element is removed by "+Thread.currentThread().getName());
 
-        return queue.remove(0);
+        return item;
     }
     public int size(){
         return queue.size();
     }
     public boolean isQueueFull(){
+        System.out.println(Thread.currentThread().getName()+"checking for full queue -> "+(queue.size() >= boundLimit)+" queue size "+queue.size()+" limit "+boundLimit);
         return queue.size() >= boundLimit;
     }
 }
