@@ -38,7 +38,7 @@ class Worker<E> extends Thread{
     public void run() {
 
         if (workerType.equals(WorkerType.PRODUCER)) {
-            for (i = 0; i < MAX_NUM; i++) {
+            for (;i <= MAX_NUM; i++) {
 //                if(queue.size() >= queueLimit)
                 addItem((E) i);
                 System.out.println(" added item " + i);
@@ -46,24 +46,23 @@ class Worker<E> extends Thread{
         } else {
 
             while ( i <= MAX_NUM){
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 if(queue.isQueueFull()){
                     System.out.printf("queue is full. %s will dequeue\n", Thread.currentThread().getName());
-                    try {
-                        Thread.sleep(200);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+
                     for (int j = 0; j < queueLimit; j++) {
-                        System.out.println( j + " dequeue " + Thread.currentThread().getName());
-                        queue.dequeue();
+                        E item = queue.dequeue();
+
+                        System.out.println( item + " dequeue " + Thread.currentThread().getName());
 
                     }
 
                 }
             }
-
-
         }
-
     }
 }
