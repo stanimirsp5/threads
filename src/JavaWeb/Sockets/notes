@@ -4,6 +4,8 @@ Sockets and ports
 port - integer from type int, software abstraction, a second level of addressing in a machine to identify the server program corresponding to the service provided (service).
     The ports 1 -1024 are reserved for standard services.
 socket - software abstraction to represent the two "terminals" for communication between machines.
+    A socket, in the sense that we are using the term here, represents one end of a network connection. Every socket has an associated input stream and output stream.
+    Data written to the output stream on one end of the connection is transmitted over the network and appears in the input stream at the other end.
     ServerSocket - connects server program with concrete port, listen network
     Socket - used by client program for connection with the server and exchange of information. A server used by the program to exchange information after establishing a connection.
 
@@ -13,3 +15,16 @@ Procedure in client program:
     - create object InputStream et OutputStream ( Reader et Writer)
     - read from InputStream(Reader) and write in OutputStream(Writer)
     - inform the server for end of connection and close of created Socket
+
+Procedure in server program:
+    - initialize object ServerSocket - to save a port and listen to the network
+    - after receiving request from client side - create Socket
+    - creation of InputStream and OutputStream( or respectively Reader and Writer)
+    - write from InputStream(Reader) and write in OutputStream(Writer)
+    - closing of created Socket after untying the client
+
+
+One of the fundamental characteristics of network programming, the fact that network communication is asynchronous.
+Perhaps an event-oriented networking API would be a good approach to dealing with the asynchronous nature of network communication,
+but that is not the approach that is taken in Java. Instead, network programming in Java typically uses threads.
+
