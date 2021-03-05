@@ -1,0 +1,15 @@
+server - listen the network and expecting client to sent connection request. A concept related to a program and not a machine.
+client - submits a request to the connection server
+Sockets and ports
+port - integer from type int, software abstraction, a second level of addressing in a machine to identify the server program corresponding to the service provided (service).
+    The ports 1 -1024 are reserved for standard services.
+socket - software abstraction to represent the two "terminals" for communication between machines.
+    ServerSocket - connects server program with concrete port, listen network
+    Socket - used by client program for connection with the server and exchange of information. A server used by the program to exchange information after establishing a connection.
+
+Procedure in client program:
+    - create object InetAddress (the machine-server must be on the network)
+    - create object Socket (the program server must be working - to be connected with the port)
+    - create object InputStream et OutputStream ( Reader et Writer)
+    - read from InputStream(Reader) and write in OutputStream(Writer)
+    - inform the server for end of connection and close of created Socket

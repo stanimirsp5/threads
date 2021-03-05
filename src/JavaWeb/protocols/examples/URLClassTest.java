@@ -1,7 +1,7 @@
 package JavaWeb.protocols.examples;
 import java.net.MalformedURLException;
 import java.net.URL;
-
+// URL class contains methods for open and create Web pages. Doesn't have variables.
 public class URLClassTest
 {
     public static void main(String[] args)
