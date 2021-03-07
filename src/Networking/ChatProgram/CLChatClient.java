@@ -4,7 +4,7 @@ import java.net.*;
 import java.util.Scanner;
 import java.io.*;
 
-/**
+/** 192.168.100.17
  * This program is one end of a simple command-line interface chat program.
  * It acts as a client which makes a connection to a CLChatServer program.
  * The computer to connect to can be given as a command line argument.  If

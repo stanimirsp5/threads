@@ -8,6 +8,7 @@ socket - software abstraction to represent the two "terminals" for communication
     Data written to the output stream on one end of the connection is transmitted over the network and appears in the input stream at the other end.
     ServerSocket - connects server program with concrete port, listen network
     Socket - used by client program for connection with the server and exchange of information. A server used by the program to exchange information after establishing a connection.
+endpoint - combination between IP address and a port number
 
 Procedure in client program:
     - create object InetAddress (the machine-server must be on the network)
@@ -23,6 +24,9 @@ Procedure in server program:
     - write from InputStream(Reader) and write in OutputStream(Writer)
     - closing of created Socket after untying the client
 
+Implementation:
+    class Socket - implements one side of a two-way connection between your Java program and another program on the network.
+    class ServerSocket - which implements a socket that servers can use to listen for and accept connections to clients.
 
 One of the fundamental characteristics of network programming, the fact that network communication is asynchronous.
 Perhaps an event-oriented networking API would be a good approach to dealing with the asynchronous nature of network communication,
