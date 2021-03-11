@@ -53,10 +53,11 @@ public class EchoClient {
         try (
                 Socket echoSocket = new Socket(hostName, portNumber);
                 PrintWriter out =
-                        new PrintWriter(echoSocket.getOutputStream(), true);
+                        new PrintWriter(echoSocket.getOutputStream(), true); // gets the socket output stream and opens printWriter on it
                 BufferedReader in =
                         new BufferedReader(
-                                new InputStreamReader(echoSocket.getInputStream()));
+                                new InputStreamReader(echoSocket.getInputStream())); // gets the socket output stream and opens BufferedReader on it
+                //  The example uses readers and writers so that it can write Unicode characters over the socket.
                 BufferedReader stdIn =
                         new BufferedReader(
                                 new InputStreamReader(System.in))
