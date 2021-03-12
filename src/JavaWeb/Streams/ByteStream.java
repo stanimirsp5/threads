@@ -11,7 +11,7 @@ public class ByteStream {
         try {
             in = new FileInputStream("src/JavaWeb/Streams/xanadu.txt");
             out = new FileOutputStream("src/JavaWeb/Streams/outagain.txt");
-            int c;
+            int c; // the int variable holds a byte value in its last 8 bits
 
             while ((c = in.read()) != -1) {
                 out.write(c);
