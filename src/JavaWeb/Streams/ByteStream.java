@@ -6,7 +6,7 @@ public class ByteStream {
     public static void main(String[] args) throws IOException {
 
         FileInputStream in = null;
-        FileOutputStream out = null;
+        FileOutputStream out  = null;
 
         try {
             in = new FileInputStream("src/JavaWeb/Streams/xanadu.txt");

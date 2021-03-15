@@ -50,14 +50,14 @@ public class EchoServer {
                 ServerSocket serverSocket =
                         new ServerSocket(portNumber);
                 Socket clientSocket = serverSocket.accept();
-                PrintWriter out =
-                        new PrintWriter(clientSocket.getOutputStream(), true);
+                PrintWriter out = // Prints formatted representations of objects to a text-output stream.
+                        new PrintWriter(clientSocket.getOutputStream(), true); //  When autoflush is enabled, certain key events cause the buffer to be flushed
                 BufferedReader in = new BufferedReader(
                         new InputStreamReader(clientSocket.getInputStream()));
         ) {
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
-                out.println(inputLine);
+                out.println(inputLine + " from server");
             }
         } catch (IOException e) {
             System.out.println("Exception caught when trying to listen on port "

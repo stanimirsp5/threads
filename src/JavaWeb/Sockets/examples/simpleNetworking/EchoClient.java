@@ -46,18 +46,20 @@ public class EchoClient {
 //            System.exit(1);
 //        }
 
-        String hostName = "192.168.100.6";// args[0]; //computer name or IP address
-//        String hostName = "192.168.100.17";// args[0]; //computer name or IP address
+       // String hostName = "192.168.100.6";//Air args[0]; //computer name or IP address
+        String hostName = "192.168.100.17";//Pro args[0]; //computer name or IP address
         int portNumber = DEFAULT_PORT;//Integer.parseInt(args[1]);
 
         try (
                 Socket echoSocket = new Socket(hostName, portNumber);
+                // To send data through the socket to the server, the EchoClient example needs to write to the PrintWriter.
                 PrintWriter out =
                         new PrintWriter(echoSocket.getOutputStream(), true); // gets the socket output stream and opens printWriter on it
                 BufferedReader in =
                         new BufferedReader(
-                                new InputStreamReader(echoSocket.getInputStream())); // gets the socket output stream and opens BufferedReader on it
+                                new InputStreamReader(echoSocket.getInputStream())); // gets the socket input stream and opens BufferedReader on it
                 //  The example uses readers and writers so that it can write Unicode characters over the socket.
+                // To get the server's response, EchoClient reads from the BufferedReader object stdIn
                 BufferedReader stdIn =
                         new BufferedReader(
                                 new InputStreamReader(System.in))

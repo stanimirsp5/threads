@@ -1,7 +1,5 @@
 package JavaWeb.Streams;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 // Character streams are often "wrappers" for byte streams
 // and it will read a file character by character
@@ -10,13 +8,18 @@ public class CharacterStream {
     public static void main(String[] args) throws IOException {
         // The most important difference is that CharacterStream uses FileReader and FileWriter for input and output
         // in place of FileInputStream and FileOutputStream unlike ByteStream
-        FileReader inputStream = null;
-        FileWriter outputStream = null;
+
+//        FileReader inputStream = null;
+//        FileWriter outputStream = null;
+
+        BufferedReader inputStream = null;
+        BufferedWriter outputStream = null;
 
         try {
-            inputStream = new FileReader("src/JavaWeb/Streams/xanadu.txt");
-            outputStream = new FileWriter("src/JavaWeb/Streams/characteroutput.txt");
-
+//            inputStream = new FileReader("src/JavaWeb/Streams/xanadu.txt");
+//            outputStream = new FileWriter("src/JavaWeb/Streams/characteroutput.txt");
+            inputStream = new BufferedReader(new FileReader("xanadu.txt"));
+            outputStream = new BufferedWriter(new FileWriter("characteroutput.txt"));
             int c; // the int variable holds a character value in its last 16 bits
             while ((c = inputStream.read()) != -1) {
                 outputStream.write(c);

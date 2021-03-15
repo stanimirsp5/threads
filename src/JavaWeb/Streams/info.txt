@@ -1,7 +1,20 @@
-// STREAM
+// Java I/O (Input and Output) is used to process the input and produce the output.
+// It has two kinds of classes for input and output (I/O): streams and readers/writers.
+// READERS/WRITERS -  reading and writing text (characters).
+
+// STREAM - reading and writing binary data (from files, network)
 // An I/O Stream represents an input source or an output destination.
 // A stream is a sequence of data. A program uses an input stream to read data from a source, one item at a time
 // A program uses an output stream to write data to a destination
+// Input stream reads data, output stream writes data
+//
+//
+
+// Scanning and Formatting
+// Programming I/O often involves translating to and from the neatly formatted data humans like to work with.
+// Scanner - The scanner API breaks input into individual tokens associated with bits of data.
+// Formatting - The formatting API assembles data into nicely formatted, human-readable form.
+//      Stream objects that implement formatting are instances of either PrintWriter, a character stream class, or PrintStream, a byte stream class.
 //
 //
 //

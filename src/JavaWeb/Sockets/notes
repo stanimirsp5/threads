@@ -32,3 +32,9 @@ One of the fundamental characteristics of network programming, the fact that net
 Perhaps an event-oriented networking API would be a good approach to dealing with the asynchronous nature of network communication,
 but that is not the approach that is taken in Java. Instead, network programming in Java typically uses threads.
 
+Basic steps:
+    1.Open a socket.
+    2.Open an input stream and output stream to the socket.
+    3.Read from and write to the stream according to the server's protocol.
+    4.Close the streams.
+    5.Close the socket.

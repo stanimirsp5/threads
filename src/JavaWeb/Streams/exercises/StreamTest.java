@@ -11,17 +11,22 @@ public class StreamTest {
     }
 
     public static void bufferedWriter() throws IOException {
-        PrintWriter printWriter = new PrintWriter("F:\\Stanimir-work\\Projects\\threads\\src\\JavaWeb\\Streams\\exercises\\testout.txt"); // new File("D:\\testout.txt")
+        PrintWriter printWriter = new PrintWriter("src/JavaWeb/Streams/exercises/testout.txt");//"F:\\Stanimir-work\\Projects\\threads\\src\\JavaWeb\\Streams\\exercises\\testout.txt"); // new File("D:\\testout.txt")
         BufferedWriter br = new BufferedWriter(printWriter);
-        br.write("buffered writer test");
+        br.write("buffered writer test \n new line here");
         br.close();
     }
     public static void bufferedReader() throws IOException {
-        FileReader fileReader = new FileReader("F:\\Stanimir-work\\Projects\\threads\\src\\JavaWeb\\Streams\\exercises\\testout.txt"); // new File("D:\\testout.txt")
+        FileReader fileReader = new FileReader("src/JavaWeb/Streams/exercises/testout.txt");//"F:\\Stanimir-work\\Projects\\threads\\src\\JavaWeb\\Streams\\exercises\\testout.txt"); // new File("D:\\testout.txt")
         // BufferedReader enables us to minimize the number of I/O operations by reading chunks of characters and storing them in an internal buffer.
         // While the buffer has data, the reader will read from it instead of directly from the underlying stream.
         BufferedReader br = new BufferedReader(fileReader);
-        br.read();
+//        System.out.println((char)br.read());
+        int i;
+        while((i = br.read()) != -1){
+            System.out.print((char) i);
+
+        }
         br.close();
     }
     public static void printWriter(){
