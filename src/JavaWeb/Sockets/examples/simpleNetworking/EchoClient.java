@@ -60,7 +60,7 @@ public class EchoClient {
                                 new InputStreamReader(echoSocket.getInputStream())); // gets the socket input stream and opens BufferedReader on it
                 //  The example uses readers and writers so that it can write Unicode characters over the socket.
                 // To get the server's response, EchoClient reads from the BufferedReader object stdIn
-                BufferedReader stdIn =
+                BufferedReader stdIn = // takes input from terminal ??
                         new BufferedReader(
                                 new InputStreamReader(System.in))
         ) {
