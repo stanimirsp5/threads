@@ -20,7 +20,7 @@ public class ServerReader {
         try(
 
                 ServerSocket server = new ServerSocket(PORT);
-                Socket socket = server.accept();
+                Socket socket = server.accept(); //  used to accept the incoming request to the socket.
                 // takes input from the client socket
                 BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         ){

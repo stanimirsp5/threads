@@ -1,3 +1,6 @@
+netstat - display network connections
+netstat -na | find "8080" - show socket listening for specific port
+
 server - listen the network and expecting client to sent connection request. A concept related to a program and not a machine.
 client - submits a request to the connection server
 Sockets and ports
