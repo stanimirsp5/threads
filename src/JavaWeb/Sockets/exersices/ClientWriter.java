@@ -7,7 +7,7 @@ import java.net.Socket;
 
 public class ClientWriter {
     public static final int PORT = 5000;
-    public static final String IP = "192.168.0.18";
+    public static final String IP = "192.168.100.17";// "192.168.0.18";
 
     public static void main(String[] args) throws IOException {
         runClient();
@@ -19,12 +19,15 @@ public class ClientWriter {
                 Socket socket = new Socket(IP, PORT);
 
                 BufferedReader input = new BufferedReader(new InputStreamReader(System.in)); // takes input from terminal
-                PrintWriter output = new PrintWriter(socket.getOutputStream()); // sends input to server. Send the output through the socket.
+                PrintWriter output = new PrintWriter(socket.getOutputStream(),true); // sends input to server. Send the output through the socket.
+                BufferedReader serverInput = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         ) {
             String line = "";
+
             while ((line = input.readLine()) != null) {
                // System.out.println((line = input.readLine()) != null);
                 output.println(line);
+                System.out.println("Client response from server " + serverInput.readLine());
             }
 //            while (!line.equals("Over")) {
 //                line = input.readLine();

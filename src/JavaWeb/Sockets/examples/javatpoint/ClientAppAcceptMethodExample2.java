@@ -1,4 +1,4 @@
-package JavaWeb.Sockets.exersices;
+package JavaWeb.Sockets.examples.javatpoint;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -6,7 +6,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
-public class ClientAppAcceptMethodExample1 {
+public class ClientAppAcceptMethodExample2 {
 
     public static void main(String arg[]) throws UnknownHostException,IOException
     {

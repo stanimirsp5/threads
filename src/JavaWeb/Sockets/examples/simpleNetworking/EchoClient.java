@@ -47,8 +47,8 @@ public class EchoClient {
 //        }
 
        // String hostName = "192.168.100.6";//Air args[0]; //computer name or IP address
-        //String hostName = "192.168.100.17";//Pro args[0]; //computer name or IP address
-        String hostName = "192.168.0.18";//Pro args[0]; //computer name or IP address
+        String hostName = "192.168.100.17";//Pro args[0]; //computer name or IP address
+        //String hostName = "192.168.0.18";// args[0]; //computer name or IP address
         int portNumber = DEFAULT_PORT;//Integer.parseInt(args[1]);
 
         try (

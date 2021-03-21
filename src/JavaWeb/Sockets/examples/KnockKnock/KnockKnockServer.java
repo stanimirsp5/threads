@@ -1,8 +1,12 @@
 package JavaWeb.Sockets.examples.KnockKnock;
 
 
-import java.net.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 public class KnockKnockServer {
     public static void main(String[] args) throws IOException {
@@ -27,9 +31,12 @@ public class KnockKnockServer {
 
             // Initiate conversation with client
             KnockKnockProtocol kkp = new KnockKnockProtocol();
-            outputLine = kkp.processInput(null);
-            out.println(outputLine);
+            outputLine = kkp.processInput(null); // get the first message that the server sends to the client.
+            out.println(outputLine); // the server writes the information to the PrintWriter connected to the client socket, thereby sending the message to the client.
 
+            // As long as the client and server still have something to say to each other,
+            // the server reads from and writes to the socket,
+            // sending messages back and forth between the client and the server.
             while ((inputLine = in.readLine()) != null) {
                 outputLine = kkp.processInput(inputLine);
                 out.println(outputLine);
