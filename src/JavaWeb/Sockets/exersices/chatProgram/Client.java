@@ -23,8 +23,9 @@ public class Client {
             String userInput;
             while ((userInput = systemInput.readLine())!= null){
                 writeToServer.println(userInput);
+                //System.out.println("userInput " + userInput);
+                System.out.println("userInput " + inputFromServer.readLine());
 
-                System.out.println(userInput);
             }
 
         } catch (UnknownHostException e) {
