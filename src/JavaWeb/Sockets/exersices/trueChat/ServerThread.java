@@ -10,7 +10,6 @@ import java.util.ArrayList;
 public class ServerThread implements Runnable{
     Socket socket;
     ArrayList<ServerThread> threadList;
-    PrintWriter output;
     public ServerThread(Socket socket, ArrayList<ServerThread> threads){
         this.socket = socket;
         this.threadList = threads;
@@ -24,7 +23,6 @@ public class ServerThread implements Runnable{
                 BufferedReader clientInput = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
         ) {
-            output = new PrintWriter(socket.getOutputStream(),true);
 
             String inputLine;
             while (true){
@@ -40,7 +38,14 @@ public class ServerThread implements Runnable{
     }
     private void printToAllClients(String outputString){
         for (ServerThread st: threadList){
-            st.output.println(outputString);
+            try {
+                PrintWriter output = new PrintWriter(st.socket.getOutputStream(),true);
+                output.println(outputString);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 }

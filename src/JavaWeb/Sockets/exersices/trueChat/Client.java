@@ -22,8 +22,8 @@ public class Client {
             while (true){
                 inputLine = userInput.readLine();
                 outputToServer.println(inputLine);
-
-                System.out.println(serverInput.readLine());
+                String msg = serverInput.readLine();
+                System.out.println(msg);
             }
 
 

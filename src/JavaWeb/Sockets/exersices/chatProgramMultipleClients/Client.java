@@ -5,6 +5,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 // https://gyawaliamit.medium.com/multi-client-chat-server-using-sockets-and-threads-in-java-2d0b64cad4a7 - multiclient
 // https://stackoverflow.com/questions/10131377/socket-programming-multiple-client-to-one-server
+// https://www.codejava.net/java-se/networking/how-to-create-a-chat-console-application-in-java-using-socket
 public class Client {
     public static final int PORT = 4444;
     public static final String IP = "127.0.0.1";// "127.0.0.1"; 192.168.100.17

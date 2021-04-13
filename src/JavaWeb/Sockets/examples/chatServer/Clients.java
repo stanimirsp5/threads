@@ -1,6 +1,5 @@
 package JavaWeb.Sockets.examples.chatServer;
 
-
 import java.io.*;
 import java.util.*;
 

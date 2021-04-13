@@ -55,7 +55,7 @@ public class Client {
             public void run(){
                 for(;;){
                     try {
-                        sleep(400);
+                        sleep(4000);
                     } catch (InterruptedException e){}
                     try{
                         serv.append(in.readLine()+"\n");
