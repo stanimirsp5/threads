@@ -20,6 +20,7 @@ public class Client {
             PrintWriter outputToServer = new PrintWriter(new OutputStreamWriter(client.getOutputStream()),true);
             BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
         ){
+
             serverInput = new BufferedReader(new InputStreamReader(client.getInputStream()));
 
             String inputLine;

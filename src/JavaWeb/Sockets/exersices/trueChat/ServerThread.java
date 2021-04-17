@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class ServerThread implements Runnable{
     Socket socket;
     ArrayList<ServerThread> threadList;
-    //PrintWriter output;
+
     public ServerThread(Socket socket, ArrayList<ServerThread> threads){
         this.socket = socket;
         this.threadList = threads;
@@ -21,13 +21,17 @@ public class ServerThread implements Runnable{
                 BufferedReader clientInput = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
         ) {
-            //output = new PrintWriter(socket.getOutputStream(),true);
 
-            //String inputLine;
+            TrueChatProtocol tcp = new TrueChatProtocol();
+            String msg = tcp.processInput(null);
+            printToAllClients(msg);
+
             while (true){
                 String inputLine = clientInput.readLine();
-                printToAllClients(inputLine);
-                //output.println(inputLine);
+
+                msg = tcp.processInput(inputLine);
+
+                printToAllClients(msg);
             }
 
         } catch (IOException e) {
