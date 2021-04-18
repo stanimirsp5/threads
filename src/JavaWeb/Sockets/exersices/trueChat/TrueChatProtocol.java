@@ -3,8 +3,8 @@ package JavaWeb.Sockets.exersices.trueChat;
 public class TrueChatProtocol {
     ProtocolStates currentState = ProtocolStates.NEWWORKER;
 
-    public String processInput(String userInput){
-        String message = "";
+    public String processInput(String userInput,String workerName){
+        String message = userInput;
 
         if(ProtocolStates.NEWWORKER == currentState){
             message = "New worker arrived. You must greet all other workers.";
@@ -20,20 +20,21 @@ public class TrueChatProtocol {
         }else if(ProtocolStates.ROUTINE == currentState){
             if (userInput.equalsIgnoreCase("Great")) {
                 message = "Good you can start work and communicate with other workers!";
-                currentState = ProtocolStates.ROUTINE;
+                currentState = ProtocolStates.FREECHAT;
             } else {
                 message = "You're supposed to say \"Great\"! " +
                         "Try again. Whats the work condition?";
             }
         }
 
-        return message;
+        return workerName + ": "+ message;
     }
 }
 
 enum ProtocolStates{
     NEWWORKER,
     GREETING,
-    ROUTINE
+    ROUTINE,
+    FREECHAT
 
 }

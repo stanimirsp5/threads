@@ -23,13 +23,13 @@ public class ServerThread implements Runnable{
         ) {
 
             TrueChatProtocol tcp = new TrueChatProtocol();
-            String msg = tcp.processInput(null);
+            String msg = tcp.processInput(null, null);
             printToAllClients(msg);
 
             while (true){
                 String inputLine = clientInput.readLine();
 
-                msg = tcp.processInput(inputLine);
+                msg = tcp.processInput(inputLine, Thread.currentThread().getName());
 
                 printToAllClients(msg);
             }

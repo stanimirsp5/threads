@@ -12,8 +12,9 @@ public class Client {
 
     public static void main(String[] args) {
 
-        Scanner in = new Scanner(System.in);
-        clientName = in.nextLine();
+        //System.out.println("Enter client name");
+        //Scanner in = new Scanner(System.in);
+        clientName = Thread.currentThread().getName(); //in.nextLine();
 
         try(
             Socket client = new Socket(IP, PORT);
@@ -27,7 +28,7 @@ public class Client {
             new Thread(new ClientPrinter()).start();
 
             while (true){
-                inputLine = clientName + " says: " + userInput.readLine();
+                inputLine = userInput.readLine();
                 outputToServer.println(inputLine);
             }
 
