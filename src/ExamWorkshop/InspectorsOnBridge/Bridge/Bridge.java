@@ -2,30 +2,33 @@ package ExamWorkshop.InspectorsOnBridge.Bridge;
 
 public class Bridge {
 
-    Direction directionOfMovement = Direction.None;
+    Direction bridgeDirection = Direction.None;
     int carsOnBridge = 0;
 
-    public void takeBridge(String name,Direction direction){
-        if (directionOfMovement == Direction.None) directionOfMovement = direction; // set direction when bridge is empty
+   synchronized public void takeBridge(String name,Direction carDirection){
+        if (bridgeDirection == Direction.None) bridgeDirection = carDirection; // set carDirection when bridge is empty
 
-        if(directionOfMovement == direction){
-            System.out.println(name + " is on the " + direction.name() + " side ");
-            carsOnBridge++;
-        }else {
-            System.out.println(name + " with direction " + direction.name() + " waiting");
+        if(bridgeDirection != carDirection){
+            System.out.println(name + " with direction " + carDirection.name() + " waiting");
             try {
                 wait();
+                bridgeDirection = carDirection;
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+        if(bridgeDirection == carDirection) {
+            System.out.println(name + " is on the " + carDirection.name() + " side ");
+            carsOnBridge++;
+        }
 
     }
 
-    public void leaveBridge(String name,Direction direction){
-        System.out.println(name + " left the bridge. It's on the " + direction.name() + " side of the bridge");
+    synchronized public void leaveBridge(String name,Direction carDirection){
+        System.out.println(name + " left the bridge. It's on the " + carDirection.name() + " side of the bridge");
         carsOnBridge--;
-        if(carsOnBridge >= 0){
+        if(carsOnBridge <= 0){
+            bridgeDirection = Direction.None;
             notifyAll();
         }
     }

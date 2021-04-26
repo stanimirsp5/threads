@@ -17,6 +17,7 @@ public class Car implements Runnable{
         bridge.takeBridge(name,direction);
 
         try {
+            System.out.println();
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
