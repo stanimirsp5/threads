@@ -8,18 +8,19 @@ public class Bridge {
    synchronized public void takeBridge(String name,Direction carDirection){
         if (bridgeDirection == Direction.None) bridgeDirection = carDirection; // set carDirection when bridge is empty
 
-        if(bridgeDirection != carDirection){
-            System.out.println(name + " with direction " + carDirection.name() + " waiting");
+        while(bridgeDirection != carDirection || carsOnBridge >= 3){ // wait when too many cars on the bridge, wait when there are opposite direction cars on the bridge
+            System.out.println(name + " - " + carDirection.name() + " cars " + carsOnBridge + " waiting");
             try {
                 wait();
-                bridgeDirection = carDirection;
+                //bridgeDirection = carDirection;
+                if (bridgeDirection == Direction.None) bridgeDirection = carDirection;
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
         if(bridgeDirection == carDirection) {
-            System.out.println(name + " is on the " + carDirection.name() + " side ");
             carsOnBridge++;
+            System.out.println(name + " is on the " + carDirection.name() + " side " + " cars on bridge " + carsOnBridge);
         }
 
     }
