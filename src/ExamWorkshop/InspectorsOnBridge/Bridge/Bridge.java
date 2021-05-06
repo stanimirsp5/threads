@@ -1,6 +1,8 @@
 package ExamWorkshop.InspectorsOnBridge.Bridge;
 
+import ExamWorkshop.InspectorsOnBridge.Gui.BridgeGui;
 import ExamWorkshop.InspectorsOnBridge.Gui.CarGui;
+import ExamWorkshop.InspectorsOnBridge.Gui.MainGui;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -10,6 +12,11 @@ public class Bridge {
     Direction bridgeDirection = Direction.None;
     int carsOnBridge = 0;
     boolean isBridgeClosed = false;
+
+    public Bridge() {
+        BridgeGui bridgeGui = new BridgeGui();
+        bridgeGui.initBridge();
+    }
 
     synchronized public void takeBridge(String name, Direction carDirection, CarGui carGui){
         if (bridgeDirection == Direction.None) bridgeDirection = carDirection; // set carDirection when bridge is empty
@@ -34,7 +41,8 @@ public class Bridge {
         carsOnBridge++;
 
         carGui.runCar();
-        System.out.printf("%s %s %s is on the bridge (%d)\n",Thread.currentThread().getName(),directionArrow(carDirection), name,carsOnBridge);
+
+        System.out.printf("on the bridge %s %s is  (%d)\n",directionArrow(carDirection), name,carsOnBridge);
     }
 
     synchronized public void leaveBridge(String name,Direction carDirection){

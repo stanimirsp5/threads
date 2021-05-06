@@ -8,11 +8,11 @@ public class Car implements Runnable{
     Direction direction;
     CarGui carGui;
 
-    public Car(Bridge bridge, String name, Direction direction) {
+    public Car(Bridge bridge, String name, Direction direction, int positionNumber) {
         this.bridge = bridge;
         this.name = name;
         this.direction = direction;
-        carGui = new CarGui(direction);
+        carGui = new CarGui(direction, name, positionNumber);
     }
     public String getName (){
         return name;
@@ -23,7 +23,7 @@ public class Car implements Runnable{
         carGui.initCar();
 
         try {
-            Thread.sleep(200);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -31,7 +31,7 @@ public class Car implements Runnable{
         bridge.takeBridge(name,direction,carGui);
 
         try {
-            Thread.sleep(500);
+            Thread.sleep(5500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

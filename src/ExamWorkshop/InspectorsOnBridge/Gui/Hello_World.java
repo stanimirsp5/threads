@@ -28,17 +28,20 @@ public class Hello_World extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
         Rectangle rect = new Rectangle(); // nodes
-        rect.setX(450);
-        rect.setY(400);
+//        rect.setX(450);
+//        rect.setY(400);
         rect.setWidth(20);
         rect.setHeight(20);
         rect.setStroke(Color.RED);
         rect.setFill(Color.WHITE);
         rect.setStrokeWidth(2);
+
         // TODO Auto-generated method stub
         Button btn1= new Button("Say, Hello World");
         btn1.setLayoutX(250);
         btn1.setLayoutY(250);
+
+        Text rectText = new Text("test rect");
 
 //        //Instantiating the Translate class
 //        Translate translate = new Translate(); // change in the position of an object on the screen.
@@ -52,6 +55,7 @@ public class Hello_World extends Application{
         Bounds boundsInScene = rect.localToScene(rect.getBoundsInLocal());
         double x = boundsInScene.getMinX();
         text.setText(String.valueOf(x));
+        StackPane stack=new StackPane(); // layout must be implemented order to visualize the widgets properly. It exists at the top level of the scene graph
 
         btn1.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -59,7 +63,7 @@ public class Hello_World extends Application{
             public void handle(ActionEvent arg0) {
                 // TODO Auto-generated method stub
                 //rightCarAnimation(rect);
-                leftCarAnimation(rect);
+                leftCarAnimation(stack);
 //                  moveRectangle(rect);
 
                 System.out.println("text "+x);
@@ -91,12 +95,14 @@ public class Hello_World extends Application{
         //moveRectangle(rect);
 
 
-        //StackPane root=new StackPane(); // layout must be implemented order to visualize the widgets properly. It exists at the top level of the scene graph
         //Group root = new Group();
         Pane root = new Pane();
-        root.getChildren().add(rect);
+        stack.setLayoutX(0);
+        stack.setLayoutY(0);
+        stack.getChildren().addAll(rect, rectText);
         root.getChildren().add(btn1);
         root.getChildren().addAll(part1,part2,part3,part4,part5,part1Down,part2Down,part3Down,part4Down,part5Down,text);
+        root.getChildren().add(stack);
 
         Scene scene=new Scene(root, 1200,800); //x,y layout needs to be added to a scene. Scene remains at the higher level in the hierarchy of application structure
         primaryStage.setScene(scene);
@@ -127,7 +133,7 @@ public class Hello_World extends Application{
         pathTransition.play();
     }
 
-    public void leftCarAnimation(Rectangle rect){
+    public void leftCarAnimation(StackPane rect){
         MoveTo moveto = new MoveTo(200, 500);
 
         LineTo line1 = new LineTo(400, 400);

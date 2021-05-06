@@ -11,8 +11,8 @@ import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
 public class MainGui extends Application {
-   static Pane root;
-// compose with Main
+    static Pane root;
+    // compose with Main
     @Override
     public void start(Stage primaryStage) throws Exception {
         root = new Pane();
@@ -29,8 +29,7 @@ public class MainGui extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("First JavaFX Application");
         primaryStage.show();
-
-        BridgeGui bridgeGui = new BridgeGui();
-        bridgeGui.initBridge();
+//        BridgeGui bridgeGui = new BridgeGui();
+//        bridgeGui.initBridge();
     }
 }
