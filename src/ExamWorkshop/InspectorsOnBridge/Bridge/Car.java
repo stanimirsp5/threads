@@ -22,22 +22,12 @@ public class Car implements Runnable{
 
         carGui.initCar();
 
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         bridge.takeBridge(name,direction,carGui);
 
-        try {
-            Thread.sleep(5500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        bridge.leaveBridge(name,direction);
-
+        // wait animation to finish, then car leave the bridge
+        carGui.pathTransition.setOnFinished(e ->
+                bridge.leaveBridge(name,direction)
+        );
     }
 }
 

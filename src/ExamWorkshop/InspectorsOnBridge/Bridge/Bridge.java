@@ -8,6 +8,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 public class Bridge {
+    public static final int MAX_CARS_ON_BRIDGE = 6;
 
     Direction bridgeDirection = Direction.None;
     int carsOnBridge = 0;
@@ -21,7 +22,7 @@ public class Bridge {
     synchronized public void takeBridge(String name, Direction carDirection, CarGui carGui){
         if (bridgeDirection == Direction.None) bridgeDirection = carDirection; // set carDirection when bridge is empty
         while(bridgeDirection != carDirection ||
-                carsOnBridge >= 3 || // wait when too many cars on the bridge, wait when there are opposite direction cars on the bridge
+                carsOnBridge >= MAX_CARS_ON_BRIDGE || // wait when too many cars on the bridge, wait when there are opposite direction cars on the bridge
                 isBridgeClosed
         ){
             if(isBridgeClosed){

@@ -3,6 +3,7 @@ package ExamWorkshop.InspectorsOnBridge.Gui;
 import javafx.animation.PathTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
@@ -36,12 +37,20 @@ public class Hello_World extends Application{
         rect.setFill(Color.WHITE);
         rect.setStrokeWidth(2);
 
+        Rectangle rect2 = new Rectangle(); // nodes
+        rect2.setWidth(20);
+        rect2.setHeight(20);
+        rect2.setStroke(Color.BLUE);
+        rect2.setFill(Color.WHITE);
+        rect2.setStrokeWidth(2);
+
         // TODO Auto-generated method stub
-        Button btn1= new Button("Say, Hello World");
+        Button btn1= new Button("init car");
         btn1.setLayoutX(250);
         btn1.setLayoutY(250);
 
         Text rectText = new Text("test rect");
+        Text rectText2 = new Text("2222test rect");
 
 //        //Instantiating the Translate class
 //        Translate translate = new Translate(); // change in the position of an object on the screen.
@@ -56,6 +65,7 @@ public class Hello_World extends Application{
         double x = boundsInScene.getMinX();
         text.setText(String.valueOf(x));
         StackPane stack=new StackPane(); // layout must be implemented order to visualize the widgets properly. It exists at the top level of the scene graph
+        StackPane stack2=new StackPane(); // layout must be implemented order to visualize the widgets properly. It exists at the top level of the scene graph
 
         btn1.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -63,12 +73,23 @@ public class Hello_World extends Application{
             public void handle(ActionEvent arg0) {
                 // TODO Auto-generated method stub
                 //rightCarAnimation(rect);
+                stack.getChildren().addAll(rect, rectText);
+                stack2.getChildren().addAll(rect2, rectText2);
                 leftCarAnimation(stack);
+                leftCarAnimation(stack2);
 //                  moveRectangle(rect);
 
                 System.out.println("text "+x);
                 System.out.println("hello world");
             }
+        });
+
+        Button btn2= new Button("run car");
+        btn2.setLayoutX(350);
+        btn2.setLayoutY(350);
+        btn2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent arg0) { runCar(); }
         });
       //  moveRectangle(rect);
 
@@ -99,18 +120,25 @@ public class Hello_World extends Application{
         Pane root = new Pane();
         stack.setLayoutX(0);
         stack.setLayoutY(0);
-        stack.getChildren().addAll(rect, rectText);
-        root.getChildren().add(btn1);
-        root.getChildren().addAll(part1,part2,part3,part4,part5,part1Down,part2Down,part3Down,part4Down,part5Down,text);
-        root.getChildren().add(stack);
 
+        stack2.setLayoutX(100);
+        stack2.setLayoutY(110);
+
+        root.getChildren().addAll(btn1,btn2);
+        root.getChildren().addAll(part1,part2,part3,part4,part5,part1Down,part2Down,part3Down,part4Down,part5Down,text);
+        //root.getChildren().add(stack);
+        Platform.runLater(() ->
+        {
+            root.getChildren().addAll(stack);
+            root.getChildren().add(stack2);
+        });
         Scene scene=new Scene(root, 1200,800); //x,y layout needs to be added to a scene. Scene remains at the higher level in the hierarchy of application structure
         primaryStage.setScene(scene);
         primaryStage.setTitle("First JavaFX Application");
 
         primaryStage.show();
     }
-    public void rightCarAnimation(Rectangle rect){
+    public void rightCarAnimation(StackPane rect){
         MoveTo moveto = new MoveTo(1000, 300);
 
         LineTo line1 = new LineTo(800, 300);
@@ -123,14 +151,8 @@ public class Hello_World extends Application{
         // create a Path
         Path path = new Path(moveto, line1,line2,line3,line4,line5);
 
-        PathTransition pathTransition = new PathTransition();
-        pathTransition.setDuration(Duration.millis(5000));
-        pathTransition.setNode(rect);
-        pathTransition.setPath(path);
-        pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
-        //pathTransition.setCycleCount(10);
-        pathTransition.setAutoReverse(true);
-        pathTransition.play();
+        drawPath(path,rect);
+
     }
 
     public void leftCarAnimation(StackPane rect){
@@ -145,16 +167,26 @@ public class Hello_World extends Application{
 
         // create a Path
         Path path = new Path(moveto, line1,line2,line3,line4,line5);
+        drawPath(path,rect);
+    }
 
-        PathTransition pathTransition = new PathTransition();
-        pathTransition.setDuration(Duration.millis(5000));
-        pathTransition.setNode(rect);
+    private void drawPath(Path path,StackPane car){
+        PathTransition pathTransition;
+
+        pathTransition = new PathTransition();
+        pathTransition.setDuration(Duration.millis(10000));
+        pathTransition.setNode(car);
         pathTransition.setPath(path);
         pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         //pathTransition.setCycleCount(10);
         pathTransition.setAutoReverse(true);
         pathTransition.play();
     }
+
+    public void runCar(){
+        //pathTransition.play();
+    }
+
     public Rectangle moveRectangle(Rectangle rect){
 
         //Setting up the path

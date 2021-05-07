@@ -2,7 +2,13 @@ package ExamWorkshop.InspectorsOnBridge.Gui;
 
 import ExamWorkshop.InspectorsOnBridge.Bridge.Direction;
 import javafx.animation.PathTransition;
+import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.LineTo;
@@ -10,11 +16,12 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class CarGui{
+public class CarGui {
     Direction direction;
-    PathTransition pathTransition;
+    public PathTransition pathTransition;
     String name;
     int positionNumber;
 
@@ -22,30 +29,20 @@ public class CarGui{
         this.direction = direction;
         this.name = name;
         this.positionNumber = positionNumber * 20; // prevent car collision
-
-        StackPane car = initCar();
-
-        if (direction == Direction.Left) {
-            leftCarAnimation(car);
-        } else {
-            rightCarAnimation(car);
-        }
     }
     public StackPane initCar(){
         int carPositionX= 0;
         int carPositionY= 0;
 
         if (direction == Direction.Left) {
-            carPositionX = 200 + positionNumber;
-            carPositionY = 400;
+            carPositionX = 150 - positionNumber;
+            carPositionY = 450;
         } else {
             carPositionX = 1000 + positionNumber;
             carPositionY = 250;
         }
 
         Rectangle rect = new Rectangle(); // nodes
-//        rect.setX(carPositionX);
-//        rect.setY(carPositionY);
         rect.setWidth(20);
         rect.setHeight(20);
         rect.setStroke(Color.RED);
@@ -55,13 +52,19 @@ public class CarGui{
         Text rectText = new Text(name);
 
         StackPane stack=new StackPane(); //stackCarAndText
-        stack.getChildren().addAll(rect, rectText);
-
         stack.setLayoutX(carPositionX);
         stack.setLayoutY(carPositionY);
 
+        stack.getChildren().addAll(rect, rectText);
         Platform.runLater(() ->
-            MainGui.root.getChildren().add(stack));
+                MainGui.root.getChildren().add(stack)
+        );
+
+        if (direction == Direction.Left) {
+            leftCarAnimation(stack);
+        } else {
+            rightCarAnimation(stack);
+        }
 
         return stack;
     }
@@ -71,13 +74,13 @@ public class CarGui{
     }
 
     private void rightCarAnimation(StackPane car){
-        MoveTo moveto = new MoveTo(1000+ positionNumber, 300);
+        MoveTo moveto = new MoveTo(0 + positionNumber, 0);
 
-        LineTo line1 = new LineTo(800 + positionNumber, 300);
-        LineTo line2 = new LineTo(800 + positionNumber, 350);
-        LineTo line3 = new LineTo(400 + positionNumber, 350);
-        LineTo line4 = new LineTo(400 + positionNumber, 300);
-        LineTo line5 = new LineTo(200 + positionNumber, 300);
+        LineTo line1 = new LineTo(-220 - positionNumber, 0);
+        LineTo line2 = new LineTo(-220 - positionNumber, 100);
+        LineTo line3 = new LineTo(-630 - positionNumber, 100);
+        LineTo line4 = new LineTo(-630 - positionNumber, 0);
+        LineTo line5 = new LineTo(-900 - positionNumber, 0);
 
         // create a Path
         Path path = new Path(moveto, line1,line2,line3,line4,line5);
@@ -86,14 +89,13 @@ public class CarGui{
     }
 
     private void leftCarAnimation(StackPane car){
+        MoveTo moveto = new MoveTo(positionNumber/20, 0);
 
-        MoveTo moveto = new MoveTo(200 + positionNumber, 500);
-
-        LineTo line1 = new LineTo(400  + positionNumber, 400);
-        LineTo line2 = new LineTo(500  + positionNumber, 350);
-        LineTo line3 = new LineTo(800  + positionNumber, 350);
-        LineTo line4 = new LineTo(850  + positionNumber, 400);
-        LineTo line5 = new LineTo(1100 + positionNumber, 500);
+        LineTo line1 = new LineTo(250 + positionNumber, 0);
+        LineTo line2 = new LineTo(250 + positionNumber, -100);
+        LineTo line3 = new LineTo(680 + positionNumber, -100);
+        LineTo line4 = new LineTo(680 + positionNumber, 0);
+        LineTo line5 = new LineTo(900 + positionNumber, 0);
 
         // create a Path
         Path path = new Path(moveto, line1,line2,line3,line4,line5);
@@ -103,12 +105,13 @@ public class CarGui{
 
     private void drawPath(Path path,StackPane car){
         pathTransition = new PathTransition();
-        pathTransition.setDuration(Duration.millis(10000));
+        pathTransition.setDuration(Duration.millis(3000));
         pathTransition.setNode(car);
         pathTransition.setPath(path);
         pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+        //pathTransition.setOnFinished();
         //pathTransition.setCycleCount(10);
-        pathTransition.setAutoReverse(true);
+        //pathTransition.setAutoReverse(true);
     }
 
 }
