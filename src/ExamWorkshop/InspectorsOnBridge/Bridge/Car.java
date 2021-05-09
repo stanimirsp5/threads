@@ -25,9 +25,11 @@ public class Car implements Runnable{
         bridge.takeBridge(name,direction,carGui);
 
         // wait animation to finish, then car leave the bridge
-        carGui.pathTransition.setOnFinished(e ->
-                bridge.leaveBridge(name,direction)
-        );
+        carGui.pathTransition.setOnFinished(e -> {
+
+            bridge.leaveBridge(name, direction);
+            carGui.hideCar();
+        });
     }
 }
 

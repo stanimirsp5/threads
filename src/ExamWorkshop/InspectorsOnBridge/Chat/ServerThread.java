@@ -1,35 +1,36 @@
-package JavaWeb.Sockets.exersices.trueChat;
+package ExamWorkshop.InspectorsOnBridge.Chat;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 
 public class ServerThread implements Runnable{
     Socket socket;
-    ArrayList<ServerThread> threadList;
+    ArrayList<ServerThread> threadsList;
 
-    public ServerThread(Socket socket, ArrayList<ServerThread> threads){
+    public ServerThread(Socket socket, ArrayList<ServerThread> threadsList) {
         this.socket = socket;
-        this.threadList = threads;
+        this.threadsList = threadsList;
     }
 
     @Override
     public void run() {
 
         try(
-
                 BufferedReader clientInput = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        ){
 
-        ) {
-
-            TrueChatProtocol tcp = new TrueChatProtocol();
-            String msg = tcp.processInput(null, null);
+            InspectorWorkProtocol iwp = new InspectorWorkProtocol();
+            String msg = iwp.processInput(null,null);
             printToAllClients(msg);
 
             while (true){
                 String inputLine = clientInput.readLine();
 
-                msg = tcp.processInput(inputLine, Thread.currentThread().getName());
+                msg = iwp.processInput(inputLine, Thread.currentThread().getName());
 
                 printToAllClients(msg);
             }
@@ -39,13 +40,13 @@ public class ServerThread implements Runnable{
         }
 
     }
+
     private void printToAllClients(String outputString){
-        for (ServerThread st: threadList){
-            //st.output.println(outputString);
+        for (ServerThread server: threadsList){
             // get stream from other clients
-            try {
-                PrintWriter toClient = new PrintWriter(st.socket.getOutputStream(),true);
-                toClient.println(outputString);
+            try{
+                PrintWriter out = new PrintWriter(server.socket.getOutputStream(), true);
+                out.println(outputString);
             } catch (IOException e) {
                 e.printStackTrace();
             }

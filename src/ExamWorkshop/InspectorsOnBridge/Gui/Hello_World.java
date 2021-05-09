@@ -10,6 +10,7 @@ import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -21,6 +22,9 @@ import javafx.scene.control.Button;
 import javafx.util.Duration;
 
 public class Hello_World extends Application{
+    public final int positionNumber = 0;
+    boolean hideCar = false;
+
     public static void main (String[] args)
     {
         launch(args);
@@ -28,115 +32,103 @@ public class Hello_World extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Rectangle rect = new Rectangle(); // nodes
-//        rect.setX(450);
-//        rect.setY(400);
-        rect.setWidth(20);
-        rect.setHeight(20);
-        rect.setStroke(Color.RED);
-        rect.setFill(Color.WHITE);
-        rect.setStrokeWidth(2);
-
-        Rectangle rect2 = new Rectangle(); // nodes
-        rect2.setWidth(20);
-        rect2.setHeight(20);
-        rect2.setStroke(Color.BLUE);
-        rect2.setFill(Color.WHITE);
-        rect2.setStrokeWidth(2);
-
         // TODO Auto-generated method stub
-        Button btn1= new Button("init car");
+        Button btn1= new Button("hide car");
         btn1.setLayoutX(250);
         btn1.setLayoutY(250);
 
-        Text rectText = new Text("test rect");
-        Text rectText2 = new Text("2222test rect");
-
-//        //Instantiating the Translate class
-//        Translate translate = new Translate(); // change in the position of an object on the screen.
-//        //setting the properties of the translate object
-//        translate.setX(200);
-//        translate.setY(-200);
-//        //applying transformation to rectangle
-//        rect.getTransforms().addAll(translate);
-
-        TextField text = new TextField("Hello !! Welcome to JavaTPoint");
-        Bounds boundsInScene = rect.localToScene(rect.getBoundsInLocal());
-        double x = boundsInScene.getMinX();
-        text.setText(String.valueOf(x));
-        StackPane stack=new StackPane(); // layout must be implemented order to visualize the widgets properly. It exists at the top level of the scene graph
-        StackPane stack2=new StackPane(); // layout must be implemented order to visualize the widgets properly. It exists at the top level of the scene graph
-
-        btn1.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent arg0) {
-                // TODO Auto-generated method stub
-                //rightCarAnimation(rect);
-                stack.getChildren().addAll(rect, rectText);
-                stack2.getChildren().addAll(rect2, rectText2);
-                leftCarAnimation(stack);
-                leftCarAnimation(stack2);
-//                  moveRectangle(rect);
-
-                System.out.println("text "+x);
-                System.out.println("hello world");
-            }
-        });
-
-        Button btn2= new Button("run car");
-        btn2.setLayoutX(350);
-        btn2.setLayoutY(350);
-        btn2.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent arg0) { runCar(); }
-        });
-      //  moveRectangle(rect);
-
-       // btn1.po(200);
-        // Bridge UP
-        //Line(startX,startY,endX,endY)
-        Line part1 = new Line(1000,200,750,200); // width - 250
-        Line part2 = new Line(750,200,750,300); // w - 100
-        Line part3 = new Line(750,300,450,300); // w - 300
-        Line part4 = new Line(450,300,450,200); // w - 100
-        Line part5 = new Line(450,200,200,200); // w - 250
-
-        // Bridge Down
-        //Line(startX,startY,endX,endY)
-        Line part1Down = new Line(1000,500,750,500); // width - 250
-        Line part2Down = new Line(750,500,750,400); // w - 100
-        Line part3Down = new Line(750,400,450,400); // w - 300
-        Line part4Down = new Line(450,400,450,500); // w - 100
-        Line part5Down = new Line(450,500,200,500); // w - 250
-
-//        text.setX(500);
-//        text.setY(500);
-
-        //moveRectangle(rect);
-
-
-        //Group root = new Group();
         Pane root = new Pane();
-        stack.setLayoutX(0);
-        stack.setLayoutY(0);
-
-        stack2.setLayoutX(100);
-        stack2.setLayoutY(110);
-
-        root.getChildren().addAll(btn1,btn2);
-        root.getChildren().addAll(part1,part2,part3,part4,part5,part1Down,part2Down,part3Down,part4Down,part5Down,text);
+        composeBridge(root);
+        //root.getChildren().addAll(addButtons()[0],addButtons()[1]);
+        root.getChildren().add(btn1);
         //root.getChildren().add(stack);
-        Platform.runLater(() ->
-        {
-            root.getChildren().addAll(stack);
-            root.getChildren().add(stack2);
-        });
+        createChatWindow(primaryStage);
+
+
+//        CarFactory carFactory = new CarFactory(root,1);
+//        StackPane carStack = carFactory.createCar(0,0);
+//        carFactory.run();
+//
+//        CarFactory carFactory2 = new CarFactory(root,2);
+//        carFactory2.createCar(40,0);
+//        carFactory2.run();
+
+//        btn1.setOnAction(new EventHandler<ActionEvent>() {
+//
+//            @Override
+//            public void handle(ActionEvent arg0) {
+//                //leftCarAnimation(stack);
+//                //runCar();
+//                hideCar = !hideCar;
+//                System.out.println("hide");
+//                carStack.setVisible(hideCar);
+//
+//            }
+//        });
+
         Scene scene=new Scene(root, 1200,800); //x,y layout needs to be added to a scene. Scene remains at the higher level in the hierarchy of application structure
         primaryStage.setScene(scene);
         primaryStage.setTitle("First JavaFX Application");
 
         primaryStage.show();
+    }
+    public void createChatWindow(Stage primaryStage){
+        Label secondLabel = new Label("I'm a Label on new Window");
+
+        StackPane secondaryLayout = new StackPane();
+        secondaryLayout.getChildren().add(secondLabel);
+
+        Scene secondScene = new Scene(secondaryLayout, 230, 100);
+
+        // New window (Stage)
+        Stage newWindow = new Stage();
+        newWindow.setTitle("Second Stage");
+        newWindow.setScene(secondScene);
+
+        // Set position of second window, related to primary window.
+        newWindow.setX(primaryStage.getX() + 200);
+        newWindow.setY(primaryStage.getY() + 100);
+
+        newWindow.show();
+    }
+    public class CarFactory{
+        Pane root;
+        StackPane stack;
+        public int positionNumber;
+
+        public CarFactory(Pane root, int positionNumber) {
+            this.root = root;
+            this.positionNumber = positionNumber;
+        }
+
+        public StackPane createCar(int x,int y) {
+            Rectangle rect = new Rectangle(); // nodes
+            rect.setWidth(20);
+            rect.setHeight(20);
+            rect.setStroke(Color.RED);
+            rect.setFill(Color.WHITE);
+            rect.setStrokeWidth(2);
+
+            Text text = new Text( " " +positionNumber);
+
+            stack = new StackPane(); // layout must be implemented order to visualize the widgets properly. It exists at the top level of the scene graph
+            stack.setLayoutX(x);
+            stack.setLayoutY(y);
+            stack.getChildren().addAll(rect,text);
+
+            root.getChildren().add(stack);
+
+            return stack;
+        }
+
+        public void run(){
+            if(positionNumber == 1) {
+                leftCarAnimation1(stack);
+            }else{
+                leftCarAnimation2(stack,40);
+            }
+
+        }
     }
     public void rightCarAnimation(StackPane rect){
         MoveTo moveto = new MoveTo(1000, 300);
@@ -155,14 +147,43 @@ public class Hello_World extends Application{
 
     }
 
-    public void leftCarAnimation(StackPane rect){
-        MoveTo moveto = new MoveTo(200, 500);
+//    public void leftCarAnimation(StackPane rect, int positionNumber){
+//        MoveTo moveto = new MoveTo(positionNumber, 450);
+//
+//        LineTo line1 = new LineTo(400  +positionNumber, 450);
+//        LineTo line2 = new LineTo(400  +positionNumber, 350);
+//        LineTo line3 = new LineTo(800  +positionNumber, 350);
+//        LineTo line4 = new LineTo(800  +positionNumber, 450);
+//        LineTo line5 = new LineTo(1100 +positionNumber, 450);
+//
+//
+//        // create a Path
+//        Path path = new Path(moveto, line1,line2,line3,line4,line5);
+//        drawPath(path,rect);
+//    }
+    public void leftCarAnimation1(StackPane rect){
+        MoveTo moveto = new MoveTo(0, 450);
 
-        LineTo line1 = new LineTo(400, 400);
-        LineTo line2 = new LineTo(500, 350);
-        LineTo line3 = new LineTo(800, 350);
-        LineTo line4 = new LineTo(850, 400);
-        LineTo line5 = new LineTo(1100, 500);
+        LineTo line1 = new LineTo(400  , 450);
+        LineTo line2 = new LineTo(400  , 350);
+        LineTo line3 = new LineTo(800  , 350);
+        LineTo line4 = new LineTo(800  , 450);
+        LineTo line5 = new LineTo(1100 , 450);
+
+
+        // create a Path
+        Path path = new Path(moveto, line1,line2,line3,line4,line5);
+        drawPath(path,rect);
+    }
+
+    public void leftCarAnimation2(StackPane rect, int positionNumber){
+        MoveTo moveto = new MoveTo(0, 450);
+
+        LineTo line1 = new LineTo(400  -positionNumber, 450);
+        LineTo line2 = new LineTo(400  -positionNumber, 350);
+        LineTo line3 = new LineTo(800  -positionNumber, 350);
+        LineTo line4 = new LineTo(800  -positionNumber, 450);
+        LineTo line5 = new LineTo(1100 , 450);
 
 
         // create a Path
@@ -181,12 +202,50 @@ public class Hello_World extends Application{
         //pathTransition.setCycleCount(10);
         pathTransition.setAutoReverse(true);
         pathTransition.play();
+//         runCar();
     }
 
-    public void runCar(){
-        //pathTransition.play();
-    }
+//    public void runCar(){
+//        pathTransition.play();
+//    }
 
+    public void composeBridge(Pane root){
+        // btn1.po(200);
+        // Bridge UP
+        //Line(startX,startY,endX,endY)
+        Line part1 = new Line(1000,200,750,200); // width - 250
+        Line part2 = new Line(750,200,750,300); // w - 100
+        Line part3 = new Line(750,300,450,300); // w - 300
+        Line part4 = new Line(450,300,450,200); // w - 100
+        Line part5 = new Line(450,200,200,200); // w - 250
+
+        // Bridge Down
+        //Line(startX,startY,endX,endY)
+        Line part1Down = new Line(1000,500,750,500); // width - 250
+        Line part2Down = new Line(750,500,750,400); // w - 100
+        Line part3Down = new Line(750,400,450,400); // w - 300
+        Line part4Down = new Line(450,400,450,500); // w - 100
+        Line part5Down = new Line(450,500,200,500); // w - 250
+
+        root.getChildren().addAll(part1,part2,part3,part4,part5,part1Down,part2Down,part3Down,part4Down,part5Down);
+    }
+    public Button[] addButtons(){
+        // TODO Auto-generated method stub
+        Button btn1= new Button("hide car");
+        btn1.setLayoutX(250);
+        btn1.setLayoutY(250);
+
+        Button btn2= new Button("run car");
+        btn2.setLayoutX(350);
+        btn2.setLayoutY(350);
+        btn2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent arg0) {
+               // runCar();
+            }
+        });
+        return new Button[]{btn1, btn2};
+    }
     public Rectangle moveRectangle(Rectangle rect){
 
         //Setting up the path

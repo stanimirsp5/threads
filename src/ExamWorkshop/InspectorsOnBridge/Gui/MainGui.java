@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Line;
@@ -29,9 +30,12 @@ public class MainGui extends Application {
         btn1.setLayoutY(250);
 
         root.getChildren().addAll(btn1);
+
+        createChatWindow(primaryStage, 1);
+
         Scene scene=new Scene(root, 1200,800); //x,y layout needs to be added to a scene. Scene remains at the higher level in the hierarchy of application structure
         primaryStage.setScene(scene);
-        primaryStage.setTitle("First JavaFX Application");
+        primaryStage.setTitle("Inspectors on bridge");
         primaryStage.show();
 //        BridgeGui bridgeGui = new BridgeGui();
 //        bridgeGui.initBridge();
@@ -45,24 +49,23 @@ public class MainGui extends Application {
 //        });
 
     }
-    public static void stackCar(StackPane stack){
-        //Platform.runLater(() ->
-            root.getChildren().add(stack);
-        //);
+    public void createChatWindow(Stage primaryStage, int inspectorNumber){
+        Label secondLabel = new Label("I'm a Label on new Window");
+
+        StackPane secondaryLayout = new StackPane();
+        secondaryLayout.getChildren().add(secondLabel);
+
+        Scene secondScene = new Scene(secondaryLayout, 230, 100);
+
+        // New window (Stage)
+        Stage newWindow = new Stage();
+        newWindow.setTitle("Inspector #" + inspectorNumber);
+        newWindow.setScene(secondScene);
+
+        // Set position of second window, related to primary window.
+        newWindow.setX(primaryStage.getX() + 200);
+        newWindow.setY(primaryStage.getY() + 100);
+
+        newWindow.show();
     }
 }
-
-//    MoveTo moveto = new MoveTo(0, 0);
-//
-//    LineTo line5 = new LineTo(200 + positionNumber, 300);
-//
-//    // create a Path
-//    Path path = new Path(moveto, line5);
-//
-//        pathTransition = new PathTransition();
-//                pathTransition.setDuration(Duration.millis(10000));
-//                pathTransition.setNode(stack);
-//                pathTransition.setPath(path);
-//                pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
-//                //pathTransition.setCycleCount(10);
-//                pathTransition.setAutoReverse(true);

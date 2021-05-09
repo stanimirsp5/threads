@@ -8,7 +8,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 public class Bridge {
-    public static final int MAX_CARS_ON_BRIDGE = 6;
+    public static final int MAX_CARS_ON_BRIDGE = 3;
 
     Direction bridgeDirection = Direction.None;
     int carsOnBridge = 0;
@@ -43,7 +43,7 @@ public class Bridge {
 
         carGui.runCar();
 
-        System.out.printf("on the bridge %s %s is  (%d)\n",directionArrow(carDirection), name,carsOnBridge);
+        System.out.printf("%s on the bridge %s %s is  (%d)\n",Thread.currentThread().getName(),directionArrow(carDirection), name,carsOnBridge);
     }
 
     synchronized public void leaveBridge(String name,Direction carDirection){

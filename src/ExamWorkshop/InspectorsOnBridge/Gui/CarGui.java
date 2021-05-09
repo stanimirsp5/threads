@@ -24,6 +24,7 @@ public class CarGui {
     public PathTransition pathTransition;
     String name;
     int positionNumber;
+    StackPane stack;
 
     public CarGui(Direction direction, String name, int positionNumber) {
         this.direction = direction;
@@ -51,7 +52,7 @@ public class CarGui {
 
         Text rectText = new Text(name);
 
-        StackPane stack=new StackPane(); //stackCarAndText
+        stack=new StackPane(); //stackCarAndText
         stack.setLayoutX(carPositionX);
         stack.setLayoutY(carPositionY);
 
@@ -73,14 +74,18 @@ public class CarGui {
         pathTransition.play();
     }
 
+    public void hideCar(){
+        stack.setVisible(false);
+    }
+
     private void rightCarAnimation(StackPane car){
-        MoveTo moveto = new MoveTo(0 + positionNumber, 0);
+        MoveTo moveto = new MoveTo(positionNumber, 0);
 
         LineTo line1 = new LineTo(-220 - positionNumber, 0);
         LineTo line2 = new LineTo(-220 - positionNumber, 100);
         LineTo line3 = new LineTo(-630 - positionNumber, 100);
         LineTo line4 = new LineTo(-630 - positionNumber, 0);
-        LineTo line5 = new LineTo(-900 - positionNumber, 0);
+        LineTo line5 = new LineTo(-1100, 0);
 
         // create a Path
         Path path = new Path(moveto, line1,line2,line3,line4,line5);
@@ -95,7 +100,7 @@ public class CarGui {
         LineTo line2 = new LineTo(250 + positionNumber, -100);
         LineTo line3 = new LineTo(680 + positionNumber, -100);
         LineTo line4 = new LineTo(680 + positionNumber, 0);
-        LineTo line5 = new LineTo(900 + positionNumber, 0);
+        LineTo line5 = new LineTo(1100, 0);
 
         // create a Path
         Path path = new Path(moveto, line1,line2,line3,line4,line5);
@@ -105,13 +110,13 @@ public class CarGui {
 
     private void drawPath(Path path,StackPane car){
         pathTransition = new PathTransition();
-        pathTransition.setDuration(Duration.millis(3000));
+        pathTransition.setDuration(Duration.millis(2000));
         pathTransition.setNode(car);
         pathTransition.setPath(path);
         pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         //pathTransition.setOnFinished();
-        //pathTransition.setCycleCount(10);
-        //pathTransition.setAutoReverse(true);
+//        pathTransition.setCycleCount(10);
+//        pathTransition.setAutoReverse(true);
     }
 
 }

@@ -18,20 +18,16 @@ import java.util.concurrent.Executors;
 
 public class Main{
 
-    public static final int NUM_CARS = 20;
-    public static final int NUM_THREADS = 10;
+    public static final int NUM_CARS = 6;
+    public static final int NUM_THREADS = 2;
     public static void main(String[] args) throws InterruptedException {
 
         //Application.launch(MainGui.class, args);
         new Thread(() -> Application.launch(MainGui.class, args)).start();
-//        Thread.sleep(2000);
-//
+
         Bridge bridge = new Bridge();
-//        CarGui carGui = new CarGui(Direction.Right,"test", 0);
-//        Thread.sleep(5000);
-//        carGui.runCar();
-//
-        //ExecutorService pool = Executors.newFixedThreadPool(NUM_THREADS);
+
+        ExecutorService pool = Executors.newFixedThreadPool(NUM_THREADS);
         Car[] cars = new Car[NUM_CARS];
         for (int i = 0; i < NUM_CARS; i++) {
             Direction direction = i % 2 == 0 ? Direction.Left : Direction.Right;
@@ -39,19 +35,10 @@ public class Main{
         }
 
         for (int i = 0; i < NUM_CARS; i++) {
-//            pool.execute(cars[i]);
-            new Thread(cars[i]).start();
+            pool.execute(cars[i]);
         }
 
-        //pool.shutdown();
+        pool.shutdown();
 
     }
 }
-
-//while (true) {
-//            for (int i = 0; i < NUM_CARS; i++) {
-//        pool.execute(cars[i]);
-//        }
-// System.out.println("====== sleep for 5 seconds ========");
-//            Thread.sleep(5000);
-//        }
