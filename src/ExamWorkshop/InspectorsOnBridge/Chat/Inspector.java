@@ -1,5 +1,7 @@
 package ExamWorkshop.InspectorsOnBridge.Chat;
 
+import ExamWorkshop.InspectorsOnBridge.Gui.ChatWindowFactory;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -8,7 +10,9 @@ public class Inspector{
     public static final String IP = "127.0.0.1";
     private static BufferedReader serverInput;
 
-    public void createInspector() {
+//    public void createInspector() {
+    public static void main(String[] args) {
+
         // output -> send to server, input -> receive from server
         try(
             Socket client = new Socket(IP,PORT);
