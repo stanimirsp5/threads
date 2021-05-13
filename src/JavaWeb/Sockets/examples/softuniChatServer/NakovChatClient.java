@@ -23,7 +23,7 @@ import java.net.*;
  */
 public class NakovChatClient {
     public static final String SERVER_HOSTNAME = "localhost";
-    public static final int SERVER_PORT = 5555;
+    public static final int SERVER_PORT = 2002;
 
     private static BufferedReader mSocketReader;
     private static PrintWriter mSocketWriter;

@@ -6,11 +6,6 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class ChatWindowFactory {
-    Stage primaryStage;
-
-    public ChatWindowFactory(Stage primaryStage){
-        this.primaryStage = primaryStage;
-    }
 
     public void initChatWindow(int inspectorNumber){
         Label secondLabel = new Label("I'm a Label on new Window");
@@ -26,8 +21,8 @@ public class ChatWindowFactory {
         newWindow.setScene(secondScene);
 
         // Set position of second window, related to primary window.
-        newWindow.setX(primaryStage.getX() + 200);
-        newWindow.setY(primaryStage.getY() + 100);
+//        newWindow.setX(primaryStage.getX() + 200);
+//        newWindow.setY(primaryStage.getY() + 100);
 
         newWindow.show();
     }

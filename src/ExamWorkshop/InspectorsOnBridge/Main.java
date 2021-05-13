@@ -25,11 +25,11 @@ public class Main{
     public static void main(String[] args) throws InterruptedException {
 
         //Application.launch(MainGui.class, args);
-        //new Thread(() -> Application.launch(MainGui.class, args)).start();
+        new Thread(() -> Application.launch(MainGui.class, args)).start();
 
-          new Thread(() -> Server.main(args)).start();
+          //new Thread(() -> Server.main(args)).start();
           new Thread(() -> Inspector.main(args)).start();
-          new Thread(() -> Inspector.main(args)).start();
+          //new Thread(() -> Inspector.main(args)).start();
 
 //        Bridge bridge = new Bridge();
 //

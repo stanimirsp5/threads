@@ -42,7 +42,8 @@ public class Hello_World extends Application{
         //root.getChildren().addAll(addButtons()[0],addButtons()[1]);
         root.getChildren().add(btn1);
         //root.getChildren().add(stack);
-        createChatWindow(primaryStage);
+
+      //  createChatWindow(primaryStage);
 
 
 //        CarFactory carFactory = new CarFactory(root,1);
@@ -86,8 +87,8 @@ public class Hello_World extends Application{
         newWindow.setScene(secondScene);
 
         // Set position of second window, related to primary window.
-        newWindow.setX(primaryStage.getX() + 200);
-        newWindow.setY(primaryStage.getY() + 100);
+//        newWindow.setX(primaryStage.getX() + 200);
+//        newWindow.setY(primaryStage.getY() + 100);
 
         newWindow.show();
     }

@@ -19,36 +19,34 @@ public class Client {
         try(
             Socket client = new Socket(IP, PORT);
             PrintWriter outputToServer = new PrintWriter(new OutputStreamWriter(client.getOutputStream()),true);
-            BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
+            BufferedReader userInputStream = new BufferedReader(new InputStreamReader(System.in));
         ){
 
             serverInput = new BufferedReader(new InputStreamReader(client.getInputStream()));
 
-            String inputLine;
-            new Thread(new ClientPrinter()).start();
+            new Thread(new ClientListener()).start();
 
             while (true){
-                inputLine = userInput.readLine();
-                outputToServer.println(inputLine);
+                String userInput = userInputStream.readLine();
+                outputToServer.println(userInput);
             }
 
         }catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-    static class ClientPrinter implements Runnable{
+    // thread that reads constantly response from server
+    static class ClientListener implements Runnable{
 
         @Override
         public void run() {
             while (true){
-                String outputSt = null;
                 try {
-                    outputSt = serverInput.readLine();
+                    String serverOutput = serverInput.readLine();
+                    System.out.println(serverOutput);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                System.out.println(outputSt);
             }
         }
     }

@@ -1,0 +1,1 @@
+ VM Options for javafx: --module-path /Users/stanimir/Applications/JavaFX/lib --add-modules=javafx.controls,javafx.fxml

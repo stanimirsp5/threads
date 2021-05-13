@@ -1,6 +1,7 @@
 package ExamWorkshop.InspectorsOnBridge.Chat;
 
 import ExamWorkshop.InspectorsOnBridge.Gui.ChatWindowFactory;
+import ExamWorkshop.InspectorsOnBridge.Gui.MainGui;
 
 import java.io.*;
 import java.net.Socket;
@@ -12,7 +13,8 @@ public class Inspector{
 
 //    public void createInspector() {
     public static void main(String[] args) {
-
+        ChatWindowFactory chatWindow = new ChatWindowFactory();
+        chatWindow.initChatWindow(1);
         // output -> send to server, input -> receive from server
         try(
             Socket client = new Socket(IP,PORT);
@@ -22,7 +24,7 @@ public class Inspector{
 
             serverInput = new BufferedReader(new InputStreamReader(client.getInputStream()));
 
-            new ClientPrinter().start();
+            new ClientListener().start();
 
             while (true){
                 String inputLine = userInput.readLine();
@@ -34,18 +36,18 @@ public class Inspector{
         }
     }
 
-    static class ClientPrinter extends Thread{
+    // thread that listen and reads constantly response from server
+    static class ClientListener extends Thread{
 
         @Override
         public void run() {
             while (true){
-                String outputSt = null;
                 try {
-                    outputSt = serverInput.readLine();
+                    String serverOutput = serverInput.readLine();
+                    System.out.println("client: " + serverOutput);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                System.out.println("client: " + outputSt);
             }
         }
     }
