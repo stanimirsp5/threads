@@ -11,6 +11,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -38,12 +39,13 @@ public class Hello_World extends Application{
         btn1.setLayoutY(250);
 
         Pane root = new Pane();
-        composeBridge(root);
+        //composeBridge(root);
+
         //root.getChildren().addAll(addButtons()[0],addButtons()[1]);
         root.getChildren().add(btn1);
         //root.getChildren().add(stack);
 
-      //  createChatWindow(primaryStage);
+        createChatWindow(primaryStage);
 
 
 //        CarFactory carFactory = new CarFactory(root,1);
@@ -74,21 +76,42 @@ public class Hello_World extends Application{
         primaryStage.show();
     }
     public void createChatWindow(Stage primaryStage){
-        Label secondLabel = new Label("I'm a Label on new Window");
 
-        StackPane secondaryLayout = new StackPane();
-        secondaryLayout.getChildren().add(secondLabel);
+        TextArea textArea=new TextArea();
+        textArea.setLayoutY(0);
+        textArea.setDisable(true);
+        //textArea.setEditable(false);
+        TextField tf1=new TextField();
+        tf1.setLayoutY(150);
 
-        Scene secondScene = new Scene(secondaryLayout, 230, 100);
+        Button b = new Button("Submit");
+        b.setLayoutY(200);
+        b.setLayoutX(200);
+        String newLine = System.getProperty("line.separator");
+
+        b.setOnAction(e-> {
+            System.out.print("You entered: User_ID: " + tf1.getText() + newLine);
+            textArea.appendText(newLine + tf1.getText());
+            tf1.clear();
+        });
+
+        Pane secondaryLayout = new Pane();
+
+        secondaryLayout.getChildren().add(tf1);
+        secondaryLayout.getChildren().add(b);
+        secondaryLayout.getChildren().add(textArea);
+
+
+        Scene secondScene = new Scene(secondaryLayout, 430, 300);
 
         // New window (Stage)
         Stage newWindow = new Stage();
-        newWindow.setTitle("Second Stage");
+        newWindow.setTitle("Inspector");
         newWindow.setScene(secondScene);
 
         // Set position of second window, related to primary window.
-//        newWindow.setX(primaryStage.getX() + 200);
-//        newWindow.setY(primaryStage.getY() + 100);
+        newWindow.setX(primaryStage.getX() + 200);
+        newWindow.setY(primaryStage.getY() + 100);
 
         newWindow.show();
     }

@@ -7,8 +7,10 @@ import ExamWorkshop.InspectorsOnBridge.Chat.Inspector;
 import ExamWorkshop.InspectorsOnBridge.Chat.Server;
 import ExamWorkshop.InspectorsOnBridge.Gui.BridgeGui;
 import ExamWorkshop.InspectorsOnBridge.Gui.CarGui;
+import ExamWorkshop.InspectorsOnBridge.Gui.ChatWindowFactory;
 import ExamWorkshop.InspectorsOnBridge.Gui.MainGui;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
@@ -22,14 +24,13 @@ public class Main{
 
     public static final int NUM_CARS = 60;
     public static final int NUM_THREADS = 2;
+    public static final int NUM_INSPECTORS  = 2;
     public static void main(String[] args) throws InterruptedException {
 
-        //Application.launch(MainGui.class, args);
         new Thread(() -> Application.launch(MainGui.class, args)).start();
+        Thread.sleep(2000);
 
-          //new Thread(() -> Server.main(args)).start();
-          new Thread(() -> Inspector.main(args)).start();
-          //new Thread(() -> Inspector.main(args)).start();
+        initServerAndClients();
 
 //        Bridge bridge = new Bridge();
 //
@@ -46,5 +47,17 @@ public class Main{
 //
 //        pool.shutdown();
 
+    }
+
+    public static void initServerAndClients() throws InterruptedException {
+
+        Server server = new Server();
+        new Thread(server::runServer).start();
+        Thread.sleep(2000);
+
+        for (int i = 0; i < NUM_INSPECTORS; i++) {
+            Inspector inspector = new Inspector(i+1);
+            new Thread(inspector::createInspector).start();
+        }
     }
 }
