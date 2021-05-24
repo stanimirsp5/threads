@@ -22,14 +22,14 @@ public class ServerReader {
                 // takes input from the client socket
                 BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 PrintWriter output = (new PrintWriter(socket.getOutputStream()));
-                BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
+                //BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
         ){
             String line = "";
             while ((line = input.readLine()) != null)
             {
                 //line2 =
                 System.out.println("server " +line);
-                output.println(userInput.readLine());
+                output.println(line);
             }
 
         } catch (IOException e) {

@@ -53,7 +53,7 @@ public class Main{
 
         Server server = new Server();
         new Thread(server::runServer).start();
-        Thread.sleep(2000);
+        Thread.sleep(1000); // TODO async java
 
         for (int i = 0; i < NUM_INSPECTORS; i++) {
             Inspector inspector = new Inspector(i+1);

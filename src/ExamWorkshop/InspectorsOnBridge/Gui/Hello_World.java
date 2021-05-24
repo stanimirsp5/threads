@@ -92,6 +92,7 @@ public class Hello_World extends Application{
         b.setOnAction(e-> {
             System.out.print("You entered: User_ID: " + tf1.getText() + newLine);
             textArea.appendText(newLine + tf1.getText());
+
             tf1.clear();
         });
 

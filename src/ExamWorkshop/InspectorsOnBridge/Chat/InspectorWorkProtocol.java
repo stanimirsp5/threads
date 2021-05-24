@@ -1,29 +1,50 @@
 package ExamWorkshop.InspectorsOnBridge.Chat;
 
 public class InspectorWorkProtocol {
-    ProtocolStates currentState = ProtocolStates.NEWWORKER;
+    ProtocolStates currentState = ProtocolStates.FREECHAT;
 
     public String processInput(String userInput,String workerName){
         String message = userInput;
 
-        if(ProtocolStates.NEWWORKER == currentState){
-            message = "New worker arrived. You must greet all other workers.";
-            currentState = ProtocolStates.GREETING;
-        }else if(ProtocolStates.GREETING == currentState){
-            if (userInput.equalsIgnoreCase("Hello all")) {
-                message = "Whats the work condition?";
-                currentState = ProtocolStates.ROUTINE;
-            } else {
-                message = "You're supposed to say \"Hello all\"! " +
-                        "Try again. Greet all other workers";
+//        if(ProtocolStates.NEWWORKER == currentState){
+//            message = "New worker arrived. You must greet all other workers.";
+//            currentState = ProtocolStates.GREETING;
+//        }else
+        if(ProtocolStates.FREECHAT == currentState) {
+            if (userInput.equalsIgnoreCase("Inspection time")) {
+                message = "*Inspector chat mode ON*\n"
+                        + "Waiting for all inspectors to say if cars can be stopped. Type Yes/No";
+                currentState = ProtocolStates.INSPECTORCHAT;
             }
-        }else if(ProtocolStates.ROUTINE == currentState){
-            if (userInput.equalsIgnoreCase("Great")) {
-                message = "Good you can start work and communicate with other workers!";
+        }
+//            else {
+//                message = "You're supposed to say \"Hello all\"! " +
+//                        "Try again. Greet all other workers";
+//            }
+
+        else if(ProtocolStates.INSPECTORCHAT == currentState){
+            if (userInput.equalsIgnoreCase("Yes")) {
+                message = "All is clear from my side.";
+                currentState = ProtocolStates.GIVENRESPONSE;
+            } else if(userInput.equalsIgnoreCase("No")) {
+                message = "Bad news inspection can't begin right now."
+                        + "*Inspector chat mode OFF*";
+                //currentState = ProtocolStates.GIVENRESPONSE;
                 currentState = ProtocolStates.FREECHAT;
-            } else {
-                message = "You're supposed to say \"Great\"! " +
-                        "Try again. Whats the work condition?";
+            }else {
+                message = "You're supposed to say \"Yes or No\"! " +
+                        "Try again. Can cars be stopped?";
+            }
+        }
+
+        else if(ProtocolStates.GIVENRESPONSE == currentState){
+            if (userInput.equalsIgnoreCase("Stop cars")) {
+                message = "Cars are stopped. An inspection is carried out..."
+                        + "*Inspector chat mode OFF*";
+                currentState = ProtocolStates.FREECHAT;
+            }else {
+                message = "You're supposed to say \"Stop cars\"" +
+                        "Try again.";
             }
         }
 
@@ -32,9 +53,8 @@ public class InspectorWorkProtocol {
 }
 
 enum ProtocolStates{
-    NEWWORKER,
-    GREETING,
-    ROUTINE,
+    INSPECTORCHAT,
+    GIVENRESPONSE,
     FREECHAT
 
 }

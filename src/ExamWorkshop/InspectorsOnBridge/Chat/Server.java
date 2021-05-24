@@ -9,8 +9,6 @@ public class Server{
     public static final int PORT = 4444;
 
     public void runServer() {
-    //public static void main(String[] args) {
-
         // list to add all the clients thread
         ArrayList<ServerThread> threadList = new ArrayList<>();
 

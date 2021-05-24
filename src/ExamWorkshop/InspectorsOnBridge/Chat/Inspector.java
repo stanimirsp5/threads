@@ -17,7 +17,9 @@ import java.net.Socket;
 public class Inspector{
     public static final int PORT = 4444;
     public static final String IP = "127.0.0.1";
-    private static BufferedReader serverInput;
+    private BufferedReader serverInput;
+    private PrintWriter outputToServer;
+    private ChatWindowFactory chatWindowFactory;
     int inspectorNumber;
 
     public Inspector(int inspectorNumber) {
@@ -25,46 +27,48 @@ public class Inspector{
     }
 
     public void createInspector() {
-    //public static void main(String[] args) {
-        ChatWindowFactory chatWindowFactory = new ChatWindowFactory();
+        chatWindowFactory = new ChatWindowFactory(this);
 
         Platform.runLater(() -> {
             chatWindowFactory.initChatWindow(inspectorNumber);
         });
 
         // output -> send to server, input -> receive from server
-        try(
+        try{
             Socket client = new Socket(IP,PORT);
-            PrintWriter outputToServer = new PrintWriter(new OutputStreamWriter(client.getOutputStream()), true);
-            //BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in)); // get from UI  tf1.getText()
-            BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
-        ) {
+            //write to server
+            outputToServer = new PrintWriter(new OutputStreamWriter(client.getOutputStream()), true);
 
+            //reads from server
             serverInput = new BufferedReader(new InputStreamReader(client.getInputStream()));
 
-            new ClientListener().start();
 
-            while (true){
-                String inputLine = userInput.readLine();
-                outputToServer.println(inputLine);
-            }
+            new ClientListener().start();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    public void send(String msg){
+        outputToServer.println(msg);
+    }
+
     // thread that listen and reads constantly response from server
-    static class ClientListener extends Thread{
+    class ClientListener extends Thread{
 
         @Override
         public void run() {
             while (true){
                 try {
                     String serverOutput = serverInput.readLine();
-                    System.out.println("client: " + serverOutput);
+                    try {
+                        Thread.sleep(400);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     // print msg to all text areas
-                    // textArea.appendText(newLine + tf1.getText());
+                    chatWindowFactory.writeToTextArea(serverOutput);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class ServerThread implements Runnable{
     Socket socket;
     ArrayList<ServerThread> threadsList;
+    public static InspectorWorkProtocol iwp;
 
     public ServerThread(Socket socket, ArrayList<ServerThread> threadsList) {
         this.socket = socket;
@@ -23,14 +24,12 @@ public class ServerThread implements Runnable{
                 BufferedReader clientInput = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         ){
 
-            InspectorWorkProtocol iwp = new InspectorWorkProtocol();
-            String msg = iwp.processInput(null,null);
-            printToAllClients(msg);
-
+            iwp = new InspectorWorkProtocol();
+            String msg = "";
             while (true){
                 String inputLine = clientInput.readLine();
 
-                msg = iwp.processInput(inputLine, Thread.currentThread().getName());
+               msg = iwp.processInput(inputLine, Thread.currentThread().getName());
 
                 printToAllClients(msg);
             }

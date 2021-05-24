@@ -27,6 +27,7 @@ public class ClientWriter {
             while ((line = input.readLine()) != null) {
                // System.out.println((line = input.readLine()) != null);
                 output.println(line);
+
                 System.out.println("Client response from server " + serverInput.readLine());
             }
 //            while (!line.equals("Over")) {
