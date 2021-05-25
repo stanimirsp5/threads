@@ -51,6 +51,9 @@ public class Inspector{
     }
 
     public void send(String msg){
+        // TODO disable only when in Inspector chat mode
+        chatWindowFactory.disable(true);
+        msg = "Inspector #" + inspectorNumber + "|" + msg;
         outputToServer.println(msg);
     }
 
@@ -67,6 +70,9 @@ public class Inspector{
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+
+                    chatWindowFactory.disable(false);
+
                     // print msg to all text areas
                     chatWindowFactory.writeToTextArea(serverOutput);
                 } catch (IOException e) {

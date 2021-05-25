@@ -6,10 +6,6 @@ public class InspectorWorkProtocol {
     public String processInput(String userInput,String workerName){
         String message = userInput;
 
-//        if(ProtocolStates.NEWWORKER == currentState){
-//            message = "New worker arrived. You must greet all other workers.";
-//            currentState = ProtocolStates.GREETING;
-//        }else
         if(ProtocolStates.FREECHAT == currentState) {
             if (userInput.equalsIgnoreCase("Inspection time")) {
                 message = "*Inspector chat mode ON*\n"
@@ -17,10 +13,6 @@ public class InspectorWorkProtocol {
                 currentState = ProtocolStates.INSPECTORCHAT;
             }
         }
-//            else {
-//                message = "You're supposed to say \"Hello all\"! " +
-//                        "Try again. Greet all other workers";
-//            }
 
         else if(ProtocolStates.INSPECTORCHAT == currentState){
             if (userInput.equalsIgnoreCase("Yes")) {
@@ -29,7 +21,6 @@ public class InspectorWorkProtocol {
             } else if(userInput.equalsIgnoreCase("No")) {
                 message = "Bad news inspection can't begin right now."
                         + "*Inspector chat mode OFF*";
-                //currentState = ProtocolStates.GIVENRESPONSE;
                 currentState = ProtocolStates.FREECHAT;
             }else {
                 message = "You're supposed to say \"Yes or No\"! " +
@@ -56,5 +47,4 @@ enum ProtocolStates{
     INSPECTORCHAT,
     GIVENRESPONSE,
     FREECHAT
-
 }

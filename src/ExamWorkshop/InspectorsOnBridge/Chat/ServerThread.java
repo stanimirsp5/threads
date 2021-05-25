@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class ServerThread implements Runnable{
     Socket socket;
@@ -27,9 +28,10 @@ public class ServerThread implements Runnable{
             iwp = new InspectorWorkProtocol();
             String msg = "";
             while (true){
-                String inputLine = clientInput.readLine();
-
-               msg = iwp.processInput(inputLine, Thread.currentThread().getName());
+               String inputLine = clientInput.readLine();
+                String inspectorNumber = inputLine.split(Pattern.quote("|"))[0];
+                String message = inputLine.split(Pattern.quote("|"))[1];
+               msg = iwp.processInput(message, inspectorNumber);
 
                 printToAllClients(msg);
             }

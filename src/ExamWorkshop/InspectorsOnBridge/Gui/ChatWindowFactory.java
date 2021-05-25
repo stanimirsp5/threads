@@ -75,4 +75,9 @@ public class ChatWindowFactory {
 
         newWindow.show();
     }
+
+    public void disable(boolean isDisabled){
+        textField.setDisable(isDisabled);
+    }
+
 }
