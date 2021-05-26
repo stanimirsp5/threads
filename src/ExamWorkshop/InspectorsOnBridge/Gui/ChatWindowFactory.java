@@ -20,6 +20,8 @@ public class ChatWindowFactory {
     TextArea textArea;
     TextField textField;
     Inspector inspector;
+    Label warningLabel;
+    Button submitButton;
 
     public ChatWindowFactory(Inspector inspector) {
         this.inspector = inspector;
@@ -38,14 +40,22 @@ public class ChatWindowFactory {
         textArea=new TextArea();
         textArea.setLayoutY(0);
         textArea.setDisable(true);
+        textArea.setPrefWidth(490);
+
         textField=new TextField();
         textField.setLayoutY(200);
 
-        Button b = new Button("Submit");
-        b.setLayoutY(250);
-        b.setLayoutX(200);
+        warningLabel = new Label("Waiting for other inspector to response...");
+        warningLabel.setLayoutX(200);
+        warningLabel.setLayoutY(200);
+        warningLabel.setVisible(false);
+        warningLabel.setTextFill(Color.RED);
 
-        b.setOnAction(e-> {
+        submitButton = new Button("Submit");
+        submitButton.setLayoutX(200);
+        submitButton.setLayoutY(250);
+
+        submitButton.setOnAction(e-> {
             inspector.send(textField.getText());
             textField.clear();
         });
@@ -53,11 +63,12 @@ public class ChatWindowFactory {
         Pane secondaryLayout = new Pane();
 
         secondaryLayout.getChildren().add(textField);
-        secondaryLayout.getChildren().add(b);
+        secondaryLayout.getChildren().add(submitButton);
         secondaryLayout.getChildren().add(textArea);
+        secondaryLayout.getChildren().add(warningLabel);
 
 
-        Scene secondScene = new Scene(secondaryLayout, 450, 300);
+        Scene secondScene = new Scene(secondaryLayout, 500, 300);
 
         // New window (Stage)
         Stage newWindow = new Stage();
@@ -78,6 +89,8 @@ public class ChatWindowFactory {
 
     public void disable(boolean isDisabled){
         textField.setDisable(isDisabled);
+        submitButton.setDisable(isDisabled);
+        warningLabel.setVisible(isDisabled);
     }
 
 }

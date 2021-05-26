@@ -28,10 +28,11 @@ public class ServerThread implements Runnable{
             iwp = new InspectorWorkProtocol();
             String msg = "";
             while (true){
-               String inputLine = clientInput.readLine();
+                String inputLine = clientInput.readLine();
                 String inspectorNumber = inputLine.split(Pattern.quote("|"))[0];
                 String message = inputLine.split(Pattern.quote("|"))[1];
-               msg = iwp.processInput(message, inspectorNumber);
+
+                msg = iwp.processInput(message, inspectorNumber);
 
                 printToAllClients(msg);
             }

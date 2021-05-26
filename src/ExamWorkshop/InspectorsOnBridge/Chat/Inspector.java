@@ -21,6 +21,7 @@ public class Inspector{
     private PrintWriter outputToServer;
     private ChatWindowFactory chatWindowFactory;
     int inspectorNumber;
+    int currentInspector;
 
     public Inspector(int inspectorNumber) {
         this.inspectorNumber = inspectorNumber;
@@ -51,9 +52,12 @@ public class Inspector{
     }
 
     public void send(String msg){
-        // TODO disable only when in Inspector chat mode
-        chatWindowFactory.disable(true);
         msg = "Inspector #" + inspectorNumber + "|" + msg;
+
+        ProtocolStates state = new InspectorWorkProtocol().getCurrentState();
+        if(state == ProtocolStates.FREECHAT) {
+            currentInspector = inspectorNumber;
+        }
         outputToServer.println(msg);
     }
 
@@ -71,8 +75,17 @@ public class Inspector{
                         e.printStackTrace();
                     }
 
-                    chatWindowFactory.disable(false);
+                    ProtocolStates state = new InspectorWorkProtocol().getCurrentState();
 
+                    //  disable only when in "Inspector chat" mode
+                    if(currentInspector == inspectorNumber) {
+                        if(state == ProtocolStates.INSPECTORCHAT) {
+                            chatWindowFactory.disable(true);
+                        }else {
+                            chatWindowFactory.disable(false);
+                            currentInspector = 0;
+                        }
+                    }
                     // print msg to all text areas
                     chatWindowFactory.writeToTextArea(serverOutput);
                 } catch (IOException e) {

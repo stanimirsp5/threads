@@ -1,7 +1,11 @@
 package ExamWorkshop.InspectorsOnBridge.Chat;
 
 public class InspectorWorkProtocol {
-    ProtocolStates currentState = ProtocolStates.FREECHAT;
+   public static ProtocolStates currentState = ProtocolStates.FREECHAT;
+    // Getter
+    public ProtocolStates getCurrentState() {
+        return currentState;
+    }
 
     public String processInput(String userInput,String workerName){
         String message = userInput;
@@ -32,7 +36,8 @@ public class InspectorWorkProtocol {
             if (userInput.equalsIgnoreCase("Stop cars")) {
                 message = "Cars are stopped. An inspection is carried out..."
                         + "*Inspector chat mode OFF*";
-                currentState = ProtocolStates.FREECHAT;
+                //currentState = ProtocolStates.FREECHAT;
+                currentState = ProtocolStates.STOPCARMOVEMENT;
             }else {
                 message = "You're supposed to say \"Stop cars\"" +
                         "Try again.";
@@ -46,5 +51,6 @@ public class InspectorWorkProtocol {
 enum ProtocolStates{
     INSPECTORCHAT,
     GIVENRESPONSE,
+    STOPCARMOVEMENT,
     FREECHAT
 }
