@@ -1,5 +1,6 @@
 package ExamWorkshop.InspectorsOnBridge.Bridge;
 
+import ExamWorkshop.InspectorsOnBridge.Chat.ProtocolStates;
 import ExamWorkshop.InspectorsOnBridge.Gui.BridgeGui;
 import ExamWorkshop.InspectorsOnBridge.Gui.CarGui;
 import ExamWorkshop.InspectorsOnBridge.Gui.MainGui;
@@ -7,7 +8,7 @@ import ExamWorkshop.InspectorsOnBridge.Gui.MainGui;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
-public class Bridge {
+public class Bridge implements Observable{
     public static final int MAX_CARS_ON_BRIDGE = 3;
 
     Direction bridgeDirection = Direction.None;
@@ -70,6 +71,15 @@ public class Bridge {
                 break;
         }
         return directionArrow;
+    }
+
+    @Override
+    synchronized public void update(boolean isBridgeClosed) {
+        if(!isBridgeClosed){ // if bridge was closed and now is open
+            notifyAll();
+        }
+        this.isBridgeClosed = isBridgeClosed;
+
     }
 
 //    public void closeBridge(){

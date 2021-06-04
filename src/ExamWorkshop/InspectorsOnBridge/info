@@ -4,5 +4,6 @@
  reference to Bridge
 
  Bridge - Observer
+ implements Observable
 
  Observable object needs to keep reference to the observers

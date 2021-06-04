@@ -1,5 +1,7 @@
 package ExamWorkshop.InspectorsOnBridge.Chat;
 
+import ExamWorkshop.InspectorsOnBridge.Bridge.StateContainer;
+
 public class InspectorWorkProtocol {
    public static ProtocolStates currentState = ProtocolStates.FREECHAT;
     // Getter
@@ -38,19 +40,33 @@ public class InspectorWorkProtocol {
                         + "*Inspector chat mode OFF*";
                 //currentState = ProtocolStates.FREECHAT;
                 currentState = ProtocolStates.STOPCARMOVEMENT;
+                updateStateContainer();
             }else {
                 message = "You're supposed to say \"Stop cars\"" +
                         "Try again.";
             }
         }
 
+        else if(ProtocolStates.STOPCARMOVEMENT == currentState){
+            if (userInput.equalsIgnoreCase("End inspection")) {
+                message = "End of inspection. Everything is fine."
+                        + "*Inspector chat mode OFF*";
+                currentState = ProtocolStates.FREECHAT;
+                updateStateContainer();
+            }else {
+                message = "You're supposed to say \"End inspection\"" +
+                        "Try again.";
+            }
+        }
+
+
+
         return workerName + ": "+ message;
+    }
+
+    private void updateStateContainer(){
+        StateContainer.currentState = currentState;
+        StateContainer.updateBridge();
     }
 }
 
-enum ProtocolStates{
-    INSPECTORCHAT,
-    GIVENRESPONSE,
-    STOPCARMOVEMENT,
-    FREECHAT
-}

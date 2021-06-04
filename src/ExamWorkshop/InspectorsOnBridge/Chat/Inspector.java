@@ -1,5 +1,6 @@
 package ExamWorkshop.InspectorsOnBridge.Chat;
 
+import ExamWorkshop.InspectorsOnBridge.Bridge.Bridge;
 import ExamWorkshop.InspectorsOnBridge.Gui.ChatWindowFactory;
 import ExamWorkshop.InspectorsOnBridge.Gui.MainGui;
 import javafx.application.Application;
@@ -22,7 +23,6 @@ public class Inspector{
     private ChatWindowFactory chatWindowFactory;
     int inspectorNumber;
     int currentInspector;
-
     public Inspector(int inspectorNumber) {
         this.inspectorNumber = inspectorNumber;
     }
@@ -55,6 +55,7 @@ public class Inspector{
         msg = "Inspector #" + inspectorNumber + "|" + msg;
 
         ProtocolStates state = new InspectorWorkProtocol().getCurrentState();
+
         if(state == ProtocolStates.FREECHAT) {
             currentInspector = inspectorNumber;
         }
@@ -77,8 +78,8 @@ public class Inspector{
 
                     ProtocolStates state = new InspectorWorkProtocol().getCurrentState();
 
-                    //  disable only when in "Inspector chat" mode
                     if(currentInspector == inspectorNumber) {
+                        //  disable only when in "Inspector chat" mode
                         if(state == ProtocolStates.INSPECTORCHAT) {
                             chatWindowFactory.disable(true);
                         }else {
@@ -86,6 +87,7 @@ public class Inspector{
                             currentInspector = 0;
                         }
                     }
+
                     // print msg to all text areas
                     chatWindowFactory.writeToTextArea(serverOutput);
                 } catch (IOException e) {
