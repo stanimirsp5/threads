@@ -1,4 +1,4 @@
-package ExamWorkshop.InspectorsOnBridge.Gui;
+package ExamWorkshop.exercises;
 
 import javafx.animation.PathTransition;
 import javafx.animation.TranslateTransition;

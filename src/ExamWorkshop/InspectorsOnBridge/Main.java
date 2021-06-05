@@ -6,18 +6,8 @@ import ExamWorkshop.InspectorsOnBridge.Bridge.Direction;
 import ExamWorkshop.InspectorsOnBridge.Bridge.StateContainer;
 import ExamWorkshop.InspectorsOnBridge.Chat.Inspector;
 import ExamWorkshop.InspectorsOnBridge.Chat.Server;
-import ExamWorkshop.InspectorsOnBridge.Gui.BridgeGui;
-import ExamWorkshop.InspectorsOnBridge.Gui.CarGui;
-import ExamWorkshop.InspectorsOnBridge.Gui.ChatWindowFactory;
 import ExamWorkshop.InspectorsOnBridge.Gui.MainGui;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-
-import java.security.cert.PolicyNode;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -62,5 +52,8 @@ public class Main{
             Inspector inspector = new Inspector(i+1);
             new Thread(inspector::createInspector).start();
         }
+
+//        Inspector inspector = new Inspector(1);
+//        new Thread(inspector::createInspector).start();
     }
 }
