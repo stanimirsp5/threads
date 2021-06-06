@@ -3,8 +3,8 @@ package ExamWorkshop.InspectorsOnBridge.Chat;
 import ExamWorkshop.InspectorsOnBridge.Bridge.StateContainer;
 
 public class InspectorWorkProtocol {
-   public static ProtocolStates currentState = ProtocolStates.FREECHAT;
-    // Getter
+    public static ProtocolStates currentState = ProtocolStates.FREECHAT;
+
     public ProtocolStates getCurrentState() {
         return currentState;
     }
@@ -58,8 +58,6 @@ public class InspectorWorkProtocol {
                         "Try again.";
             }
         }
-
-
 
         return workerName + ": "+ message;
     }

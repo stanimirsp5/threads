@@ -39,35 +39,35 @@ public class Hello_World extends Application{
         btn1.setLayoutY(250);
 
         Pane root = new Pane();
-        //composeBridge(root);
+        composeBridge(root);
 
         //root.getChildren().addAll(addButtons()[0],addButtons()[1]);
         root.getChildren().add(btn1);
         //root.getChildren().add(stack);
 
-        createChatWindow(primaryStage);
+        //createChatWindow(primaryStage);
 
 
-//        CarFactory carFactory = new CarFactory(root,1);
-//        StackPane carStack = carFactory.createCar(0,0);
-//        carFactory.run();
-//
-//        CarFactory carFactory2 = new CarFactory(root,2);
-//        carFactory2.createCar(40,0);
-//        carFactory2.run();
+        CarFactory carFactory = new CarFactory(root,1);
+        StackPane carStack = carFactory.createCar(0,0);
+        carFactory.run();
 
-//        btn1.setOnAction(new EventHandler<ActionEvent>() {
-//
-//            @Override
-//            public void handle(ActionEvent arg0) {
-//                //leftCarAnimation(stack);
-//                //runCar();
-//                hideCar = !hideCar;
-//                System.out.println("hide");
-//                carStack.setVisible(hideCar);
-//
-//            }
-//        });
+        CarFactory carFactory2 = new CarFactory(root,2);
+        carFactory2.createCar(40,0);
+        carFactory2.run();
+
+        btn1.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent arg0) {
+                //leftCarAnimation(stack);
+                //runCar();
+                hideCar = !hideCar;
+                System.out.println("hide");
+                carStack.setVisible(hideCar);
+
+            }
+        });
 
         Scene scene=new Scene(root, 1200,800); //x,y layout needs to be added to a scene. Scene remains at the higher level in the hierarchy of application structure
         primaryStage.setScene(scene);
@@ -204,11 +204,11 @@ public class Hello_World extends Application{
     public void leftCarAnimation2(StackPane rect, int positionNumber){
         MoveTo moveto = new MoveTo(0, 450);
 
-        LineTo line1 = new LineTo(400  -positionNumber, 450);
+        LineTo line1 = new LineTo(400 -positionNumber, 450);
         LineTo line2 = new LineTo(400  -positionNumber, 350);
         LineTo line3 = new LineTo(800  -positionNumber, 350);
-        LineTo line4 = new LineTo(800  -positionNumber, 450);
-        LineTo line5 = new LineTo(1100 , 450);
+        LineTo line4 = new LineTo(800  -(positionNumber), 450);
+        LineTo line5 = new LineTo(1100 -positionNumber, 450);
 
 
         // create a Path
@@ -220,7 +220,7 @@ public class Hello_World extends Application{
         PathTransition pathTransition;
 
         pathTransition = new PathTransition();
-        pathTransition.setDuration(Duration.millis(10000));
+        pathTransition.setDuration(Duration.millis(5000));
         pathTransition.setNode(car);
         pathTransition.setPath(path);
         pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);

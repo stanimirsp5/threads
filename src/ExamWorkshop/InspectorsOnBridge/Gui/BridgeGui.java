@@ -1,11 +1,7 @@
 package ExamWorkshop.InspectorsOnBridge.Gui;
 
-import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
-import javafx.stage.Stage;
 
 public class BridgeGui{
 

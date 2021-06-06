@@ -13,7 +13,7 @@ import java.util.concurrent.Executors;
 
 public class Main{
 
-    public static final int NUM_CARS = 40;
+    public static final int NUM_CARS = 100;
     public static final int NUM_THREADS = 2;
     public static final int NUM_INSPECTORS  = 2;
     public static void main(String[] args) throws InterruptedException {
@@ -29,6 +29,7 @@ public class Main{
 
         ExecutorService pool = Executors.newFixedThreadPool(NUM_THREADS);
         Car[] cars = new Car[NUM_CARS];
+
         for (int i = 0; i < NUM_CARS; i++) {
             Direction direction = i % 2 == 0 ? Direction.Left : Direction.Right;
             cars[i] = new Car(bridge, "Car " + i, direction, i);

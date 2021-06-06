@@ -2,13 +2,7 @@ package ExamWorkshop.InspectorsOnBridge.Gui;
 
 import ExamWorkshop.InspectorsOnBridge.Bridge.Direction;
 import javafx.animation.PathTransition;
-import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.LineTo;
@@ -16,7 +10,6 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class CarGui {
@@ -29,7 +22,7 @@ public class CarGui {
     public CarGui(Direction direction, String name, int positionNumber) {
         this.direction = direction;
         this.name = name;
-        this.positionNumber = positionNumber * 20; // prevent car collision
+        this.positionNumber = (positionNumber % 10) * 20 ; // prevent car collision
     }
     public StackPane initCar(){
         int carPositionX= 0;
@@ -62,7 +55,7 @@ public class CarGui {
         );
 
         if (direction == Direction.Left) {
-            leftCarAnimation(stack);
+            leftCarAnimation(stack,carPositionX);
         } else {
             rightCarAnimation(stack);
         }
@@ -75,7 +68,7 @@ public class CarGui {
     }
 
     public void hideCar(){
-        stack.setVisible(false);
+        //stack.setVisible(false);
     }
 
     private void rightCarAnimation(StackPane car){
@@ -93,8 +86,9 @@ public class CarGui {
         drawPath(path,car);
     }
 
-    private void leftCarAnimation(StackPane car){
-        MoveTo moveto = new MoveTo(positionNumber/20, 0);
+    private void leftCarAnimation(StackPane car, int carPositionX){
+        MoveTo moveto = new MoveTo(0, 0);
+        //MoveTo moveto = new MoveTo(positionNumber/20, 0);
 
         LineTo line1 = new LineTo(250 + positionNumber, 0);
         LineTo line2 = new LineTo(250 + positionNumber, -100);
@@ -110,13 +104,10 @@ public class CarGui {
 
     private void drawPath(Path path,StackPane car){
         pathTransition = new PathTransition();
-        pathTransition.setDuration(Duration.millis(7000));
+        pathTransition.setDuration(Duration.millis(1000));
         pathTransition.setNode(car);
         pathTransition.setPath(path);
         pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
-        //pathTransition.setOnFinished();
-//        pathTransition.setCycleCount(10);
-//        pathTransition.setAutoReverse(true);
     }
 
 }

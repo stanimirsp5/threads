@@ -1,12 +1,7 @@
 package ExamWorkshop.InspectorsOnBridge.Bridge;
 
-import ExamWorkshop.InspectorsOnBridge.Chat.ProtocolStates;
 import ExamWorkshop.InspectorsOnBridge.Gui.BridgeGui;
 import ExamWorkshop.InspectorsOnBridge.Gui.CarGui;
-import ExamWorkshop.InspectorsOnBridge.Gui.MainGui;
-
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
 
 public class Bridge implements Observable{
     public static final int MAX_CARS_ON_BRIDGE = 3;
@@ -81,12 +76,4 @@ public class Bridge implements Observable{
         this.isBridgeClosed = isBridgeClosed;
 
     }
-
-//    public void closeBridge(){
-//        System.out.println("closeBridge: "  + isBridgeClosed);
-//        CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS).execute(() -> {
-//            isBridgeClosed = !isBridgeClosed;
-//        });
-//    }
-
 }
