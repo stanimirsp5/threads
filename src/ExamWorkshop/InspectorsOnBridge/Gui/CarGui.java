@@ -103,7 +103,7 @@ public class CarGui {
 
     private void drawPath(Path path,StackPane car){
         pathTransition = new PathTransition();
-        pathTransition.setDuration(Duration.millis(1000));
+        pathTransition.setDuration(Duration.millis(5000));
         pathTransition.setNode(car);
         pathTransition.setPath(path);
         pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);

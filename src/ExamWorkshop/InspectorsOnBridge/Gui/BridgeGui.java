@@ -23,7 +23,7 @@ public class BridgeGui{
         Line part4Down = new Line(450,400,450,500); // w - 100
         Line part5Down = new Line(450,500,200,500); // w - 250
 
-        //addToRoot(part1,part2,part3,part4,part5,part1Down,part2Down,part3Down,part4Down,part5Down);
+        //UI can be updated only from JavaFX Application Thread
         // make UI changes on UI thread - https://stackoverflow.com/questions/35382501/java-lang-illegalstateexception-not-on-fx-application-thread-calling-function
         Platform.runLater(() -> MainGui.root.getChildren().addAll(part1, part2, part3, part4, part5, part1Down, part2Down, part3Down, part4Down, part5Down));
     }
