@@ -14,11 +14,12 @@ import java.util.concurrent.Executors;
 public class Main{
 
     public static final int NUM_CARS = 100;
-    public static final int NUM_THREADS = 2;
+    public static final int NUM_THREADS = 10;
     public static final int NUM_INSPECTORS  = 2;
     public static void main(String[] args) throws InterruptedException {
 
-        new Thread(() -> Application.launch(MainGui.class, args)).start();
+
+        new Thread(() -> Application.launch(MainGui.class, args)).start(); //run on separate thread https://stackoverflow.com/questions/44398611/running-a-process-in-a-separate-thread-so-rest-of-java-fx-application-is-usable
         Thread.sleep(2000);
 
         Bridge bridge = new Bridge();

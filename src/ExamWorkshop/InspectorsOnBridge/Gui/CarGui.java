@@ -68,7 +68,7 @@ public class CarGui {
     }
 
     public void hideCar(){
-        //stack.setVisible(false);
+        stack.setVisible(false);
     }
 
     private void rightCarAnimation(StackPane car){
@@ -88,7 +88,6 @@ public class CarGui {
 
     private void leftCarAnimation(StackPane car, int carPositionX){
         MoveTo moveto = new MoveTo(0, 0);
-        //MoveTo moveto = new MoveTo(positionNumber/20, 0);
 
         LineTo line1 = new LineTo(250 + positionNumber, 0);
         LineTo line2 = new LineTo(250 + positionNumber, -100);
