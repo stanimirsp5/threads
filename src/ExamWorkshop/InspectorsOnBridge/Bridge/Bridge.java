@@ -29,7 +29,7 @@ public class Bridge implements Observable{
 
             try {
                 wait();
-                if (bridgeDirection == Direction.None) bridgeDirection = carDirection;
+                 if (bridgeDirection == Direction.None) bridgeDirection = carDirection; // when there aren't cars on the bridge direction is none. When car is notified it sets bridge direction
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

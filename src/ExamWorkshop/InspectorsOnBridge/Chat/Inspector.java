@@ -34,14 +34,14 @@ public class Inspector{
             serverInput = new BufferedReader(new InputStreamReader(client.getInputStream()));
 
 
-            new ClientListener().start();
+            new ClientListener(this).start();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void send(String msg){
+    public void send(String msg){ // called from ChatWindowFactory by pressing the send button
         msg = "Inspector #" + inspectorNumber + "|" + msg;
 
         ProtocolStates state = new InspectorWorkProtocol().getCurrentState();
@@ -53,36 +53,47 @@ public class Inspector{
     }
 
     // thread that listen and reads constantly response from server
-    class ClientListener extends Thread{
+    static class ClientListener extends Thread {
+
+        private final Inspector inspector;
+
+        public ClientListener(Inspector inspector) {
+            this.inspector = inspector;
+        }
 
         @Override
         public void run() {
-            while (true){
+            while (true) {
                 try {
-                    String serverOutput = serverInput.readLine();
+                    String serverOutput = inspector.serverInput.readLine();
+
                     try {
                         Thread.sleep(400);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
 
-                    ProtocolStates state = new InspectorWorkProtocol().getCurrentState();
-
-                    if(currentInspector == inspectorNumber) {
-                        //  disable only when in "Inspector chat" mode
-                        if(state == ProtocolStates.INSPECTORCHAT) {
-                            chatWindowFactory.disable(true);
-                        }else {
-                            chatWindowFactory.disable(false);
-                            currentInspector = 0;
-                        }
-                    }
+                    disableChatWindow(inspector);
 
                     // print msg to all text areas
-                    chatWindowFactory.writeToTextArea(serverOutput);
+                    inspector.chatWindowFactory.writeToTextArea(serverOutput);
 
                 } catch (IOException e) {
                     e.printStackTrace();
+                }
+            }
+        }
+
+        private void disableChatWindow(Inspector inspector){
+            ProtocolStates state = new InspectorWorkProtocol().getCurrentState();
+
+            if (inspector.currentInspector == inspector.inspectorNumber) {
+                //  disable only when in "Inspector chat" mode
+                if (state == ProtocolStates.INSPECTORCHAT) {
+                    inspector.chatWindowFactory.disable(true);
+                } else {
+                    inspector.chatWindowFactory.disable(false);
+                    inspector.currentInspector = 0;
                 }
             }
         }

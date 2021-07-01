@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 public class ServerThread implements Runnable{
     Socket socket;
     ArrayList<ServerThread> threadsList;
-    public static InspectorWorkProtocol iwp;
+    public static InspectorWorkProtocol iwp; // remove static
 
     public ServerThread(Socket socket, ArrayList<ServerThread> threadsList) {
         this.socket = socket;
@@ -26,15 +26,16 @@ public class ServerThread implements Runnable{
         ){
 
             iwp = new InspectorWorkProtocol();
-            String msg = "";
+            String processedMessageByProtocol;
+
             while (true){
-                String inputLine = clientInput.readLine();
+                String inputLine = clientInput.readLine(); // readLine read bytes and convert them into characters
                 String inspectorNumber = inputLine.split(Pattern.quote("|"))[0];
                 String message = inputLine.split(Pattern.quote("|"))[1];
 
-                msg = iwp.processInput(message, inspectorNumber);
+                processedMessageByProtocol = iwp.processInput(message, inspectorNumber);
 
-                printToAllClients(msg);
+                printToAllClients(processedMessageByProtocol);
             }
 
         } catch (IOException e) {
@@ -47,7 +48,7 @@ public class ServerThread implements Runnable{
         for (ServerThread server: threadsList){
             // get stream from other clients
             try{
-                PrintWriter out = new PrintWriter(server.socket.getOutputStream(), true);
+                PrintWriter out = new PrintWriter(server.socket.getOutputStream(), true); // autoflush does not wait for buffer to fill.
                 out.println(outputString);
             } catch (IOException e) {
                 e.printStackTrace();

@@ -9,13 +9,14 @@ public class Server{
     public static final int PORT = 4444;
 
     public void runServer() {
-        // list to add all the clients thread
+        // list of all clients connections
         ArrayList<ServerThread> threadList = new ArrayList<>();
 
         try(
             ServerSocket serverSocket = new ServerSocket(PORT);
         ){
             while (true){
+                // listen for creation of new client
                 Socket socket = serverSocket.accept();
                 ServerThread serverThread = new ServerThread(socket, threadList);
                 threadList.add(serverThread);

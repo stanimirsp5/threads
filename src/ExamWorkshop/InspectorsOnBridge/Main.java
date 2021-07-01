@@ -22,8 +22,7 @@ public class Main{
         Thread.sleep(2000);
 
         Bridge bridge = new Bridge();
-        StateContainer.getInstance();
-        StateContainer.setBridge(bridge);
+        StateContainer.getInstance(bridge);
 
         initServerAndClients();
 
