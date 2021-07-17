@@ -4,7 +4,7 @@ import ExamWorkshop.InspectorsOnBridge.Gui.BridgeGui;
 import ExamWorkshop.InspectorsOnBridge.Gui.CarGui;
 
 public class Bridge implements Observable{
-    public static final int MAX_CARS_ON_BRIDGE = 5;
+    public static final int MAX_CARS_ON_BRIDGE = 4;
 
     Direction bridgeDirection = Direction.None;
     int carsOnBridge = 0;

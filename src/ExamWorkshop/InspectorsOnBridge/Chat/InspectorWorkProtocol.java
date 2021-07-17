@@ -36,8 +36,7 @@ public class InspectorWorkProtocol {
 
         else if(ProtocolStates.GIVENRESPONSE == currentState){
             if (userInput.equalsIgnoreCase("Stop cars")) {
-                message = "Cars are stopped. An inspection is carried out..."
-                        + "*Inspector chat mode OFF*";
+                message = "Cars are stopped. An inspection is carried out...";
                 //currentState = ProtocolStates.FREECHAT;
                 currentState = ProtocolStates.STOPCARMOVEMENT;
                 updateStateContainer();
