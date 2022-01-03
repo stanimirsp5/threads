@@ -15,6 +15,12 @@ public class Bridge implements Observable{
         bridgeGui.initBridge();
     }
 
+    /**
+     * <p>Add car into the <i>bridge</i></p>
+     * @param name
+     * @param carDirection
+     * @param carGui
+     */
     synchronized public void takeBridge(String name, Direction carDirection, CarGui carGui){
         if (bridgeDirection == Direction.None) bridgeDirection = carDirection; // set carDirection when bridge is empty
         while(bridgeDirection != carDirection ||
