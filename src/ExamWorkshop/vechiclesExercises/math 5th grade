@@ -1,0 +1,9 @@
+distance = velocity x time
+
+velocity = distance/time
+
+- m/s to k/h
+m * 3.6
+- k/h to m/s
+5/18 * k/h
+long way: x = 1000 * km / 3600
