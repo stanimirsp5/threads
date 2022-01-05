@@ -44,5 +44,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" exported="" name="lib1" level="project" />
+    <orderEntry type="library" name="libfx" level="project" />
   </component>
 </module>

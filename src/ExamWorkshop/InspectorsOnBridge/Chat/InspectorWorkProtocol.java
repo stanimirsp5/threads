@@ -2,6 +2,8 @@ package ExamWorkshop.InspectorsOnBridge.Chat;
 
 import ExamWorkshop.InspectorsOnBridge.Bridge.StateContainer;
 
+import JavaWeb.Sockets.examples.Bridge.Bridge;
+
 public class InspectorWorkProtocol {
     public static ProtocolStates currentState = ProtocolStates.FREECHAT;
 
