@@ -11,9 +11,10 @@ public class StateContainer {
 
     private void StateContainer(){}
 
-    public static StateContainer getInstance(){
+    public static StateContainer getInstance(Bridge bridge){
         if(instance==null){
             instance = new StateContainer();
+            bridgeInstance = bridge;
         }
         return instance;
     }
@@ -22,9 +23,4 @@ public class StateContainer {
         boolean isClosed = currentState == ProtocolStates.STOPCARMOVEMENT;
         bridgeInstance.update(isClosed);
     }
-
-    public static void setBridge(Bridge bridge){
-        bridgeInstance = bridge;
-    }
-
 }

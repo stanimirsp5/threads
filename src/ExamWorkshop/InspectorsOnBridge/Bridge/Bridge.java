@@ -4,7 +4,7 @@ import ExamWorkshop.InspectorsOnBridge.Gui.BridgeGui;
 import ExamWorkshop.InspectorsOnBridge.Gui.CarGui;
 
 public class Bridge implements Observable{
-    public static final int MAX_CARS_ON_BRIDGE = 5;
+    public static final int MAX_CARS_ON_BRIDGE = 4;
 
     Direction bridgeDirection = Direction.None;
     int carsOnBridge = 0;
@@ -15,6 +15,12 @@ public class Bridge implements Observable{
         bridgeGui.initBridge();
     }
 
+    /**
+     * <p>Add car into the <i>bridge</i></p>
+     * @param name
+     * @param carDirection
+     * @param carGui
+     */
     synchronized public void takeBridge(String name, Direction carDirection, CarGui carGui){
         if (bridgeDirection == Direction.None) bridgeDirection = carDirection; // set carDirection when bridge is empty
         while(bridgeDirection != carDirection ||
@@ -29,7 +35,7 @@ public class Bridge implements Observable{
 
             try {
                 wait();
-                if (bridgeDirection == Direction.None) bridgeDirection = carDirection;
+                 if (bridgeDirection == Direction.None) bridgeDirection = carDirection; // when there aren't cars on the bridge direction is none. When car is notified it sets bridge direction
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

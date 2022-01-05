@@ -13,7 +13,7 @@ import java.util.concurrent.Executors;
 
 public class Main{
 
-    public static final int NUM_CARS = 100;
+    public static final int NUM_CARS = 50;
     public static final int NUM_THREADS = 10;
     public static final int NUM_INSPECTORS  = 2;
     public static void main(String[] args) throws InterruptedException {
@@ -22,8 +22,7 @@ public class Main{
         Thread.sleep(2000);
 
         Bridge bridge = new Bridge();
-        StateContainer.getInstance();
-        StateContainer.setBridge(bridge);
+        StateContainer.getInstance(bridge);
 
         initServerAndClients();
 
@@ -37,6 +36,7 @@ public class Main{
 
         for (int i = 0; i < NUM_CARS; i++) {
             pool.execute(cars[i]);
+           //new Thread(cars[i]).start();
         }
 
         pool.shutdown();
