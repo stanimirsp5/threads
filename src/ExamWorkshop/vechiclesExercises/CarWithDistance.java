@@ -16,6 +16,7 @@ class Car implements Runnable{
     private int velocity; // km/h
     private long time; // car travel time
     Stopwatch stopwatch;
+    private int ROAD_DISTANCE = 1000; // meters, bridge takes 60% from the road, other 20% are equally distributed
 
     public Car(int velocity){
         this.velocity = 1000 * velocity / 3600; // convert to m/s
