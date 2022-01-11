@@ -1,4 +1,4 @@
-package ExamWorkshop.vechiclesExercises;
+package ExamWorkshop.vechiclesExercises.Streams;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,6 +20,7 @@ class MyClient{
         Socket s=new Socket("localhost",6666); //  IP address or hostname of the Server and a port number
         //Use readers and writers so that it can write Unicode characters over the socket.
         PrintWriter out = new PrintWriter(s.getOutputStream(), true); //  gets the socket's output stream and opens a PrintWriter on it
+        //InputStreamReader decodes from byte streams to character streams
         BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream())); // gets the socket's input stream and opens a BufferedReader on it
         BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
         ){
@@ -27,7 +28,7 @@ class MyClient{
             // reads a line of information from the BufferedReader connected to the socket.
             // The readLine method waits until the server echoes the information back to client
             while ((userInput = stdIn.readLine()) != null) {
-                out.println(userInput);
+                out.println(userInput); // write to server
                 //When readline returns, client prints the information to the standard output.
                 System.out.println("echo: " + in.readLine());
             }

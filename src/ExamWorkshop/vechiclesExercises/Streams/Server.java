@@ -1,4 +1,4 @@
-package ExamWorkshop.vechiclesExercises;
+package ExamWorkshop.vechiclesExercises.Streams;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,10 +20,8 @@ class MyServer{
         try (
                 ServerSocket ss = new ServerSocket(portNumber);
                 Socket s = ss.accept();//establishes connection and waits for the client
-                PrintWriter out =
-                new PrintWriter(s.getOutputStream(), true);
-                BufferedReader in = new BufferedReader(
-                new InputStreamReader(s.getInputStream()));
+                PrintWriter out = new PrintWriter(s.getOutputStream(), true);
+                BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
         ) {
             String inputLine;
             while ((inputLine = in.readLine()) != null) {

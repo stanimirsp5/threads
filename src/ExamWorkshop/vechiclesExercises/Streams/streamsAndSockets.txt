@@ -1,0 +1,9 @@
+* Input stream
+    A program uses an input stream to *read data from a source*
+* Output stream
+    A program uses an output stream to *write data to a destination*
+
+Byte stream use FileInputStream and FileOutputStream, BufferedInputStream and BufferedOutputStream
+Character stream use FileReader and FileWriter, BufferedReader and BufferedWriter
+
+InputStreamReader decodes from byte streams to character streams
