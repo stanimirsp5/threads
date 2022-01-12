@@ -7,6 +7,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 
+/**
+ * Here server listen for user input and send it to all clients
+ */
 public class ServerThread extends Thread{
     public Socket socket;
     public ArrayList<Socket> clients;
@@ -20,18 +23,14 @@ public class ServerThread extends Thread{
     @Override
     public void run() {
         try(
-                //get input message from client
-                // get output message to client
-                PrintWriter out = new PrintWriter(socket.getOutputStream());
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
         ) {
             String fromClient = null;
             while ((fromClient = in.readLine()) != null){
-//                for (client : clients) {
-//                    client.inp
-//                }
-                out.println(fromClient);
+                for (Socket client : clients) {
+                    PrintWriter out = new PrintWriter(client.getOutputStream(), true);
+                    out.println(fromClient);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();

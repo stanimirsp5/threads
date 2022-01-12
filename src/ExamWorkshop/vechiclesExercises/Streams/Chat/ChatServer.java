@@ -7,21 +7,28 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class ChatServer {
-    public static final int PORT = 6666;
+    public static int port;
 
     public static void main(String[] args) throws IOException {
+        System.out.println("Enter server port:");
+        Scanner userInputSettings = new Scanner(System.in);
+        port = userInputSettings.nextInt();
+
         runServer();
     }
 
     public static void runServer() throws IOException {
         ArrayList<Socket> clients = new ArrayList<>();
 
-        ServerSocket ss = new ServerSocket(PORT);
+        ServerSocket ss = new ServerSocket(port);
         while (true){
             Socket s = ss.accept();
+            System.out.println("Connected client on port: " + port);
             clients.add(s);
+
             new ServerThread(s, clients).start();
         }
     }
