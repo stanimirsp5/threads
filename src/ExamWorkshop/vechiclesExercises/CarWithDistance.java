@@ -1,4 +1,8 @@
 package ExamWorkshop.vechiclesExercises;
+
+
+import ExamWorkshop.vechiclesExercises.Stopwatch.Stopwatch;
+
 import java.util.concurrent.TimeUnit;
 public class CarWithDistance {
 // how to connect road length and car travel
@@ -46,38 +50,5 @@ class Car implements Runnable{
             System.out.println("position : " +getPosition());
         }
         System.out.println(getCarTime());
-    }
-}
-
-class Stopwatch{
-    long start;
-    long end;
-
-    long pauseStart;
-    long pauseEnd;
-
-    public void start(){
-        start = System.nanoTime();
-    }
-
-    public void end(){
-        end = System.nanoTime();
-    }
-
-    public void pause(){
-        pauseStart = System.nanoTime();
-    }
-
-    public void resume(){
-        pauseEnd = System.nanoTime();
-    }
-
-    public long getTime(){
-        end();
-        long elapsedTime = end - start;
-        long elapsedPauseTime = pauseEnd - pauseStart;
-        pauseEnd -= elapsedPauseTime;
-        long time = TimeUnit.SECONDS.convert(elapsedTime, TimeUnit.NANOSECONDS);
-        return time;
     }
 }
