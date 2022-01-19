@@ -33,4 +33,12 @@ public class Stopwatch{
         long time = TimeUnit.SECONDS.convert(elapsedTime, TimeUnit.NANOSECONDS);
         return time;
     }
+    public long getTimeInSeconds(){
+        end();
+        long elapsedTime = end - start;
+        long elapsedPauseTime = pauseEnd - pauseStart;
+        pauseEnd -= elapsedPauseTime;
+        long time = TimeUnit.SECONDS.convert(elapsedTime, TimeUnit.NANOSECONDS);
+        return time;
+    }
 }
