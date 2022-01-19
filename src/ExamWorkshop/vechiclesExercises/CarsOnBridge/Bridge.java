@@ -3,13 +3,15 @@ package ExamWorkshop.vechiclesExercises.CarsOnBridge;
 // car 1 with direction from left to right - right
 // bridge is direction right
 // car2 is direction left (from right to left)
-public class Bridge {
+public class Bridge implements IBridge{
 
     public Direction direction;
     public boolean isBridgeClosed;
     public int carsOnTheBridge;
+    public int roadLength;
 
-    public Bridge(){
+    public Bridge(int roadLength){
+        this.roadLength = roadLength;
         direction = Direction.NONE;
         isBridgeClosed = false;
     }
