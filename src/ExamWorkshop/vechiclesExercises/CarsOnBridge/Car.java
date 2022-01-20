@@ -44,25 +44,23 @@ public class Car implements ICar,Runnable{
                 System.out.println("position : " +setPosition() + "m");
                 Thread.sleep(DRIVING_TIME);
             }
-            //System.out.println("position : " +getPosition() + "m");
 
             // gets on bridge
-//            bridge.takeBridge(this);
-//
-//            // travel on bridge
+            bridge.takeBridge(this);
+
+            // travel on bridge
             for (int i = 1; i <= 5; i++) {
                 System.out.printf("%s is travelling on bridge...\n", name);
                 System.out.println("position : " +setPosition()+ "m");
                 Thread.sleep(DRIVING_TIME);
             }
-//
-//            // leave bridge
-//            bridge.leaveBridge(this);
-//
-//            // finish road
-//                System.out.println("Leaving the road and reaching destination...");
-//                Thread.sleep(500);
-//                System.out.println("position : " +getPosition()+ "m");
+
+            // leave bridge
+            bridge.leaveBridge(this);
+
+            // finish road
+            System.out.println("Leaving the road and reaching destination...");
+            System.out.println("Final position : " +getPosition()+ "m");
 
         } catch (InterruptedException e) {
             e.printStackTrace();

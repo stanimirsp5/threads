@@ -1,8 +1,5 @@
 package ExamWorkshop.vechiclesExercises.CarsOnBridge;
-//  >......1>...........<2
-// car 1 with direction from left to right - right
-// bridge is direction right
-// car2 is direction left (from right to left)
+
 public class Bridge implements IBridge{
 
     public Direction direction;
@@ -17,12 +14,12 @@ public class Bridge implements IBridge{
     }
 
     public synchronized void takeBridge(Car car) throws InterruptedException {
-        // only cars at same direction can be on the bridge
-        // others wait
+
         while (direction.equals(Direction.LEFT) && car.direction.equals(Direction.RIGHT) ||
                 direction.equals(Direction.RIGHT) && car.direction.equals(Direction.LEFT) ||
             isBridgeClosed
         ){
+            System.out.println("Distance from bridge "+ car.getPosition());
             System.out.printf("%s %s is waiting \n", car.name,  direction.name() );
             wait();
         }
@@ -31,7 +28,7 @@ public class Bridge implements IBridge{
         }
         carsOnTheBridge++;
         System.out.printf("%s %s is on the bridge \n", car.name,  direction.name() );
-
+       // Thread.sleep(1000);
     }
 
     public synchronized void leaveBridge(Car car){
