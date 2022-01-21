@@ -9,7 +9,7 @@ public class Main {
 
         for(int i = 0; i < NUM_CARS; i++){
 
-            Car car = new Car(bridge,i);
+            Car car = new Car(bridge,i, i*2+40);
             new Thread(car).start();
         }
 

@@ -13,6 +13,20 @@ public class Bridge implements IBridge{
         isBridgeClosed = false;
     }
 
+    public void takeRoad(Car car) {
+
+        // VehicleType.FIRETRUCK VehicleType.CAR
+        // while(car.type == VehicleType.AMBULANCE){
+        //      takeBridge();
+        //     all other vehicles wait();
+        // }
+        //if (car.Position) > 400{
+        // takeBridge()
+        //}
+
+
+    }
+
     public synchronized void takeBridge(Car car) throws InterruptedException {
 
         while (direction.equals(Direction.LEFT) && car.direction.equals(Direction.RIGHT) ||

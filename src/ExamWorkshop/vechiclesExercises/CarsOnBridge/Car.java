@@ -4,11 +4,11 @@ public class Car implements ICar,Runnable{
     String name;
     Direction direction;
     Bridge bridge;
-    Integer velocity = 90;
+    Integer velocity;
 
     private double currentPosition = 0;
 
-    public Car(Bridge bridge, int consecutiveNumber){
+    public Car(Bridge bridge, int consecutiveNumber, int velocity){
 
         boolean isEven = consecutiveNumber % 2 == 0;
         String stringDirection = isEven ? "<-----     |" : "    ------>|";
