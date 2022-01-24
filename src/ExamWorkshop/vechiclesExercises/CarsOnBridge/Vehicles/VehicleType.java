@@ -1,4 +1,4 @@
-package ExamWorkshop.vechiclesExercises.CarsOnBridge;
+package ExamWorkshop.vechiclesExercises.CarsOnBridge.Vehicles;
 
 /**
  * CAR
@@ -10,3 +10,4 @@ public enum VehicleType {
     FIRETRUCK,
     AMBULANCE
 }
+

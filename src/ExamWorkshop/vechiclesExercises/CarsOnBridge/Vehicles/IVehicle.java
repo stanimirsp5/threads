@@ -1,6 +1,8 @@
-package ExamWorkshop.vechiclesExercises.CarsOnBridge;
+package ExamWorkshop.vechiclesExercises.CarsOnBridge.Vehicles;
 
-public interface ICar {
+import ExamWorkshop.vechiclesExercises.CarsOnBridge.Direction;
+
+public interface IVehicle {
 
     /**
      * Returns current position of car on the road in meters
@@ -16,4 +18,15 @@ public interface ICar {
      * @return distance in meters
      */
     double setPosition();
+
+    boolean isLeavingBridge();
+    void setLeavingBridge(boolean isLeavingBridge);
+
+    Direction getDirection();
+    void setDirectionn(Direction direction);
+
+    String getName();
+    void setName(String name);
+
+    VehicleType getType();
 }

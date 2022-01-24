@@ -1,9 +1,15 @@
 package ExamWorkshop.vechiclesExercises.CarsOnBridge;
 
+import ExamWorkshop.vechiclesExercises.CarsOnBridge.Vehicles.Vehicle;
+import ExamWorkshop.vechiclesExercises.CarsOnBridge.Vehicles.VehicleType;
+
 public class Bridge implements IBridge{
 
     public Direction direction;
     public boolean isBridgeClosed;
+    public boolean isAmbulanceOnBridge;
+    public Vehicle firetruckOnBridge;
+    public boolean hasOneCarWithFiretruck;
     public int carsOnTheBridge;
     public int roadLength;
 
@@ -13,46 +19,68 @@ public class Bridge implements IBridge{
         isBridgeClosed = false;
     }
 
-    public void takeRoad(Car car) {
+    public void takeRoad(Vehicle vehicle) throws InterruptedException {
 
-        // VehicleType.FIRETRUCK VehicleType.CAR
-        // while(car.type == VehicleType.AMBULANCE){
-        //      takeBridge();
-        //     all other vehicles wait();
-        // }
-        //if (car.Position) > 400{
-        // takeBridge()
-        //}
-
+        while(!vehicle.isLeavingBridge()){
+            if(vehicle.getType() == VehicleType.AMBULANCE){
+                isAmbulanceOnBridge = true;
+                takeBridge(vehicle);
+            }
+            else if(vehicle.getType() == VehicleType.FIRETRUCK){
+                firetruckOnBridge = vehicle;
+                takeBridge(vehicle);
+            }
+            else if(vehicle.getType() == VehicleType.CAR && !isAmbulanceOnBridge){
+                if(firetruckOnBridge != null) {
+                    takeBridge(vehicle);
+                }else if(!hasOneCarWithFiretruck && vehicle.getPosition() < 400) { // if firetruck on bridge allow only one car at same direction
+                    takeBridge(vehicle);
+                }
+            }
+            Thread.sleep(200);
+        }
 
     }
 
-    public synchronized void takeBridge(Car car) throws InterruptedException {
+    public synchronized void takeBridge(Vehicle vehicle) throws InterruptedException {
 
-        while (direction.equals(Direction.LEFT) && car.direction.equals(Direction.RIGHT) ||
-                direction.equals(Direction.RIGHT) && car.direction.equals(Direction.LEFT) ||
-            isBridgeClosed
+        while (direction.equals(Direction.LEFT) && vehicle.getDirection().equals(Direction.RIGHT) ||
+                direction.equals(Direction.RIGHT) && vehicle.getDirection().equals(Direction.LEFT)
         ){
-            System.out.println("Distance from bridge "+ car.getPosition());
-            System.out.printf("%s %s is waiting \n", car.name,  direction.name() );
+            if(isBridgeClosed){
+                wait();
+            }
+            if(vehicle.getType() == VehicleType.AMBULANCE){
+                continue;
+            }
+            if(vehicle.getType() == VehicleType.FIRETRUCK){
+                continue;
+            }
+//            if(isFiretruckOnBridge && vehicle.getPosition() > 400){
+//                hasOneCar = true;
+//                continue;
+//            }
+            System.out.println("Distance from bridge "+ vehicle.getPosition());
+            System.out.printf("%s %s is waiting \n", vehicle.getName(),  direction.name() );
             wait();
         }
         if(carsOnTheBridge == 0){
-            direction = car.direction;
+            direction = vehicle.getDirection();
         }
         carsOnTheBridge++;
-        System.out.printf("%s %s is on the bridge \n", car.name,  direction.name() );
+        System.out.printf("%s %s is on the bridge \n", vehicle.getName(),  direction.name() );
+        vehicle.setLeavingBridge(true);
        // Thread.sleep(1000);
     }
 
-    public synchronized void leaveBridge(Car car){
-        System.out.printf("%s %s left the bridge \n", car.name,  direction.name() );
+    public synchronized void leaveBridge(Vehicle vehicle){
+        System.out.printf("%s %s left the bridge \n", vehicle.getName(),  direction.name() );
         carsOnTheBridge--;
         if(carsOnTheBridge == 0){
             direction = Direction.NONE;
             notifyAll();
         }
-        System.out.println("position : " + car.getPosition());
+        System.out.println("position : " + vehicle.getPosition());
     }
 
 
