@@ -3,15 +3,19 @@ package ExamWorkshop.vechiclesExercises.CarsOnBridge.Vehicles;
 import ExamWorkshop.vechiclesExercises.CarsOnBridge.Bridge;
 import ExamWorkshop.vechiclesExercises.CarsOnBridge.Direction;
 
+import java.util.ArrayList;
+
 public abstract class Vehicle implements IVehicle,Runnable{
     String name;
-    Direction direction;
+    private Direction direction;
     Bridge bridge;
     Integer velocity;
     VehicleType vehicleType;
 
-    private Boolean isLeavingBridge;
-    private double currentPosition = 0;
+    private Boolean isLeavingBridge = false;
+    private double currentPosition = 300;
+    public static ArrayList<Ambulance> ambulances = new ArrayList<>();
+    public static ArrayList<Firetruck> firetrucks = new ArrayList<>();
 
     public Vehicle(Bridge bridge, int consecutiveNumber, int velocity , VehicleType vehicleType){
 
@@ -19,7 +23,11 @@ public abstract class Vehicle implements IVehicle,Runnable{
         String stringDirection = isEven ? "<-----     |" : "    ------>|";
 
         this.name = stringDirection + "Car "+ consecutiveNumber;
-        this.direction = isEven ? Direction.LEFT : Direction.RIGHT;
+        if (isEven) {
+            setDirection(Direction.LEFT);
+        } else {
+            setDirection(Direction.RIGHT);
+        }
         this.bridge = bridge;
         this.velocity = 1000 * velocity / 3600; // convert to m/s
         this.vehicleType = vehicleType;
@@ -45,7 +53,7 @@ public abstract class Vehicle implements IVehicle,Runnable{
     public Direction getDirection(){
         return direction;
     }
-    public void setDirectionn(Direction direction){
+    public void setDirection(Direction direction){
         this.direction = direction;
     }
     public String getName(){
@@ -58,10 +66,29 @@ public abstract class Vehicle implements IVehicle,Runnable{
       return vehicleType;
     }
 
-    @Override
+    public void leaveBridge(){
+        System.out.println("Not here");
+    }
+
+
+        @Override
     public void run() {
 
         try {
+
+            switch (getType()){
+                case AMBULANCE:
+                    ambulances.add((Ambulance) this);
+                    break;
+                case FIRETRUCK:
+                    firetrucks.add((Firetruck) this);
+                    break;
+            }
+
+            bridge.takeRoad(this);
+            Thread.sleep(1000);
+            bridge.leaveBridge(this);
+
             // travel on road
 //            int DRIVING_TIME = 500;
 //            for (int i = 1; i <= 5; i++) {
@@ -88,8 +115,6 @@ public abstract class Vehicle implements IVehicle,Runnable{
 //            System.out.println("Final position : " +getPosition()+ "m");
 
             // start new thread to measure speed
-             bridge.takeRoad(this);
-            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

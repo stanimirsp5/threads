@@ -1,83 +1,82 @@
 package ExamWorkshop.vechiclesExercises.CarsOnBridge;
 
-import ExamWorkshop.vechiclesExercises.CarsOnBridge.Vehicles.Vehicle;
-import ExamWorkshop.vechiclesExercises.CarsOnBridge.Vehicles.VehicleType;
+import ExamWorkshop.vechiclesExercises.CarsOnBridge.Vehicles.*;
 
 public class Bridge implements IBridge{
 
-    public Direction direction;
+    public Direction bridgeDirection;
     public boolean isBridgeClosed;
-    public boolean isAmbulanceOnBridge;
-    public Vehicle firetruckOnBridge;
-    public boolean hasOneCarWithFiretruck;
     public int carsOnTheBridge;
     public int roadLength;
 
     public Bridge(int roadLength){
         this.roadLength = roadLength;
-        direction = Direction.NONE;
+        bridgeDirection = Direction.NONE;
         isBridgeClosed = false;
     }
 
     public void takeRoad(Vehicle vehicle) throws InterruptedException {
+        if(vehicle.getType() == VehicleType.AMBULANCE){
+            takeBridge(vehicle);
+        }
+        else if(vehicle.getType() == VehicleType.FIRETRUCK){
+            takeBridge(vehicle);
+        }
 
         while(!vehicle.isLeavingBridge()){
-            if(vehicle.getType() == VehicleType.AMBULANCE){
-                isAmbulanceOnBridge = true;
-                takeBridge(vehicle);
-            }
-            else if(vehicle.getType() == VehicleType.FIRETRUCK){
-                firetruckOnBridge = vehicle;
-                takeBridge(vehicle);
-            }
-            else if(vehicle.getType() == VehicleType.CAR && !isAmbulanceOnBridge){
-                if(firetruckOnBridge != null) {
+
+             if(!Ambulance.hasAmbulance()){ // if no ambulance on bridge - OK
+                 Firetruck firetruck = Firetruck.getFiretruck();
+
+                 if(!Firetruck.hasFiretruck()) { // if no firetruck on bridge - OK
                     takeBridge(vehicle);
-                }else if(!hasOneCarWithFiretruck && vehicle.getPosition() < 400) { // if firetruck on bridge allow only one car at same direction
+                }
+                // and car is same direction as firetruck - OK
+                else if(!firetruck.hasCarWithFiretruck() && // if firetruck on bridge, but no other cars
+                      //  vehicle.getPosition() < 400 && // and car is less than 400m close to the bridge
+                        firetruck.getDirection() == vehicle.getDirection()
+                ) {
+                    firetruck.setHasCarWithFiretruck(true);
                     takeBridge(vehicle);
                 }
             }
-            Thread.sleep(200);
+            Thread.sleep(200); // car waits to get on the bridge
         }
 
     }
 
     public synchronized void takeBridge(Vehicle vehicle) throws InterruptedException {
 
-        while (direction.equals(Direction.LEFT) && vehicle.getDirection().equals(Direction.RIGHT) ||
-                direction.equals(Direction.RIGHT) && vehicle.getDirection().equals(Direction.LEFT)
+        while (bridgeDirection.equals(Direction.LEFT) && vehicle.getDirection().equals(Direction.RIGHT) ||
+                bridgeDirection.equals(Direction.RIGHT) && vehicle.getDirection().equals(Direction.LEFT)
         ){
-            if(isBridgeClosed){
+            if(isBridgeClosed){ // if not ambulance
                 wait();
             }
-            if(vehicle.getType() == VehicleType.AMBULANCE){
-                continue;
-            }
-            if(vehicle.getType() == VehicleType.FIRETRUCK){
-                continue;
-            }
-//            if(isFiretruckOnBridge && vehicle.getPosition() > 400){
-//                hasOneCar = true;
-//                continue;
-//            }
+
             System.out.println("Distance from bridge "+ vehicle.getPosition());
-            System.out.printf("%s %s is waiting \n", vehicle.getName(),  direction.name() );
+            System.out.printf("%s %s is waiting \n", vehicle.getName(),  bridgeDirection.name() );
             wait();
         }
         if(carsOnTheBridge == 0){
-            direction = vehicle.getDirection();
+            bridgeDirection = vehicle.getDirection();
         }
         carsOnTheBridge++;
-        System.out.printf("%s %s is on the bridge \n", vehicle.getName(),  direction.name() );
-        vehicle.setLeavingBridge(true);
-       // Thread.sleep(1000);
+        System.out.printf("%s %s is on the bridge \n", vehicle.getName(),  bridgeDirection.name() );
+
+
+        vehicle.setLeavingBridge(true); // must be here for car to exit from while loop in takeRoad()
+        //Thread.sleep(1000);
+
     }
 
     public synchronized void leaveBridge(Vehicle vehicle){
-        System.out.printf("%s %s left the bridge \n", vehicle.getName(),  direction.name() );
+        // remove car from firetruck
+        vehicle.leaveBridge();
+        System.out.printf("%s %s left the bridge \n", vehicle.getName(),  bridgeDirection.name() );
         carsOnTheBridge--;
         if(carsOnTheBridge == 0){
-            direction = Direction.NONE;
+            bridgeDirection = Direction.NONE;
             notifyAll();
         }
         System.out.println("position : " + vehicle.getPosition());

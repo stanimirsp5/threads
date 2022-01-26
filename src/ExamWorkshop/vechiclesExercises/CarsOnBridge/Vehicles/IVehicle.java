@@ -23,10 +23,11 @@ public interface IVehicle {
     void setLeavingBridge(boolean isLeavingBridge);
 
     Direction getDirection();
-    void setDirectionn(Direction direction);
+    void setDirection(Direction direction);
 
     String getName();
     void setName(String name);
 
     VehicleType getType();
+    void leaveBridge();
 }

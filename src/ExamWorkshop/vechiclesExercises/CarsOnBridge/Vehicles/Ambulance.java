@@ -6,4 +6,18 @@ public class Ambulance extends Vehicle{
     public Ambulance(Bridge bridge, int consecutiveNumber, int velocity, VehicleType vehicleType) {
         super(bridge, consecutiveNumber, velocity, vehicleType);
     }
+
+    /**
+     * Check if there is ambulance on the bridge
+     * @return true if there are any or false if ain't
+     */
+    public static boolean hasAmbulance(){
+        return ambulances.size() > 0;
+    }
+    public static void getAmbulances(){}
+
+    @Override
+    public void leaveBridge(){
+        ambulances.remove(this);
+    }
 }
