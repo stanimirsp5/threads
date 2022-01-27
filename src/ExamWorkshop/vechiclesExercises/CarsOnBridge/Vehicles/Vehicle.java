@@ -6,7 +6,7 @@ import ExamWorkshop.vechiclesExercises.CarsOnBridge.Direction;
 import java.util.ArrayList;
 
 public abstract class Vehicle implements IVehicle,Runnable{
-    String name;
+    private String name;
     private Direction direction;
     Bridge bridge;
     Integer velocity;
