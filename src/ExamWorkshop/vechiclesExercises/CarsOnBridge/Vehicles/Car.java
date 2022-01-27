@@ -8,4 +8,5 @@ public class Car extends Vehicle{
     public Car(Bridge bridge, int consecutiveNumber, int velocity, VehicleType vehicleType) {
         super(bridge, consecutiveNumber, velocity, vehicleType);
     }
+
 }

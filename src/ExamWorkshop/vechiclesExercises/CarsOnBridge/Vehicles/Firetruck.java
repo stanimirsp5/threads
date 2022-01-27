@@ -25,7 +25,7 @@ public class Firetruck extends Vehicle{
 
     /**
      * Get firetruck on the bridge without car escorting it
-     * @return Vehicle.Firetruck
+     * @return Vehicle.Firetruck (Always returns firetruck. First if there is firetruck without car otherwise last firetruck in collection)
      */
     public static Firetruck getFiretruck(){
         for (Firetruck firetruck : firetrucks) {
@@ -33,7 +33,7 @@ public class Firetruck extends Vehicle{
                 return firetruck;
             }
         }
-        return null;
+        return firetrucks.get(firetrucks.size()-1); // return default
     }
 
     @Override

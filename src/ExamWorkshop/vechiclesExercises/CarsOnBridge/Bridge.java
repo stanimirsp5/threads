@@ -23,23 +23,24 @@ public class Bridge implements IBridge{
             takeBridge(vehicle);
         }
 
-        while(!vehicle.isLeavingBridge()){
+        while(true){
 
              if(!Ambulance.hasAmbulance()){ // if no ambulance on bridge - OK
-                 Firetruck firetruck = Firetruck.getFiretruck();
-
-                 if(!Firetruck.hasFiretruck()) { // if no firetruck on bridge - OK
+                if(!Firetruck.hasFiretruck()) { // if no firetruck on bridge - OK
                     takeBridge(vehicle);
                 }
-                // and car is same direction as firetruck - OK
-                else if(!firetruck.hasCarWithFiretruck() && // if firetruck on bridge, but no other cars
+                else if(!Firetruck.getFiretruck().hasCarWithFiretruck() && // if firetruck on bridge, but no other cars
                       //  vehicle.getPosition() < 400 && // and car is less than 400m close to the bridge
-                        firetruck.getDirection() == vehicle.getDirection()
+                         Firetruck.getFiretruck().getDirection() == vehicle.getDirection() // and car is same direction as firetruck - OK
                 ) {
+                    Firetruck firetruck = Firetruck.getFiretruck();
                     firetruck.setHasCarWithFiretruck(true);
+                    String addonName = String.format("s% ( s% )",vehicle.getName(), firetruck.getName());
+                    vehicle.setName(addonName);
                     takeBridge(vehicle);
                 }
             }
+            if(vehicle.isLeavingBridge()) break;
             Thread.sleep(200); // car waits to get on the bridge
         }
 

@@ -15,14 +15,14 @@ public abstract class Vehicle implements IVehicle,Runnable{
     private Boolean isLeavingBridge = false;
     private double currentPosition = 300;
     public static ArrayList<Ambulance> ambulances = new ArrayList<>();
-    public static ArrayList<Firetruck> firetrucks = new ArrayList<>();
+    public static ArrayList<Firetruck> firetrucks = new ArrayList<>(); // todo concurrency
 
     public Vehicle(Bridge bridge, int consecutiveNumber, int velocity , VehicleType vehicleType){
 
         boolean isEven = consecutiveNumber % 2 == 0;
         String stringDirection = isEven ? "<-----     |" : "    ------>|";
 
-        this.name = stringDirection + "Car "+ consecutiveNumber;
+        this.name = String.format("%s %s %d",stringDirection, vehicleType.name(), consecutiveNumber);
         if (isEven) {
             setDirection(Direction.LEFT);
         } else {
@@ -67,7 +67,7 @@ public abstract class Vehicle implements IVehicle,Runnable{
     }
 
     public void leaveBridge(){
-        System.out.println("Not here");
+       // System.out.println("Not here");
     }
 
 
