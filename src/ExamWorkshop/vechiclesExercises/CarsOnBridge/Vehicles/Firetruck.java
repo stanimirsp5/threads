@@ -1,6 +1,9 @@
 package ExamWorkshop.vechiclesExercises.CarsOnBridge.Vehicles;
 
 import ExamWorkshop.vechiclesExercises.CarsOnBridge.Bridge;
+import org.hamcrest.Factory;
+
+import java.lang.annotation.Documented;
 
 public class Firetruck extends Vehicle{
 
@@ -16,6 +19,7 @@ public class Firetruck extends Vehicle{
      * It must be synchronized so only one thread to access that info.
      * @return boolean
      */
+    @ThreadSafe
     public synchronized boolean hasCarWithFiretruck(){
         return car != null;
     }
@@ -39,6 +43,7 @@ public class Firetruck extends Vehicle{
      * Check if there is firetruck on the bridge
      * @return true if there are any or false if ain't
      */
+    @ThreadSafe
     public synchronized static boolean hasFiretruck(){
         return firetrucks.size() > 0;
     }
@@ -47,6 +52,7 @@ public class Firetruck extends Vehicle{
      * Get firetruck on the bridge without car escorting it
      * @return Vehicle.Firetruck (Always returns firetruck. First if there is firetruck without car otherwise last firetruck in collection)
      */
+    @ThreadSafe
     public synchronized static Firetruck getFiretruck(){
         for (Firetruck firetruck : firetrucks) {
             if(!firetruck.hasCarWithFiretruck()){
@@ -54,6 +60,12 @@ public class Firetruck extends Vehicle{
             }
         }
         return firetrucks.get(firetrucks.size()-1); // return default
+    }
+
+    @Override
+    public void vehicleOnBridge(){
+        firetrucks.add(this);
+        System.out.printf("%s is on the bridge \n", this.getName());
     }
 
     @Override

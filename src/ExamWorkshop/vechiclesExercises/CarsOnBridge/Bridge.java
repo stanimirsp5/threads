@@ -16,6 +16,7 @@ public class Bridge implements IBridge{
     }
 
     public void takeRoad(Vehicle vehicle) throws InterruptedException {
+
         if(vehicle.getType() == VehicleType.AMBULANCE){
             takeBridge(vehicle);
             return;
@@ -24,18 +25,18 @@ public class Bridge implements IBridge{
             takeBridge(vehicle);
             return;
         }
-        // TODO: all methods here to be thread safe
+
         while(true){
-             if(!Ambulance.hasAmbulance()){ // if no ambulance on bridge - OK
+            if(!Ambulance.hasAmbulance()){ // if no ambulance on bridge - OK
                 if(!Firetruck.hasFiretruck()) { // if no firetruck on bridge - OK
                     takeBridge(vehicle);
                     return;
                 }
-                else if(!Firetruck.getFiretruck().hasCarWithFiretruck() && // if firetruck on bridge, but no other cars
-                      //  vehicle.getPosition() < 400 && // and car is less than 400m close to the bridge
-                         Firetruck.getFiretruck().getDirection() == vehicle.getDirection() // and car is same direction as firetruck - OK
-                ) {
-                    synchronized (this) {
+                synchronized (this) {
+                    if(Firetruck.hasFiretruck() && !Firetruck.getFiretruck().hasCarWithFiretruck() && // if firetruck on bridge, but no other cars
+                          //  vehicle.getPosition() < 400 && // and car is less than 400m close to the bridge
+                             Firetruck.getFiretruck().getDirection() == vehicle.getDirection() // and car is same direction as firetruck - OK
+                    ) {
                         Firetruck firetruck = Firetruck.getFiretruck();
                         firetruck.addCarToFiretruck(vehicle);
                         takeBridge(vehicle);
@@ -44,7 +45,7 @@ public class Bridge implements IBridge{
                 }
             }
             //if(vehicle.isLeavingBridge()) break;
-            Thread.sleep(200); // car waits to get on the bridge
+            Thread.sleep(1000); // car waits to get on the bridge
         }
 
     }
@@ -62,16 +63,15 @@ public class Bridge implements IBridge{
             System.out.printf("%s is waiting \n", vehicle.getName());
             wait();
         }
+        vehicle.vehicleOnBridge();
+        if(vehicle.getType() == VehicleType.CAR){
+            System.out.printf("%s is on the bridge \n", vehicle.getName());
+
+        }
         if(carsOnTheBridge == 0){
             bridgeDirection = vehicle.getDirection();
         }
         carsOnTheBridge++;
-        System.out.printf("%s is on the bridge \n", vehicle.getName());
-
-
-        //vehicle.setLeavingBridge(true); // must be here for car to exit from while loop in takeRoad()
-        //Thread.sleep(1000);
-
     }
 
     public synchronized void leaveBridge(Vehicle vehicle){

@@ -11,10 +11,17 @@ public class Ambulance extends Vehicle{
      * Check if there is ambulance on the bridge
      * @return true if there are any or false if ain't
      */
-    public static boolean hasAmbulance(){
+    @ThreadSafe
+    public synchronized static boolean hasAmbulance(){
         return ambulances.size() > 0;
     }
     public static void getAmbulances(){}
+
+    @Override
+    public void vehicleOnBridge(){
+        ambulances.add(this);
+        System.out.printf("%s is on the bridge \n", this.getName());
+    }
 
     @Override
     public void leaveBridge(){

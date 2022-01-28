@@ -69,21 +69,23 @@ public abstract class Vehicle implements IVehicle,Runnable{
     public void leaveBridge(){
        // System.out.println("Not here");
     }
+    public void vehicleOnBridge(){
+        System.out.printf("%s is on the bridge \n", this.getName());
+    }
 
-
-        @Override
+    @Override
     public void run() {
 
         try {
 
-            switch (getType()){
-                case AMBULANCE:
-                    ambulances.add((Ambulance) this);
-                    break;
-                case FIRETRUCK:
-                    firetrucks.add((Firetruck) this);
-                    break;
-            }
+//            switch (getType()){
+//                case AMBULANCE:
+//                    ambulances.add((Ambulance) this);
+//                    break;
+//                case FIRETRUCK:
+//                    firetrucks.add((Firetruck) this);
+//                    break;
+//            }
 
             bridge.takeRoad(this);
             Thread.sleep(1000);

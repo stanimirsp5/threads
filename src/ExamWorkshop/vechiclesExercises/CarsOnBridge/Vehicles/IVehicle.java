@@ -1,7 +1,6 @@
 package ExamWorkshop.vechiclesExercises.CarsOnBridge.Vehicles;
 
 import ExamWorkshop.vechiclesExercises.CarsOnBridge.Direction;
-
 public interface IVehicle {
 
     /**
@@ -31,3 +30,4 @@ public interface IVehicle {
     VehicleType getType();
     void leaveBridge();
 }
+
