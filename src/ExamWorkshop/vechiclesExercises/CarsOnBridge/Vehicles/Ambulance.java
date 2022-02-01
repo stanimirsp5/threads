@@ -5,6 +5,7 @@ import ExamWorkshop.vechiclesExercises.CarsOnBridge.Bridge;
 public class Ambulance extends Vehicle{
     public Ambulance(Bridge bridge, int consecutiveNumber, int velocity, VehicleType vehicleType) {
         super(bridge, consecutiveNumber, velocity, vehicleType);
+
     }
 
     /**
@@ -15,7 +16,6 @@ public class Ambulance extends Vehicle{
     public synchronized static boolean hasAmbulance(){
         return ambulances.size() > 0;
     }
-    public static void getAmbulances(){}
 
     @Override
     public void vehicleOnBridge(){
@@ -26,5 +26,19 @@ public class Ambulance extends Vehicle{
     @Override
     public void leaveBridge(){
         ambulances.remove(this);
+    }
+
+    @Override
+    public void run() {
+        try {
+            Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+
+            bridge.takeRoad(this);
+            Thread.sleep(1000);
+            bridge.leaveBridge(this);
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

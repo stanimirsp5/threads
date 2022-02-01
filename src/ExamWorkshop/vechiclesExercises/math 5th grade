@@ -1,9 +1,34 @@
 distance = velocity x time
-
+time = distance/velocity
 velocity = distance/time
+
 
 - m/s to k/h
 m * 3.6
 - k/h to m/s
 5/18 * k/h
 long way: x = 1000 * km / 3600
+
+percentage formula - "Percentage" is the "result obtained by multiplying a quantity by a percent
+    - find percent
+percent = (Value/ Total value) * 100
+    - find percentage
+Value = (percent / 100) * Total value
+
+bridge distance - 1000m
+velocity - 50 km/h
+time (seconds) = meters(distance) / m/s (velocity in meters to seconds)
+
+
+t = 1(km)/ 50(km/h) = 0.02 hours
+0.02 * 60(minutes in hour) = 1.2 = 1 minute, 0.2 * 60 (sec) = 12 sec, = 1min 12sec
+t = 1000(m) / 13.88 (m/s) = 72 sec = 1min 12 sec
+
+t = 5000/ 13.88 = 360 sec / 60 = 6min
+360 % 0.7 = 2.5
+
+p = 2.5 / 360 * 100 = 0.7
+
+2.5 sec for vehicle
+
+

@@ -11,6 +11,7 @@ public abstract class Vehicle implements IVehicle,Runnable{
     Bridge bridge;
     Integer velocity;
     VehicleType vehicleType;
+    public RoadThread roadThread;
 
     private Boolean isLeavingBridge = false;
     private double currentPosition = 300;
@@ -77,15 +78,9 @@ public abstract class Vehicle implements IVehicle,Runnable{
     public void run() {
 
         try {
-
-//            switch (getType()){
-//                case AMBULANCE:
-//                    ambulances.add((Ambulance) this);
-//                    break;
-//                case FIRETRUCK:
-//                    firetrucks.add((Firetruck) this);
-//                    break;
-//            }
+            roadThread = new RoadThread(velocity, bridge.roadLength, this);
+            new Thread(roadThread).start();
+            //roadThread.start();
 
             bridge.takeRoad(this);
             Thread.sleep(1000);
