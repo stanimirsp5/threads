@@ -12,6 +12,7 @@ public abstract class Vehicle implements IVehicle,Runnable{
     Integer velocity;
     VehicleType vehicleType;
     public RoadThread roadThread;
+    public boolean isRoadWaiting;
 
     private Boolean isLeavingBridge = false;
     private double currentPosition = 300;
@@ -30,7 +31,7 @@ public abstract class Vehicle implements IVehicle,Runnable{
             setDirection(Direction.RIGHT);
         }
         this.bridge = bridge;
-        this.velocity = 1000 * velocity / 3600; // convert to m/s
+        this.velocity = velocity;//1000 * velocity / 3600; // convert to m/s
         this.vehicleType = vehicleType;
     }
 
@@ -66,7 +67,6 @@ public abstract class Vehicle implements IVehicle,Runnable{
     public VehicleType getType(){
       return vehicleType;
     }
-
     public void leaveBridge(){
        // System.out.println("Not here");
     }
@@ -74,44 +74,25 @@ public abstract class Vehicle implements IVehicle,Runnable{
         System.out.printf("%s is on the bridge \n", this.getName());
     }
 
+
     @Override
     public void run() {
+        Thread.currentThread().setName("Vehicle Thread: " + this.getName());
 
         try {
             roadThread = new RoadThread(velocity, bridge.roadLength, this);
             new Thread(roadThread).start();
-            //roadThread.start();
 
             bridge.takeRoad(this);
-            Thread.sleep(1000);
+            System.out.println(this.getName() + " wait to leave bridge");
+            while (true){
+                if(roadThread.isReadyToLeaveBridge()){
+                    break;
+                }
+                Thread.sleep(200);
+            }
             bridge.leaveBridge(this);
 
-            // travel on road
-//            int DRIVING_TIME = 500;
-//            for (int i = 1; i <= 5; i++) {
-//                System.out.println("Travelling on road..." +i);
-//                System.out.println("position : " +setPosition() + "m");
-//                Thread.sleep(DRIVING_TIME);
-//            }
-//
-//            // gets on bridge
-//            bridge.takeBridge(this);
-//
-//            // travel on bridge
-//            for (int i = 1; i <= 5; i++) {
-//                System.out.printf("%s is travelling on bridge...\n", name);
-//                System.out.println("position : " +setPosition()+ "m");
-//                Thread.sleep(DRIVING_TIME);
-//            }
-//
-//            // leave bridge
-//            bridge.leaveBridge(this);
-//
-//            // finish road
-//            System.out.println("Leaving the road and reaching destination...");
-//            System.out.println("Final position : " +getPosition()+ "m");
-
-            // start new thread to measure speed
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

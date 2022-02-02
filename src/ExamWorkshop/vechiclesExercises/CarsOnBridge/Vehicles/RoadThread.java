@@ -3,36 +3,40 @@ package ExamWorkshop.vechiclesExercises.CarsOnBridge.Vehicles;
 //public class RoadThread extends Thread{
 public class RoadThread implements Runnable{
 
-    private final int totalRoadLength; // total length road + bridge in meters
-    private final int roadLength; // road length in meters
-    private final int bridgeLength; //60% from total road length
+    private final double totalRoadLength; // total length road + bridge in meters
+    private final double roadLength; // road length in meters
+    private final double bridgeLength; //60% from total road length 60/100=0.6
     private Vehicle vehicle;
-    private final int velocity; // speed in meters per second
-    private final double totalTimeOnBridge;
+    private final double velocity; // speed in meters per second formula- 5/18 * km/h, 5/18 = 13.88
+    //private final double totalTimeOnBridge;
     private int vehiclePositionOnRoad;
+    public static boolean isWaiting;
+    public boolean isWaiting3;
 
-    public RoadThread(int velocity, int totalRoadLength, Vehicle vehicle){
-        this.velocity = (5/18) * velocity; // convert from km/h to m/s
+    public RoadThread(double velocity, double totalRoadLength, Vehicle vehicle){
+        this.velocity = 13.88 * velocity; // convert from km/h to m/s
         this.totalRoadLength = totalRoadLength;
-        this.bridgeLength = (60/100) * totalRoadLength;
+        this.bridgeLength = 0.6 * totalRoadLength;
         this.roadLength = totalRoadLength - bridgeLength;
 
         this.vehicle = vehicle;
-        totalTimeOnBridge = calculateOptimalDrivingTimeForVehicle();
+      //  totalTimeOnBridge = calculateOptimalDrivingTimeForVehicle();
     }
 
     /**
-     * Check if vehicle is 400m near to bridge
-     * @return true if 400 and less close to bridge and false if its too far from the bridge
+     * Check if vehicle is certain distance near to bridge
+     * @return true if is and false if it's too far from the bridge
      */
-    public boolean isCloseToBridge(){
-        return roadLength/2 - vehiclePositionOnRoad >= 400;
+    public boolean isCloseToBridge(int distanceToBridge){
+        return roadLength/2 - vehiclePositionOnRoad <= distanceToBridge;
     }
-
+    public boolean isReadyToLeaveBridge(){
+        System.out.printf("vehiclePositionOnRoad %d bridgeLength %f. Thread: %s, isRoadWaiting: %s\n",vehiclePositionOnRoad,bridgeLength, vehicle.getName(), vehicle.isRoadWaiting);
+        return vehiclePositionOnRoad >= bridgeLength;
+    }
     public int getPosition(){
         return vehiclePositionOnRoad;
     }
-
     public void setPosition(){
         vehiclePositionOnRoad+=100;
     }
@@ -44,7 +48,7 @@ public class RoadThread implements Runnable{
      * @return optimal driving time for vehicle
      */
     private double calculateOptimalDrivingTimeForVehicle(){
-        int timeInSeconds = totalRoadLength / velocity; // time in seconds
+        double timeInSeconds = totalRoadLength / velocity; // time in seconds
         double optimalTime = (0.7/100) * timeInSeconds;
         return optimalTime;
     }
@@ -58,33 +62,45 @@ public class RoadThread implements Runnable{
         }
     }
 
+    public synchronized void waitThread() throws InterruptedException {
+        vehicle.isRoadWaiting = true;
+        while (vehicle.isRoadWaiting){
+            Thread.sleep(100);
+        }
+    }
+
     @Override
     public void run(){
-        long singleTime = (long) (totalTimeOnBridge/6);
+        //long singleTime = (long) (totalTimeOnBridge/6);
+        Thread.currentThread().setName("Road Thread: " + vehicle.getName());
 
-        int halfRoad = roadLength/2;
-        while (vehiclePositionOnRoad == totalRoadLength){
-            try {
-                if(vehiclePositionOnRoad < halfRoad){ // on road
-                    setPosition();
-                }else if (vehiclePositionOnRoad == halfRoad){ // wait to get on bridge
-                    carSetPriority(6);
-                    wait();
-                    setPosition();
-                }else if(vehiclePositionOnRoad < bridgeLength){ // on the bridge
-                    carSetPriority(5);
-                    setPosition();
-                }else if(vehiclePositionOnRoad == bridgeLength){ // wait to leave the bridge
-                    carSetPriority(6);
-                    wait();
-                    setPosition();
-                }else { // leave bridge
-                    setPosition();
+        double halfRoad = roadLength/2;
+        //synchronized(this) { //  hold the lock for the current instance
+            while (vehiclePositionOnRoad <= totalRoadLength) {
+                try {
+                    if (vehiclePositionOnRoad < halfRoad) { // on road
+                        setPosition();
+                    } else if (vehiclePositionOnRoad == halfRoad) { // wait to get on bridge
+                        carSetPriority(6);
+                        waitThread();
+                        setPosition();
+                    } else if (vehiclePositionOnRoad < bridgeLength) { // on the bridge
+                        carSetPriority(5);
+                        setPosition();
+                    } else if (vehiclePositionOnRoad == bridgeLength) { // wait to leave the bridge
+                        carSetPriority(6);
+                        waitThread();
+                        setPosition();
+                    } else { // leave bridge
+                        setPosition();
+                    }
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+           // }
+                System.out.println("vehiclePositionOnRoad "+vehiclePositionOnRoad+" totalRoadLength "+totalRoadLength);
         }
+        System.out.println("Finished "+vehicle.getName());
     }
 }
