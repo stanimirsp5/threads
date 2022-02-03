@@ -15,7 +15,6 @@ public abstract class Vehicle implements IVehicle,Runnable{
     public boolean isRoadWaiting;
 
     private Boolean isLeavingBridge = false;
-    private double currentPosition = 300;
     public static ArrayList<Ambulance> ambulances = new ArrayList<>();
     public static ArrayList<Firetruck> firetrucks = new ArrayList<>(); // todo concurrency
 
@@ -33,18 +32,6 @@ public abstract class Vehicle implements IVehicle,Runnable{
         this.bridge = bridge;
         this.velocity = velocity;//1000 * velocity / 3600; // convert to m/s
         this.vehicleType = vehicleType;
-    }
-
-    public double getPosition(){
-        return currentPosition;
-    }
-    public double setPosition(){
-        int LOOP_ITERATIONS = 10;
-        int timeNeededToCoverDistance = (bridge.roadLength / velocity) / LOOP_ITERATIONS;
-
-        double distance = currentPosition + (timeNeededToCoverDistance * velocity);
-        currentPosition = distance;
-        return distance;
     }
     public boolean isLeavingBridge(){
         return isLeavingBridge;
@@ -71,7 +58,7 @@ public abstract class Vehicle implements IVehicle,Runnable{
        // System.out.println("Not here");
     }
     public void vehicleOnBridge(){
-        System.out.printf("%s is on the bridge \n", this.getName());
+        System.out.printf("%s is on the bridge. (%d m) \n", this.getName(), this.roadThread.getPosition());
     }
 
 
@@ -84,15 +71,15 @@ public abstract class Vehicle implements IVehicle,Runnable{
             new Thread(roadThread).start();
 
             bridge.takeRoad(this);
-            System.out.println(this.getName() + " wait to leave bridge");
-            while (true){
-                if(roadThread.isReadyToLeaveBridge()){
-                    break;
-                }
+            System.out.printf("%s travelling on the bridge. (%d m) \n",this.getName(), this.roadThread.getPosition());
+            while (!roadThread.isReadyToLeaveBridge() || !this.isRoadWaiting){
                 Thread.sleep(200);
             }
             bridge.leaveBridge(this);
-
+            while (!roadThread.hasLeftRoad()){
+                Thread.sleep(200);
+            }
+            bridge.leaveRoad(this);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

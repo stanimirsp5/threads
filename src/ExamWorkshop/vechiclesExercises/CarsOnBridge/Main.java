@@ -4,8 +4,8 @@ import ExamWorkshop.vechiclesExercises.CarsOnBridge.Vehicles.IVehicle;
 import ExamWorkshop.vechiclesExercises.CarsOnBridge.Vehicles.VehicleFactory;
 
 public class Main {
-    final static int NUM_CARS = 1;
-    final static int ROAD_LENGTH = 1000;
+    final static int NUM_CARS = 3;
+    final static int ROAD_LENGTH = 5000;
 
     public static void main(String[] args){
         Bridge bridge = new Bridge(ROAD_LENGTH);

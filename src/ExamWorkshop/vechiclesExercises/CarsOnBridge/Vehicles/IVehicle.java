@@ -7,7 +7,7 @@ public interface IVehicle {
      * Returns current position of car on the road in meters
      * @return current position
      */
-    double getPosition();
+    //double getPosition();
 
     /**
      * find needed time to cover road distance
@@ -16,7 +16,7 @@ public interface IVehicle {
      * program has 5 iterations in loop so 40/5 = 8s. If you drive with 90km/h (25m/s) you need 8s to cover 200m
      * @return distance in meters
      */
-    double setPosition();
+    //double setPosition();
 
     boolean isLeavingBridge();
     void setLeavingBridge(boolean isLeavingBridge);

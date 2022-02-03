@@ -31,8 +31,10 @@ public class RoadThread implements Runnable{
         return roadLength/2 - vehiclePositionOnRoad <= distanceToBridge;
     }
     public boolean isReadyToLeaveBridge(){
-        System.out.printf("vehiclePositionOnRoad %d bridgeLength %f. Thread: %s, isRoadWaiting: %s\n",vehiclePositionOnRoad,bridgeLength, vehicle.getName(), vehicle.isRoadWaiting);
         return vehiclePositionOnRoad >= bridgeLength;
+    }
+    public boolean hasLeftRoad(){
+        return vehiclePositionOnRoad >= totalRoadLength;
     }
     public int getPosition(){
         return vehiclePositionOnRoad;
@@ -76,7 +78,7 @@ public class RoadThread implements Runnable{
 
         double halfRoad = roadLength/2;
         //synchronized(this) { //  hold the lock for the current instance
-            while (vehiclePositionOnRoad <= totalRoadLength) {
+            while (vehiclePositionOnRoad < totalRoadLength) {
                 try {
                     if (vehiclePositionOnRoad < halfRoad) { // on road
                         setPosition();
@@ -91,7 +93,7 @@ public class RoadThread implements Runnable{
                         carSetPriority(6);
                         waitThread();
                         setPosition();
-                    } else { // leave bridge
+                    } else if (vehiclePositionOnRoad < totalRoadLength) { // leave bridge
                         setPosition();
                     }
                     Thread.sleep(100);
@@ -99,8 +101,6 @@ public class RoadThread implements Runnable{
                     e.printStackTrace();
                 }
            // }
-                System.out.println("vehiclePositionOnRoad "+vehiclePositionOnRoad+" totalRoadLength "+totalRoadLength);
         }
-        System.out.println("Finished "+vehicle.getName());
     }
 }

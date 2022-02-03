@@ -22,8 +22,7 @@ public class Bridge implements IBridge{
             vehicle.getType() == VehicleType.FIRETRUCK){
 
             while (true) {
-                if(vehicle.roadThread.isCloseToBridge(0)) {
-                    System.out.println("V "+ vehicle.getPosition());
+                if(vehicle.roadThread.isCloseToBridge(0) && vehicle.isRoadWaiting) {
                     takeBridge(vehicle);
                     return;
                 }
@@ -41,7 +40,7 @@ public class Bridge implements IBridge{
         while(true){
                 if (!Ambulance.hasAmbulance()) { // if no ambulance on bridge - OK
                     if (!Firetruck.hasFiretruck()) { // if no firetruck on bridge - OK
-                        if(vehicle.roadThread.isCloseToBridge(0)) {
+                        if(vehicle.roadThread.isCloseToBridge(0) && vehicle.isRoadWaiting) {
                             takeBridge(vehicle);
                             return;
                         }
@@ -52,7 +51,7 @@ public class Bridge implements IBridge{
                                 Firetruck.getFiretruck().getDirection() == vehicle.getDirection() // and car is same direction as firetruck - OK
                         ) {
                             while (true) {
-                                if(vehicle.roadThread.isCloseToBridge(0)) {
+                                if(vehicle.roadThread.isCloseToBridge(0) && vehicle.isRoadWaiting) {
                                     Firetruck firetruck = Firetruck.getFiretruck();
                                     firetruck.addCarToFiretruck(vehicle);
                                     takeBridge(vehicle);
@@ -79,9 +78,7 @@ public class Bridge implements IBridge{
 
             wait();
         }
-        System.out.println("before isRoadWaiting " + vehicle.isRoadWaiting);
         vehicle.isRoadWaiting = false;
-        System.out.println("after isRoadWaiting " + vehicle.isRoadWaiting);
 
         vehicle.vehicleOnBridge();
 
@@ -95,7 +92,7 @@ public class Bridge implements IBridge{
         if(isBridgeClosed){ // if not ambulance
             System.out.print("Bridge is closed by inspectors \n");
         }else if(vehicle.getDirection() != bridgeDirection){
-            System.out.printf("%s is waiting. Opposite direction. \n", vehicle.getName());
+            System.out.printf("%s is waiting. Opposite direction. (%d m) \n", vehicle.getName(), vehicle.roadThread.getPosition());
         }else if(carsOnTheBridge >= BRIDGE_CAPACITY){
             System.out.printf("%s is waiting. Bridge is full (%d/%d) \n", vehicle.getName(), carsOnTheBridge, BRIDGE_CAPACITY);
         }
@@ -105,12 +102,16 @@ public class Bridge implements IBridge{
 
         vehicle.isRoadWaiting = false;
         vehicle.leaveBridge();
-        System.out.printf("%s left the bridge \n", vehicle.getName());
+        System.out.printf("%s left the bridge. (%d m) \n", vehicle.getName(), vehicle.roadThread.getPosition());
         carsOnTheBridge--;
         if(carsOnTheBridge == 0){
             bridgeDirection = Direction.NONE;
             notifyAll();
         }
+    }
+
+    public synchronized void leaveRoad(Vehicle vehicle){
+        System.out.printf("%s left the road. (%d m) \n", vehicle.getName(), vehicle.roadThread.getPosition());
     }
 
 }

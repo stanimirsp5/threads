@@ -20,7 +20,7 @@ public class Ambulance extends Vehicle{
     @Override
     public void vehicleOnBridge(){
         ambulances.add(this);
-        System.out.printf("%s is on the bridge \n", this.getName());
+        System.out.printf("%s is on the bridge. (%d m) \n", this.getName(), this.roadThread.getPosition());
     }
 
     @Override
@@ -30,12 +30,23 @@ public class Ambulance extends Vehicle{
 
     @Override
     public void run() {
-        try {
-            Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+        Thread.currentThread().setName("Vehicle Thread: " + this.getName());
 
+        try {
+            roadThread = new RoadThread(velocity, bridge.roadLength, this);
+            new Thread(roadThread).start();
+
+            Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
             bridge.takeRoad(this);
-            Thread.sleep(1000);
+            System.out.printf("%s travelling on the bridge. (%d m) \n",this.getName(), this.roadThread.getPosition());
+            while (!roadThread.isReadyToLeaveBridge() || !this.isRoadWaiting) {
+                Thread.sleep(200);
+            }
             bridge.leaveBridge(this);
+            while (!roadThread.hasLeftRoad()){
+                Thread.sleep(200);
+            }
+            bridge.leaveRoad(this);
 
         } catch (InterruptedException e) {
             e.printStackTrace();

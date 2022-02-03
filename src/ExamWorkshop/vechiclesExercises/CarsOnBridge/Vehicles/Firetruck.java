@@ -65,7 +65,7 @@ public class Firetruck extends Vehicle{
     @Override
     public void vehicleOnBridge(){
         firetrucks.add(this);
-        System.out.printf("%s is on the bridge \n", this.getName());
+        System.out.printf("%s is on the bridge. (%d m) \n", this.getName(), this.roadThread.getPosition());
     }
 
     @Override
