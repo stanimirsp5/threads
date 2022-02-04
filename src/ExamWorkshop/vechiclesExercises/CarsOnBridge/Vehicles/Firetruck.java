@@ -1,13 +1,13 @@
 package ExamWorkshop.vechiclesExercises.CarsOnBridge.Vehicles;
 
 import ExamWorkshop.vechiclesExercises.CarsOnBridge.Bridge;
-import org.hamcrest.Factory;
 
-import java.lang.annotation.Documented;
+import java.util.ArrayList;
 
 public class Firetruck extends Vehicle{
 
     private Vehicle car;
+    public static ArrayList<Firetruck> firetrucks = new ArrayList<>();
 
     public Firetruck(Bridge bridge, int consecutiveNumber, int velocity, VehicleType vehicleType) {
         super(bridge, consecutiveNumber, velocity, vehicleType);
@@ -65,7 +65,7 @@ public class Firetruck extends Vehicle{
     @Override
     public void vehicleOnBridge(){
         firetrucks.add(this);
-        System.out.printf("%s is on the bridge. (%d m) \n", this.getName(), this.roadThread.getPosition());
+        System.out.printf("%s is on the bridge. (%d m) \n", this.getName(), this.movementThread.getPosition());
     }
 
     @Override

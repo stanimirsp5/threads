@@ -1,7 +1,6 @@
 package ExamWorkshop.vechiclesExercises.CarsOnBridge.Vehicles;
 
-//public class RoadThread extends Thread{
-public class RoadThread implements Runnable{
+public class MovementThread implements Runnable{
 
     private final double totalRoadLength; // total length road + bridge in meters
     private final double roadLength; // road length in meters
@@ -13,7 +12,7 @@ public class RoadThread implements Runnable{
     public static boolean isWaiting;
     public boolean isWaiting3;
 
-    public RoadThread(double velocity, double totalRoadLength, Vehicle vehicle){
+    public MovementThread(double velocity, double totalRoadLength, Vehicle vehicle){
         this.velocity = 13.88 * velocity; // convert from km/h to m/s
         this.totalRoadLength = totalRoadLength;
         this.bridgeLength = 0.6 * totalRoadLength;
@@ -57,27 +56,22 @@ public class RoadThread implements Runnable{
 
     private void carSetPriority(int priority){
         if(vehicle.getType() == VehicleType.CAR) {
-            Thread t = new Thread(vehicle);// todo what this doing?
-            String n = t.getName();
-            t.setPriority(priority);
-
+            vehicle.thread.setPriority(priority);
         }
     }
 
     public synchronized void waitThread() throws InterruptedException {
-        vehicle.isRoadWaiting = true;
-        while (vehicle.isRoadWaiting){
+        vehicle.isMovementPaused = true;
+        while (vehicle.isMovementPaused){
             Thread.sleep(100);
         }
     }
 
     @Override
     public void run(){
-        //long singleTime = (long) (totalTimeOnBridge/6);
         Thread.currentThread().setName("Road Thread: " + vehicle.getName());
 
         double halfRoad = roadLength/2;
-        //synchronized(this) { //  hold the lock for the current instance
             while (vehiclePositionOnRoad < totalRoadLength) {
                 try {
                     if (vehiclePositionOnRoad < halfRoad) { // on road
@@ -93,14 +87,13 @@ public class RoadThread implements Runnable{
                         carSetPriority(6);
                         waitThread();
                         setPosition();
-                    } else if (vehiclePositionOnRoad < totalRoadLength) { // leave bridge
+                    } else { // leave bridge
                         setPosition();
                     }
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-           // }
         }
     }
 }

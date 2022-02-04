@@ -15,9 +15,9 @@ public class VehicleFactory {
      */
     public static Vehicle createVehicle(Bridge bridge, int consecutiveNumber, int velocity){
 
-        if (consecutiveNumber % 5 == 0) {
+        if (consecutiveNumber % 3 == 0) {
             return new Firetruck(bridge, consecutiveNumber, velocity, VehicleType.FIRETRUCK);
-        }else if(consecutiveNumber % 7 == 0) {
+        }else if(consecutiveNumber % 5 == 0) {
             return new Ambulance(bridge, consecutiveNumber, velocity, VehicleType.AMBULANCE);
         }else{
             return new Car(bridge, consecutiveNumber, velocity, VehicleType.CAR);

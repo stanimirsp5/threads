@@ -11,12 +11,10 @@ public abstract class Vehicle implements IVehicle,Runnable{
     Bridge bridge;
     Integer velocity;
     VehicleType vehicleType;
-    public RoadThread roadThread;
-    public boolean isRoadWaiting;
-
+    public MovementThread movementThread;
+    public boolean isMovementPaused;
+    public Thread thread;
     private Boolean isLeavingBridge = false;
-    public static ArrayList<Ambulance> ambulances = new ArrayList<>();
-    public static ArrayList<Firetruck> firetrucks = new ArrayList<>(); // todo concurrency
 
     public Vehicle(Bridge bridge, int consecutiveNumber, int velocity , VehicleType vehicleType){
 
@@ -51,6 +49,9 @@ public abstract class Vehicle implements IVehicle,Runnable{
     public void setName(String name){
         this.name = name;
     }
+    public void setThread(Thread thread){
+        this.thread = thread;
+    }
     public VehicleType getType(){
       return vehicleType;
     }
@@ -58,25 +59,27 @@ public abstract class Vehicle implements IVehicle,Runnable{
        // System.out.println("Not here");
     }
     public void vehicleOnBridge(){
-        System.out.printf("%s is on the bridge. (%d m) \n", this.getName(), this.roadThread.getPosition());
+        System.out.printf("%s is on the bridge. (%d m) \n", this.getName(), this.movementThread.getPosition());
     }
 
 
     @Override
     public void run() {
+        this.setThread(Thread.currentThread());
         Thread.currentThread().setName("Vehicle Thread: " + this.getName());
+        if(this.getType() == VehicleType.AMBULANCE) Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
 
         try {
-            roadThread = new RoadThread(velocity, bridge.roadLength, this);
-            new Thread(roadThread).start();
+            movementThread = new MovementThread(velocity, bridge.roadLength, this);
+            new Thread(movementThread).start();
 
             bridge.takeRoad(this);
-            System.out.printf("%s travelling on the bridge. (%d m) \n",this.getName(), this.roadThread.getPosition());
-            while (!roadThread.isReadyToLeaveBridge() || !this.isRoadWaiting){
+            System.out.printf("%s travelling on the bridge. (%d m) \n",this.getName(), this.movementThread.getPosition());
+            while (!movementThread.isReadyToLeaveBridge() || !this.isMovementPaused){
                 Thread.sleep(200);
             }
             bridge.leaveBridge(this);
-            while (!roadThread.hasLeftRoad()){
+            while (!movementThread.hasLeftRoad()){
                 Thread.sleep(200);
             }
             bridge.leaveRoad(this);

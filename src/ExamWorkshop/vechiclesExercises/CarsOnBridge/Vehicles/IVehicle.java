@@ -29,5 +29,6 @@ public interface IVehicle {
 
     VehicleType getType();
     void leaveBridge();
+    void setThread(Thread myThread);
 }
 
