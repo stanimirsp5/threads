@@ -12,6 +12,7 @@ public abstract class Vehicle implements IVehicle,Runnable{
     Integer velocity;
     VehicleType vehicleType;
     public MovementThread movementThread;
+    // if movement is paused the car is ready to take next section of the road
     public boolean isMovementPaused;
     public Thread thread;
     private Boolean isLeavingBridge = false;
@@ -55,26 +56,23 @@ public abstract class Vehicle implements IVehicle,Runnable{
     public VehicleType getType(){
       return vehicleType;
     }
-    public void leaveBridge(){
-       // System.out.println("Not here");
+    public void leaveBridge() {
+        System.out.printf("%s left the bridge. (%d m) \n", this.getName(), this.movementThread.getPosition());
     }
-    public void vehicleOnBridge(){
-        System.out.printf("%s is on the bridge. (%d m) \n", this.getName(), this.movementThread.getPosition());
-    }
-
 
     @Override
     public void run() {
         this.setThread(Thread.currentThread());
         Thread.currentThread().setName("Vehicle Thread: " + this.getName());
-        if(this.getType() == VehicleType.AMBULANCE) Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+        //if(this.getType() == VehicleType.AMBULANCE) Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+        //System.out.printf("%s is on the road.\n", this.getName());
 
         try {
             movementThread = new MovementThread(velocity, bridge.roadLength, this);
             new Thread(movementThread).start();
 
             bridge.takeRoad(this);
-            System.out.printf("%s travelling on the bridge. (%d m) \n",this.getName(), this.movementThread.getPosition());
+            //System.out.printf("%s travelling on the bridge. (%d m)  has Amb %b \n",this.getName(), this.movementThread.getPosition(), Ambulance.hasAmbulance());
             while (!movementThread.isReadyToLeaveBridge() || !this.isMovementPaused){
                 Thread.sleep(200);
             }

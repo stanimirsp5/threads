@@ -7,19 +7,14 @@ public class MovementThread implements Runnable{
     private final double bridgeLength; //60% from total road length 60/100=0.6
     private Vehicle vehicle;
     private final double velocity; // speed in meters per second formula- 5/18 * km/h, 5/18 = 13.88
-    //private final double totalTimeOnBridge;
     private int vehiclePositionOnRoad;
-    public static boolean isWaiting;
-    public boolean isWaiting3;
 
     public MovementThread(double velocity, double totalRoadLength, Vehicle vehicle){
-        this.velocity = 13.88 * velocity; // convert from km/h to m/s
+        this.velocity = velocity; // convert from km/h to m/s
         this.totalRoadLength = totalRoadLength;
         this.bridgeLength = 0.6 * totalRoadLength;
         this.roadLength = totalRoadLength - bridgeLength;
-
         this.vehicle = vehicle;
-      //  totalTimeOnBridge = calculateOptimalDrivingTimeForVehicle();
     }
 
     /**
@@ -39,31 +34,17 @@ public class MovementThread implements Runnable{
         return vehiclePositionOnRoad;
     }
     public void setPosition(){
-        vehiclePositionOnRoad+=100;
+        vehiclePositionOnRoad+=velocity;
     }
-
-    /**
-     * Calculate how many seconds will take for vehicle to travel
-     * some distance. Because original time is too large and will take much more time
-     * for program to complete. Time is significantly reduced to 0.7% from the original answer.
-     * @return optimal driving time for vehicle
-     */
-    private double calculateOptimalDrivingTimeForVehicle(){
-        double timeInSeconds = totalRoadLength / velocity; // time in seconds
-        double optimalTime = (0.7/100) * timeInSeconds;
-        return optimalTime;
-    }
-
     private void carSetPriority(int priority){
         if(vehicle.getType() == VehicleType.CAR) {
             vehicle.thread.setPriority(priority);
         }
     }
-
     public synchronized void waitThread() throws InterruptedException {
         vehicle.isMovementPaused = true;
         while (vehicle.isMovementPaused){
-            Thread.sleep(100);
+            Thread.sleep(500);
         }
     }
 
@@ -78,6 +59,9 @@ public class MovementThread implements Runnable{
                         setPosition();
                     } else if (vehiclePositionOnRoad == halfRoad) { // wait to get on bridge
                         carSetPriority(6);
+                        // vehiclePositionOnRoad to bridge is 0 and vehicle is waiting - notify vehicle
+                        //
+                        // if ready to get on the bridge and
                         waitThread();
                         setPosition();
                     } else if (vehiclePositionOnRoad < bridgeLength) { // on the bridge
@@ -90,7 +74,7 @@ public class MovementThread implements Runnable{
                     } else { // leave bridge
                         setPosition();
                     }
-                    Thread.sleep(100);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

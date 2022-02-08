@@ -1,7 +1,6 @@
 package ExamWorkshop.vechiclesExercises.CarsOnBridge;
 
 import ExamWorkshop.vechiclesExercises.CarsOnBridge.Vehicles.*;
-import org.jetbrains.annotations.NotNull;
 
 public class Bridge implements IBridge{
 
@@ -9,7 +8,7 @@ public class Bridge implements IBridge{
     public boolean isBridgeClosed;
     public int carsOnTheBridge;
     public int roadLength;
-    public final int BRIDGE_CAPACITY = 3;
+    public final int BRIDGE_CAPACITY = 5;
 
     public Bridge(int roadLength){
         this.roadLength = roadLength;
@@ -18,67 +17,65 @@ public class Bridge implements IBridge{
     }
 
     public void takeRoad(Vehicle vehicle) throws InterruptedException {
-
-        if(vehicle.getType() == VehicleType.AMBULANCE ||
-            vehicle.getType() == VehicleType.FIRETRUCK){
-
-            while (true) {
-                if(vehicle.movementThread.isCloseToBridge(0) && vehicle.isMovementPaused) {
-                    takeBridge(vehicle);
-                    return;
-                }
-                Thread.sleep(100);
-            }
+        while(!vehicle.movementThread.isCloseToBridge(0) || // is far away from bridge - wait
+            !vehicle.isMovementPaused // movement is not paused - wait
+        ){
+            Thread.sleep(200);
         }
-
-        while(true){
-                if (!Ambulance.hasAmbulance()) { // if no ambulance on bridge - OK
-                    if (!Firetruck.hasFiretruck()) { // if no firetruck on bridge - OK
-                        if(vehicle.movementThread.isCloseToBridge(0) && vehicle.isMovementPaused) {
-                            takeBridge(vehicle);
-                            return;
-                        }
-                    }
-                    synchronized (this) {
-                        if (Firetruck.hasFiretruck() && !Firetruck.getFiretruck().hasCarWithFiretruck() && // if firetruck on bridge, but no other cars
-                                vehicle.movementThread.isCloseToBridge(400) && // and car is less than 400m close to the bridge
-                                Firetruck.getFiretruck().getDirection() == vehicle.getDirection() // and car is same direction as firetruck - OK
-                        ) {
-                            while (true) {
-                                if(vehicle.movementThread.isCloseToBridge(0) && vehicle.isMovementPaused) {
-                                    Firetruck firetruck = Firetruck.getFiretruck();
-                                    firetruck.addCarToFiretruck(vehicle);
-                                    takeBridge(vehicle);
-                                    return;
-                                }
-                                Thread.sleep(100);
-                            }
-                        }
-                    }
-                Thread.sleep(500); // car waits to get on the bridge
-            }
-        }
-
+        takeBridge(vehicle);
     }
 
     public synchronized void takeBridge(Vehicle vehicle) throws InterruptedException {
-
         while ((bridgeDirection != Direction.NONE &&
-                    bridgeDirection != vehicle.getDirection()) ||
-            carsOnTheBridge >= BRIDGE_CAPACITY
+                bridgeDirection != vehicle.getDirection()) || // vehicle is at different direction as other cars on bridge - wait
+                isCarWaitingToTakeBridge(vehicle) ||
+                isBridgeFull()
         ){
             printWaitingMessage(vehicle);
-
             wait();
         }
+        if(vehicle.getType() == VehicleType.AMBULANCE ||
+                vehicle.getType() == VehicleType.FIRETRUCK) {
+            ((ISpecialVehicle) vehicle).addSpecialVehicle();
+        }
         vehicle.isMovementPaused = false;
-
-        vehicle.vehicleOnBridge();
+        System.out.printf("%s is on the bridge. (%d m) \n", vehicle.getName(), vehicle.movementThread.getPosition());
 
         if(carsOnTheBridge == 0){
             bridgeDirection = vehicle.getDirection();
         }
         carsOnTheBridge++;
+    }
+
+    /**
+     * If ambulance on the bridge - car waits
+     * If firetruck with one car on the bridge - car waits
+     * If only firetruck but the car is more than 400 away from the bridge - car waits
+     * @param vehicle
+     * @return
+     */
+    private boolean isCarWaitingToTakeBridge(Vehicle vehicle){
+        if (vehicle.getType() != VehicleType.CAR) return false;
+        Car car = (Car)vehicle;
+        // if it has ambulance on bridge - Wait
+        if (Ambulance.hasAmbulance()) {
+            car.carWaitingMessage = String.format("%s is waiting. Ambulance is on the bridge.", car.getName());
+            return true;
+        }
+        // if it has firetruck on bridge, check if there is a car with firetruck
+        if (Firetruck.hasFiretruck()) { // check for firetruck
+            if (!Firetruck.getFiretruck().hasCarWithFiretruck() && // check for car
+                    car.movementThread.isCloseToBridge(400) // car is less than 400m close to the bridge
+            ) {
+                Firetruck firetruck = Firetruck.getFiretruck();
+                firetruck.addCarToFiretruck(car);
+                return false;
+            }else {
+                car.carWaitingMessage = String.format("%s is waiting. Firetruck with one car are on the bridge.", car.getName());
+                return true;
+            }
+        }
+        return false;
     }
 
     private void printWaitingMessage(Vehicle vehicle){
@@ -88,14 +85,19 @@ public class Bridge implements IBridge{
             System.out.printf("%s is waiting. Opposite direction. (%d m) \n", vehicle.getName(), vehicle.movementThread.getPosition());
         }else if(carsOnTheBridge >= BRIDGE_CAPACITY){
             System.out.printf("%s is waiting. Bridge is full (%d/%d) \n", vehicle.getName(), carsOnTheBridge, BRIDGE_CAPACITY);
+        }else if(vehicle.getType() == VehicleType.CAR){
+            Car car = (Car)vehicle;
+            System.out.println(car.carWaitingMessage);
         }
     }
 
-    public synchronized void leaveBridge(Vehicle vehicle){
+    private boolean isBridgeFull(){
+        return carsOnTheBridge >= BRIDGE_CAPACITY;
+    }
 
+    public synchronized void leaveBridge(Vehicle vehicle){
         vehicle.isMovementPaused = false;
         vehicle.leaveBridge();
-        System.out.printf("%s left the bridge. (%d m) \n", vehicle.getName(), vehicle.movementThread.getPosition());
         carsOnTheBridge--;
         if(carsOnTheBridge == 0){
             bridgeDirection = Direction.NONE;
@@ -104,7 +106,7 @@ public class Bridge implements IBridge{
     }
 
     public synchronized void leaveRoad(Vehicle vehicle){
-        System.out.printf("%s left the road. (%d m) \n", vehicle.getName(), vehicle.movementThread.getPosition());
+       // System.out.printf("%s left the road. (%d m) \n", vehicle.getName(), vehicle.movementThread.getPosition());
     }
 
 }

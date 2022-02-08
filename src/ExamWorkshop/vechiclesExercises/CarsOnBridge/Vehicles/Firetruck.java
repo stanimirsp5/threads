@@ -4,7 +4,7 @@ import ExamWorkshop.vechiclesExercises.CarsOnBridge.Bridge;
 
 import java.util.ArrayList;
 
-public class Firetruck extends Vehicle{
+public class Firetruck extends Vehicle implements ISpecialVehicle{
 
     private Vehicle car;
     public static ArrayList<Firetruck> firetrucks = new ArrayList<>();
@@ -59,17 +59,17 @@ public class Firetruck extends Vehicle{
                 return firetruck;
             }
         }
-        return firetrucks.get(firetrucks.size()-1); // return default
+        return firetrucks.get(firetrucks.size()-1);
     }
 
     @Override
-    public void vehicleOnBridge(){
+    public void addSpecialVehicle(){
         firetrucks.add(this);
-        System.out.printf("%s is on the bridge. (%d m) \n", this.getName(), this.movementThread.getPosition());
     }
 
     @Override
     public void leaveBridge(){
+        System.out.printf("%s left the bridge. (%d m) \n", this.getName(), this.movementThread.getPosition());
         removeCarFromFiretruck();
         firetrucks.remove(this);
     }
