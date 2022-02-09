@@ -9,11 +9,13 @@ import java.util.ArrayList;
 
 public class ServerThread implements Runnable{
     public Socket socket;
+    public InspectorProtocol protocol;
     public ArrayList<Socket> clients;
 
     public ServerThread(Socket socket, ArrayList<Socket> clients){
         this.socket = socket;
         this.clients = clients;
+        protocol = new InspectorProtocol();
 
     }
 
@@ -23,12 +25,11 @@ public class ServerThread implements Runnable{
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         ) {
             String fromClient;
-            InspectorProtocol protocol = new InspectorProtocol();
+
 
             while ((fromClient = in.readLine()) != null){
                String message = protocol.processInput(fromClient);
                 for(Socket client : clients){
-                    //if(client == socket) continue;
                     PrintWriter out = new PrintWriter(client.getOutputStream(), true);
                     out.println(message);
                 }

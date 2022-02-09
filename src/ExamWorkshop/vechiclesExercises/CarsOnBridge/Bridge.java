@@ -5,7 +5,7 @@ import ExamWorkshop.vechiclesExercises.CarsOnBridge.Vehicles.*;
 public class Bridge implements IBridge{
 
     public Direction bridgeDirection;
-    public boolean isBridgeClosed;
+    public static boolean isBridgeClosed;
     public int carsOnTheBridge;
     public int roadLength;
     public final int BRIDGE_CAPACITY = 5;
@@ -29,7 +29,8 @@ public class Bridge implements IBridge{
         while ((bridgeDirection != Direction.NONE &&
                 bridgeDirection != vehicle.getDirection()) || // vehicle is at different direction as other cars on bridge - wait
                 isCarWaitingToTakeBridge(vehicle) ||
-                isBridgeFull()
+                isBridgeFull() ||
+                isBridgeClosed
         ){
             printWaitingMessage(vehicle);
             wait();
@@ -107,6 +108,13 @@ public class Bridge implements IBridge{
 
     public synchronized void leaveRoad(Vehicle vehicle){
        // System.out.printf("%s left the road. (%d m) \n", vehicle.getName(), vehicle.movementThread.getPosition());
+    }
+
+    public static void closeBridge(){
+        if(isBridgeClosed){
+            notifyAll();
+        }
+        isBridgeClosed = !isBridgeClosed;
     }
 
 }

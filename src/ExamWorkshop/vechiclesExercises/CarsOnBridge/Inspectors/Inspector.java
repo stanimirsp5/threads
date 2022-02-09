@@ -32,8 +32,8 @@ public class Inspector{
             String userInput;
 
             while (true){
+                //System.out.print(name+": ");
                 userInput = uin.readLine();
-                if(userInput.equals("2")) break;
                 out.println(name +": " + userInput); // write user input to server for other clients
             }
 
