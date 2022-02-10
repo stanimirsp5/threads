@@ -8,12 +8,17 @@ public class Bridge implements IBridge{
     public static boolean isBridgeClosed;
     public int carsOnTheBridge;
     public int roadLength;
+    public static int test;
     public final int BRIDGE_CAPACITY = 5;
+
+    public static Bridge bridgeSingleInstance;
 
     public Bridge(int roadLength){
         this.roadLength = roadLength;
         bridgeDirection = Direction.NONE;
         isBridgeClosed = false;
+        bridgeSingleInstance = this;
+        test = 56757;
     }
 
     public void takeRoad(Vehicle vehicle) throws InterruptedException {
@@ -110,12 +115,19 @@ public class Bridge implements IBridge{
        // System.out.printf("%s left the road. (%d m) \n", vehicle.getName(), vehicle.movementThread.getPosition());
     }
 
-    public static void closeBridge(){
+    public void closeBridge(){
         if(isBridgeClosed){
             notifyAll();
         }
         isBridgeClosed = !isBridgeClosed;
     }
 
+    public static Bridge getInstance()
+    {
+        int t=test;
+        if (bridgeSingleInstance == null) return  null;
+
+        return bridgeSingleInstance;
+    }
 }
 

@@ -1,19 +1,20 @@
 package ExamWorkshop.vechiclesExercises;
 
 
+import ExamWorkshop.vechiclesExercises.CarsOnBridge.Bridge;
 import ExamWorkshop.vechiclesExercises.Stopwatch.Stopwatch;
 
-import java.util.concurrent.TimeUnit;
 public class CarWithDistance {
 // how to connect road length and car travel
     public static void main(String[] args) throws InterruptedException {
-        Car car = new Car(90);
-        Thread thread = new Thread(car);
-        Thread.sleep(500);
-//        Car car2 = new Car();
-//        Thread thread2 = new Thread(car2);
-//
-        thread.start();
+        Bridge br = Bridge.getInstance();
+//        Car car = new Car(90);
+//        Thread thread = new Thread(car);
+//        Thread.sleep(500);
+////        Car car2 = new Car();
+////        Thread thread2 = new Thread(car2);
+////
+//        thread.start();
     }
 }
 class Car implements Runnable{
@@ -50,5 +51,8 @@ class Car implements Runnable{
             System.out.println("position : " +getPosition());
         }
         System.out.println(getCarTime());
+    }
+
+    public static class Test {
     }
 }

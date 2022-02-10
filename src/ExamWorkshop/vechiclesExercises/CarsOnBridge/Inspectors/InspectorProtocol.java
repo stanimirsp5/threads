@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 public class InspectorProtocol {
     public static ProtocolStates currentState = ProtocolStates.FREECHAT;
     private static String lastInspectorName;
+
     public String processInput(String userInput){
         String inspectorName = userInput.split(Pattern.quote(":"))[0];
         userInput = userInput.split(Pattern.quote(":"))[1].trim();
@@ -72,8 +73,11 @@ public class InspectorProtocol {
         return inspectorName + ": "+message;
     }
 
-    private void updateStateContainer(){
-        Bridge.closeBridge();
+    private static void updateStateContainer(){
+        Bridge bridge = Bridge.getInstance();
+        if(bridge == null) return;
+
+        bridge.closeBridge();
     }
 
 }

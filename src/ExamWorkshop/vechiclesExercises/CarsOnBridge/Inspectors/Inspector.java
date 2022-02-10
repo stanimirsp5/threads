@@ -9,17 +9,17 @@ import java.util.Scanner;
 
 public class Inspector{
     public static int port = 6666;
-    public static String name;
+    public static String name="1";
 
-    public static void main(String[] args) throws IOException {
-        System.out.println("Enter inspector name:");
-        Scanner userIn = new Scanner(System.in);
-        name = "Inspector #" + userIn.nextLine();
+//    public static void main(String[] args) throws IOException {
+//        System.out.println("Enter inspector name:");
+//        Scanner userIn = new Scanner(System.in);
+//        name = "Inspector #" + userIn.nextLine();
+//
+//        runClient();
+//    }
 
-        runClient();
-    }
-
-    public static void runClient() throws IOException {
+    public void runClient() throws IOException {
 
         try(
                 Socket s = new Socket("127.0.0.1", port);

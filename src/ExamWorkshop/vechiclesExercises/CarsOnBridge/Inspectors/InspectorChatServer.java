@@ -5,20 +5,21 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class ChatServer{
+public class InspectorChatServer {
     public static int port = 6666;
 
-    public static void main(String[] args) throws IOException {
-        runServer();
-    }
+//    public static void main(String[] args) throws IOException {
+//        runServer();
+//    }
 
-    public static void runServer() throws IOException {
+    public void runServer() throws IOException {
         ArrayList<Socket> clients = new ArrayList<>();
 
         ServerSocket ss = new ServerSocket(port);
 
         while (true){
             Socket s = ss.accept();
+            System.out.println("client connected");
             clients.add(s);
 
             new Thread(new ServerThread(s,clients)).start();
