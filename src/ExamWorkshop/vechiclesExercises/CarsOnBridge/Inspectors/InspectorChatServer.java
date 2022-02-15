@@ -5,7 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class InspectorChatServer {
+public class InspectorChatServer implements Runnable{
     public static int port = 6666;
 
 //    public static void main(String[] args) throws IOException {
@@ -23,6 +23,15 @@ public class InspectorChatServer {
             clients.add(s);
 
             new Thread(new ServerThread(s,clients)).start();
+        }
+    }
+
+    @Override
+    public void run() {
+        try {
+            runServer();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -1,5 +1,6 @@
 package ExamWorkshop.vechiclesExercises.CarsOnBridge;
 
+import ExamWorkshop.vechiclesExercises.CarsOnBridge.Inspectors.ChatUi;
 import ExamWorkshop.vechiclesExercises.CarsOnBridge.Inspectors.Inspector;
 import ExamWorkshop.vechiclesExercises.CarsOnBridge.Inspectors.InspectorChatServer;
 import ExamWorkshop.vechiclesExercises.CarsOnBridge.Vehicles.*;
@@ -12,12 +13,14 @@ public class Main {
     final static int PORT = 6666;
 
     public static void main(String[] args) throws InterruptedException, IOException {
-        Bridge bridge = new Bridge(ROAD_LENGTH);
+//        Bridge bridge = new Bridge(ROAD_LENGTH);
         InspectorChatServer server = new InspectorChatServer();
-        server.runServer();
-
+        new Thread(server).start();
+        //new Thread(server::runServer).start();
         Inspector inspector = new Inspector();
-        inspector.runClient();
+        new Thread(inspector).start();
+
+        //ChatUi.startChatUI();
 
 //       Bridge bridge1 = Bridge.getInstance();
 //        for(int i = 1; i <= NUM_CARS; i++){
