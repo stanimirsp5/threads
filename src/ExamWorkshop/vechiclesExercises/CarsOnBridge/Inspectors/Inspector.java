@@ -13,8 +13,8 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class Inspector implements Runnable{
-    public static int port = 6666;
-    public static int inspectorNumber= 1;
+    public int port = 6666;
+    public int number;
     private ChatUi chatUi;
 
 //    public static void main(String[] args) throws IOException {
@@ -25,12 +25,13 @@ public class Inspector implements Runnable{
 //        runClient();
 //    }
 
-    public void runClient() throws IOException {
-        chatUi = new ChatUi(this);
+    public Inspector(int number){
+        this.number = number;
+    }
 
-        Platform.startup(() -> {
-            chatUi.initChatWindow(inspectorNumber);
-        });
+    public void runClient() throws IOException {
+        ChatUi chat = new ChatUi();
+        chat.start();
 
         try(
                 Socket s = new Socket("127.0.0.1", port);
@@ -45,7 +46,7 @@ public class Inspector implements Runnable{
             while (true){
                 //System.out.print(name+": ");
                 userInput = uin.readLine();
-                out.println(inspectorNumber +": " + userInput); // write user input to server for other clients
+                out.println(number +": " + userInput); // write user input to server for other clients
             }
 
         }

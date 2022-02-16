@@ -1,93 +1,56 @@
 package ExamWorkshop.vechiclesExercises.CarsOnBridge.Inspectors;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 import ExamWorkshop.vechiclesExercises.CarsOnBridge.Inspectors.Inspector;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.stage.Stage;
 
-public class ChatUi {
-    TextArea textArea;
-    TextField textField;
-    Inspector inspector;
-    Label warningLabel;
-    Button submitButton;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-    public ChatUi(Inspector inspector) {
-        this.inspector = inspector;
+public class ChatUi implements ActionListener {
+
+    private Inspector inspector;
+    private JTextArea textArea;
+    private JTextField textField;
+    private JButton btn;
+
+    public ChatUi(){
+
     }
 
-    public void writeToTextArea(String msg){
-        if(msg == null) return;
+    public void start(){
+        JFrame f=new JFrame("Inspector" );
 
-        String newLine = System.getProperty("line.separator");
+        JPanel panel=new JPanel();
+        panel.setBounds(10,30, 300,180);
 
-        textArea.appendText(newLine + msg);
+        textArea=new JTextArea(10,20);
+        JScrollPane scroll = new JScrollPane (textArea,
+               JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        panel.add(scroll);
+        f.add(panel);
+
+        textField = new JTextField("write message");
+        textField.setBounds(30,215, 200,30);
+        f.add(textField);
+
+        JButton btn=new JButton("Send");
+        btn.setBounds(30,250,95,30);
+        btn.addActionListener(this);
+        f.add(btn);
+
+        f.setSize(350,350);
+        f.setLayout(null);
+        f.setVisible(true);
+
+        //f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-
-    public void initChatWindow(int inspectorNumber){
-        textArea=new TextArea();
-        textArea.setLayoutY(0);
-        textArea.setDisable(true);
-        textArea.setPrefWidth(490);
-
-        textField=new TextField();
-        textField.setLayoutY(200);
-textArea.setFont(new Font("Times-Roman" , 14));
-        textField.setFont(new Font("Times-Roman" , 14));
-        warningLabel = new Label("Waiting for other inspector to response...");
-        warningLabel.setLayoutX(200);
-        warningLabel.setLayoutY(200);
-        warningLabel.setVisible(false);
-        warningLabel.setTextFill(Color.RED);
-
-        submitButton = new Button("Submit");
-        submitButton.setLayoutX(200);
-        submitButton.setLayoutY(250);
-
-//        submitButton.setOnAction(e-> {
-//            inspector.send(textField.getText());
-//            textField.clear();
-//        });
-
-        Pane secondaryLayout = new Pane();
-
-        secondaryLayout.getChildren().add(textField);
-        secondaryLayout.getChildren().add(submitButton);
-        secondaryLayout.getChildren().add(textArea);
-        secondaryLayout.getChildren().add(warningLabel);
-
-        Scene secondScene = new Scene(secondaryLayout, 500, 300);
-
-        // New window (Stage)
-        Stage newWindow = new Stage();
-        newWindow.setTitle("Inspector #"+ inspectorNumber);
-        newWindow.setScene(secondScene);
-
-        // Set position of second window, related to primary window.
-        if(inspectorNumber % 2 != 0) {
-            newWindow.setX(-200);
-            newWindow.setY(900);
-        }else {
-            newWindow.setX(1470);
-            newWindow.setY(900);
-        }
-
-        newWindow.show();
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) {
+        String message= textField.getText();
+        textArea.append(message + "\n");
     }
-
-    public void disable(boolean isDisabled){
-        textField.setDisable(isDisabled);
-        submitButton.setDisable(isDisabled);
-        warningLabel.setVisible(isDisabled);
-    }
-
 }
