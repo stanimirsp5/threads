@@ -12,6 +12,11 @@ public class ServerThread implements Runnable{
     public InspectorProtocol protocol;
     public ArrayList<Socket> clients;
 
+    /**
+     * Read message from one client and resends it to all clients
+     * @param socket
+     * @param clients
+     */
     public ServerThread(Socket socket, ArrayList<Socket> clients){
         this.socket = socket;
         this.clients = clients;

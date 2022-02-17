@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 public class ChatUi implements ActionListener {
 
     private Inspector inspector;
-    private JTextArea textArea;
+    private static JTextArea textArea;
     private JTextField textField;
     private JButton btn;
 
@@ -24,7 +24,7 @@ public class ChatUi implements ActionListener {
         JFrame f=new JFrame("Inspector" );
 
         JPanel panel=new JPanel();
-        panel.setBounds(10,30, 300,180);
+        panel.setBounds(0,5, 300,180);
 
         textArea=new JTextArea(10,20);
         JScrollPane scroll = new JScrollPane (textArea,
@@ -33,19 +33,26 @@ public class ChatUi implements ActionListener {
         f.add(panel);
 
         textField = new JTextField("write message");
-        textField.setBounds(30,215, 200,30);
+        textField.setBounds(15,190, 200,30);
         f.add(textField);
 
-        JButton btn=new JButton("Send");
-        btn.setBounds(30,250,95,30);
+        btn=new JButton("Send");
+        btn.setBounds(15,225,95,30);
         btn.addActionListener(this);
         f.add(btn);
 
-        f.setSize(350,350);
+        f.setSize(300,300);
         f.setLayout(null);
         f.setVisible(true);
 
         //f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    /**
+     * Print message from client to all text areas
+     */
+    public static void printToClients(String message){
+        textArea.append(message + "\n");
     }
 
     @Override
