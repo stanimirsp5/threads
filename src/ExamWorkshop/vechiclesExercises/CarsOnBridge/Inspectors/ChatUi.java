@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 public class ChatUi implements ActionListener {
 
     private Inspector inspector;
-    private static JTextArea textArea;
+    private JTextArea textArea;
     private JTextField textField;
     private JButton btn;
 
@@ -51,7 +51,7 @@ public class ChatUi implements ActionListener {
     /**
      * Print message from client to all text areas
      */
-    public static void printToClients(String message){
+    public void printToClients(String message){
         textArea.append(message + "\n");
     }
 

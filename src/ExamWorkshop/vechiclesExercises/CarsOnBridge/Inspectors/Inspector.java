@@ -15,7 +15,6 @@ import java.util.Scanner;
 public class Inspector implements Runnable{
     public int port = 6666;
     public int number;
-    private static ChatUi chatUi;
 
 //    public static void main(String[] args) throws IOException {
 //        System.out.println("Enter inspector name:");
@@ -30,7 +29,7 @@ public class Inspector implements Runnable{
     }
 
     public void runClient() throws IOException {
-        chatUi = new ChatUi();
+        ChatUi chatUi = new ChatUi();
         chatUi.start();
 
         try(
@@ -78,7 +77,7 @@ public class Inspector implements Runnable{
                 BufferedReader sin = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             ) {
                 while (true){
-                    chatUi.printToClients(sin.readLine());
+                    //ChatUi.printToClients(sin.readLine());
                     //System.out.println(sin.readLine());// waits for response from server // write input from other clients in console
                 }
             } catch (IOException e) {

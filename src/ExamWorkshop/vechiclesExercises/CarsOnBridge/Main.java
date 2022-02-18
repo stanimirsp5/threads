@@ -14,13 +14,16 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException, IOException {
 //        Bridge bridge = new Bridge(ROAD_LENGTH);
-//        InspectorChatServer server = new InspectorChatServer();
-//        new Thread(server).start();
+        InspectorChatServer server = new InspectorChatServer();
+        new Thread(server).start();
 //        //new Thread(server::runServer).start();
-//        Inspector inspector = new Inspector();
-//        new Thread(inspector).start();
-        ChatUi chat = new ChatUi();
-        chat.start();
+        Inspector inspector = new Inspector(1);
+        new Thread(inspector).start();
+        Inspector inspector2 = new Inspector(2);
+        new Thread(inspector2).start();
+
+//        ChatUi chat = new ChatUi();
+//        chat.start();
 
 //       Bridge bridge1 = Bridge.getInstance();
 //        for(int i = 1; i <= NUM_CARS; i++){

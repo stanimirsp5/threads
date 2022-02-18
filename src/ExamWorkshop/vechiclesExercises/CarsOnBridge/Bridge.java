@@ -23,7 +23,7 @@ public class Bridge implements IBridge{
 
     public void takeRoad(Vehicle vehicle) throws InterruptedException {
         while(!vehicle.movementThread.isCloseToBridge(0) || // is far away from bridge - wait
-            !vehicle.isMovementPaused // movement is not paused - wait
+                !vehicle.isMovementPaused // movement is not paused - wait
         ){
             Thread.sleep(200);
         }
@@ -112,7 +112,7 @@ public class Bridge implements IBridge{
     }
 
     public synchronized void leaveRoad(Vehicle vehicle){
-       // System.out.printf("%s left the road. (%d m) \n", vehicle.getName(), vehicle.movementThread.getPosition());
+        // System.out.printf("%s left the road. (%d m) \n", vehicle.getName(), vehicle.movementThread.getPosition());
     }
 
     public void closeBridge(){
@@ -130,4 +130,3 @@ public class Bridge implements IBridge{
         return bridgeSingleInstance;
     }
 }
-
