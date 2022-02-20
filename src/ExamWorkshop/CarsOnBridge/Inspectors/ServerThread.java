@@ -1,4 +1,6 @@
-package ExamWorkshop.vechiclesExercises.CarsOnBridge.Inspectors;
+package ExamWorkshop.CarsOnBridge.Inspectors;
+
+import ExamWorkshop.CarsOnBridge.Helpers.ExceptionLogger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -41,7 +43,7 @@ public class ServerThread implements Runnable{
             }
 
         }catch (IOException e) {
-            e.printStackTrace();
+            ExceptionLogger.log(e);
         }
     }
 }

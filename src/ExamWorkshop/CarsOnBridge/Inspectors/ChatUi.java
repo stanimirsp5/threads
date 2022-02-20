@@ -1,13 +1,12 @@
-package ExamWorkshop.vechiclesExercises.CarsOnBridge.Inspectors;
+package ExamWorkshop.CarsOnBridge.Inspectors;
+
+import ExamWorkshop.CarsOnBridge.Helpers.ExceptionLogger;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 
-import ExamWorkshop.vechiclesExercises.CarsOnBridge.Inspectors.Inspector;
-
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class ChatUi implements ActionListener {
 
@@ -16,24 +15,27 @@ public class ChatUi implements ActionListener {
     private JTextField textField;
     private JButton btn;
 
-    public ChatUi(){
-
+    public ChatUi(Inspector inspector){
+        this.inspector = inspector;
     }
 
     public void start(){
-        JFrame f=new JFrame("Inspector" );
-
+        JFrame f=new JFrame("Inspector #" + inspector.number);
+        f.setBounds(-400,inspector.number * 350,0,0);
         JPanel panel=new JPanel();
         panel.setBounds(0,5, 300,180);
 
-        textArea=new JTextArea(10,20);
+        textArea=new JTextArea();
+        //textArea.setBounds(20,20, 400,200);
         JScrollPane scroll = new JScrollPane (textArea,
                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scroll.setBounds(20,20, 500,150);
         panel.add(scroll);
-        f.add(panel);
 
-        textField = new JTextField("write message");
-        textField.setBounds(15,190, 200,30);
+        f.add(scroll);
+
+        textField = new JTextField("");
+        textField.setBounds(15,190, 350,30);
         f.add(textField);
 
         btn=new JButton("Send");
@@ -41,7 +43,7 @@ public class ChatUi implements ActionListener {
         btn.addActionListener(this);
         f.add(btn);
 
-        f.setSize(300,300);
+        f.setSize(600,300);
         f.setLayout(null);
         f.setVisible(true);
 
@@ -58,6 +60,11 @@ public class ChatUi implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         String message= textField.getText();
-        textArea.append(message + "\n");
+        try {
+            inspector.send(message);
+        } catch (IOException e) {
+            ExceptionLogger.log(e);
+        }
+        textField.setText("");
     }
 }

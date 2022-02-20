@@ -1,9 +1,9 @@
-package ExamWorkshop.vechiclesExercises.CarsOnBridge.Vehicles;
+package ExamWorkshop.CarsOnBridge.Vehicles;
 
-import ExamWorkshop.vechiclesExercises.CarsOnBridge.Bridge;
-import ExamWorkshop.vechiclesExercises.CarsOnBridge.Direction;
-
-import java.util.ArrayList;
+import ExamWorkshop.CarsOnBridge.Bridge.Bridge;
+import ExamWorkshop.CarsOnBridge.Bridge.Direction;
+import ExamWorkshop.CarsOnBridge.Helpers.ExceptionLogger;
+import ExamWorkshop.CarsOnBridge.Vehicles.VehicleTypes.VehicleType;
 
 public abstract class Vehicle implements IVehicle,Runnable{
     private String name;
@@ -12,8 +12,11 @@ public abstract class Vehicle implements IVehicle,Runnable{
     Integer velocity;
     VehicleType vehicleType;
     public MovementThread movementThread;
-    // if movement is paused the car is ready to take next section of the road
-    public boolean isMovementPaused;
+    /**
+     * If true vehicle movement thread has reached some checkpoint across the road
+     * and movement thread of the vehicle must wait vehicle
+     */
+    public boolean isMovementPaused; // if movement is paused the car is ready to take next section of the road
     public Thread thread;
     private Boolean isLeavingBridge = false;
 
@@ -82,7 +85,7 @@ public abstract class Vehicle implements IVehicle,Runnable{
             }
             bridge.leaveRoad(this);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            ExceptionLogger.log(e);
         }
     }
 }

@@ -1,4 +1,7 @@
-package ExamWorkshop.vechiclesExercises.CarsOnBridge.Vehicles;
+package ExamWorkshop.CarsOnBridge.Vehicles;
+
+import ExamWorkshop.CarsOnBridge.Helpers.ExceptionLogger;
+import ExamWorkshop.CarsOnBridge.Vehicles.VehicleTypes.VehicleType;
 
 public class MovementThread implements Runnable{
 
@@ -9,6 +12,12 @@ public class MovementThread implements Runnable{
     private final double velocity; // speed in meters per second formula- 5/18 * km/h, 5/18 = 13.88
     private int vehiclePositionOnRoad;
 
+    /**
+     * Shows vehicle position across the road in lifetime
+     * @param velocity
+     * @param totalRoadLength
+     * @param vehicle vehicle to which it is attached the concrete movement thread
+     */
     public MovementThread(double velocity, double totalRoadLength, Vehicle vehicle){
         this.velocity = velocity; // convert from km/h to m/s
         this.totalRoadLength = totalRoadLength;
@@ -76,7 +85,7 @@ public class MovementThread implements Runnable{
                     }
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    ExceptionLogger.log(e);
                 }
         }
     }

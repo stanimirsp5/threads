@@ -1,4 +1,4 @@
-package ExamWorkshop.vechiclesExercises.CarsOnBridge.Vehicles;
+package ExamWorkshop.CarsOnBridge.Helpers;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

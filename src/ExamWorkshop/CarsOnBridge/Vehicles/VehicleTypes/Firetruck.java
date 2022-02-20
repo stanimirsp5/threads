@@ -1,10 +1,12 @@
-package ExamWorkshop.vechiclesExercises.CarsOnBridge.Vehicles;
+package ExamWorkshop.CarsOnBridge.Vehicles.VehicleTypes;
 
-import ExamWorkshop.vechiclesExercises.CarsOnBridge.Bridge;
+import ExamWorkshop.CarsOnBridge.Bridge.Bridge;
+import ExamWorkshop.CarsOnBridge.Helpers.ThreadSafe;
+import ExamWorkshop.CarsOnBridge.Vehicles.Vehicle;
 
 import java.util.ArrayList;
 
-public class Firetruck extends Vehicle implements ISpecialVehicle{
+public class Firetruck extends Vehicle implements ISpecialVehicle {
 
     private Vehicle car;
     public static ArrayList<Firetruck> firetrucks = new ArrayList<>();

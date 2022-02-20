@@ -1,6 +1,6 @@
-package ExamWorkshop.vechiclesExercises.CarsOnBridge;
+package ExamWorkshop.CarsOnBridge.Bridge;
 
-import ExamWorkshop.vechiclesExercises.CarsOnBridge.Vehicles.Vehicle;
+import ExamWorkshop.CarsOnBridge.Vehicles.Vehicle;
 
 /**
  *  >......1>...........<2

@@ -1,8 +1,9 @@
-package ExamWorkshop.vechiclesExercises.CarsOnBridge.Vehicles;
+package ExamWorkshop.CarsOnBridge.Vehicles.VehicleTypes;
 
-import ExamWorkshop.vechiclesExercises.CarsOnBridge.Bridge;
+import ExamWorkshop.CarsOnBridge.Bridge.Bridge;
+import ExamWorkshop.CarsOnBridge.Vehicles.Vehicle;
 
-public class Car extends Vehicle{
+public class Car extends Vehicle {
 
     public String carWaitingMessage;
 

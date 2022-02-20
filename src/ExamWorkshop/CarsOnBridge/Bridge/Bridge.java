@@ -1,14 +1,14 @@
-package ExamWorkshop.vechiclesExercises.CarsOnBridge;
+package ExamWorkshop.CarsOnBridge.Bridge;
 
-import ExamWorkshop.vechiclesExercises.CarsOnBridge.Vehicles.*;
+import ExamWorkshop.CarsOnBridge.Vehicles.*;
+import ExamWorkshop.CarsOnBridge.Vehicles.VehicleTypes.*;
 
-public class Bridge implements IBridge{
+public class Bridge implements IBridge {
 
     public Direction bridgeDirection;
-    public static boolean isBridgeClosed;
+    public static Movement movementOnBridge;
     public int carsOnTheBridge;
     public int roadLength;
-    public static int test;
     public final int BRIDGE_CAPACITY = 5;
 
     public static Bridge bridgeSingleInstance;
@@ -16,9 +16,7 @@ public class Bridge implements IBridge{
     public Bridge(int roadLength){
         this.roadLength = roadLength;
         bridgeDirection = Direction.NONE;
-        isBridgeClosed = false;
         bridgeSingleInstance = this;
-        test = 56757;
     }
 
     public void takeRoad(Vehicle vehicle) throws InterruptedException {
@@ -35,7 +33,7 @@ public class Bridge implements IBridge{
                 bridgeDirection != vehicle.getDirection()) || // vehicle is at different direction as other cars on bridge - wait
                 isCarWaitingToTakeBridge(vehicle) ||
                 isBridgeFull() ||
-                isBridgeClosed
+                movementOnBridge == Movement.FULLYCLOSED
         ){
             printWaitingMessage(vehicle);
             wait();
@@ -54,6 +52,7 @@ public class Bridge implements IBridge{
     }
 
     /**
+     * If movement on the bridge is half closed - car waits
      * If ambulance on the bridge - car waits
      * If firetruck with one car on the bridge - car waits
      * If only firetruck but the car is more than 400 away from the bridge - car waits
@@ -63,6 +62,9 @@ public class Bridge implements IBridge{
     private boolean isCarWaitingToTakeBridge(Vehicle vehicle){
         if (vehicle.getType() != VehicleType.CAR) return false;
         Car car = (Car)vehicle;
+        if (movementOnBridge == Movement.HALFCLOSED){
+            return true;
+        }
         // if it has ambulance on bridge - Wait
         if (Ambulance.hasAmbulance()) {
             car.carWaitingMessage = String.format("%s is waiting. Ambulance is on the bridge.", car.getName());
@@ -85,8 +87,10 @@ public class Bridge implements IBridge{
     }
 
     private void printWaitingMessage(Vehicle vehicle){
-        if(isBridgeClosed){ // if not ambulance
-            System.out.print("Bridge is closed by inspectors \n");
+        if(movementOnBridge == Movement.FULLYCLOSED){
+            System.out.printf("%s is waiting. Bridge is closed by inspectors \n", vehicle.getName());
+        }else if(movementOnBridge == Movement.HALFCLOSED && vehicle.getType() == VehicleType.CAR){
+            System.out.printf("%s is waiting. Bridge is closed for cars \n", vehicle.getName());
         }else if(vehicle.getDirection() != bridgeDirection){
             System.out.printf("%s is waiting. Opposite direction. (%d m) \n", vehicle.getName(), vehicle.movementThread.getPosition());
         }else if(carsOnTheBridge >= BRIDGE_CAPACITY){
@@ -101,6 +105,10 @@ public class Bridge implements IBridge{
         return carsOnTheBridge >= BRIDGE_CAPACITY;
     }
 
+    /**
+     * When vehicle successfully traveled across the bridge it must leave it.
+     * @param vehicle
+     */
     public synchronized void leaveBridge(Vehicle vehicle){
         vehicle.isMovementPaused = false;
         vehicle.leaveBridge();
@@ -115,18 +123,30 @@ public class Bridge implements IBridge{
         // System.out.printf("%s left the road. (%d m) \n", vehicle.getName(), vehicle.movementThread.getPosition());
     }
 
-    public void closeBridge(){
-        if(isBridgeClosed){
+    /**
+     * Receive command from Client to close or open the bridge for vehicles
+     */
+    public synchronized void closeBridge(Movement movement){
+        movementOnBridge = movement;
+
+        if(movementOnBridge == Movement.OPEN){
             notifyAll();
+            System.out.println("*Bridge is open*");
+        }else if(movementOnBridge == Movement.HALFCLOSED){
+            System.out.println("*Bridge is cosed for cars*");
+        }else if(movementOnBridge == Movement.FULLYCLOSED){
+            System.out.println("*Bridge is cosed for vehicles*");
         }
-        isBridgeClosed = !isBridgeClosed;
     }
 
+    /**
+     * Share one instance of Bridge class across application.
+     * Works like singleton.
+     * @return Bridge instance or null if Bridge isn't created yet
+     */
     public static Bridge getInstance()
     {
-        int t=test;
         if (bridgeSingleInstance == null) return  null;
-
         return bridgeSingleInstance;
     }
 }

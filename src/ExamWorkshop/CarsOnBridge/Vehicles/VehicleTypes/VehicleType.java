@@ -1,4 +1,4 @@
-package ExamWorkshop.vechiclesExercises.CarsOnBridge.Vehicles;
+package ExamWorkshop.CarsOnBridge.Vehicles.VehicleTypes;
 
 /**
  * CAR

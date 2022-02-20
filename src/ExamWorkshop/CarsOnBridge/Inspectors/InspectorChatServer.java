@@ -1,4 +1,6 @@
-package ExamWorkshop.vechiclesExercises.CarsOnBridge.Inspectors;
+package ExamWorkshop.CarsOnBridge.Inspectors;
+
+import ExamWorkshop.CarsOnBridge.Helpers.ExceptionLogger;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -31,7 +33,7 @@ public class InspectorChatServer implements Runnable{
         try {
             runServer();
         } catch (IOException e) {
-            e.printStackTrace();
+            ExceptionLogger.log(e);
         }
     }
 }

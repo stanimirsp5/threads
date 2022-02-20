@@ -1,6 +1,7 @@
-package ExamWorkshop.vechiclesExercises.CarsOnBridge.Inspectors;
+package ExamWorkshop.CarsOnBridge.Inspectors;
 
-import ExamWorkshop.vechiclesExercises.CarsOnBridge.Bridge;
+import ExamWorkshop.CarsOnBridge.Bridge.Bridge;
+import ExamWorkshop.CarsOnBridge.Bridge.Movement;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -24,34 +25,43 @@ public class InspectorProtocol {
         else if(ProtocolStates.FREECHAT == currentState) {
             if (userInput.equalsIgnoreCase("Inspection time") ||
                     userInput.equalsIgnoreCase("IT")) {
-                message = "\n*Inspector chat mode ON*\n"
+                message = "*Inspector chat mode ON*\n"
                         + "Waiting for all inspectors to say if vehicles can be stopped. Type Yes/No";
                 lastInspectorName = inspectorName;
                 currentState = ProtocolStates.INSPECTORCHAT;
             }
         }
 
-        else if(ProtocolStates.INSPECTORCHAT == currentState){
+        else if(ProtocolStates.INSPECTORCHAT == currentState ||
+                ProtocolStates.SECOND_INSPECTOR_NEGATIVE_RESPONCE == currentState ){
             if (userInput.equalsIgnoreCase("Yes")) {
+                // bridge is fully closed
                 message = "All is clear from my side.";
                 lastInspectorName = inspectorName;
-                currentState = ProtocolStates.GIVENRESPONSE;
-            } else if(userInput.equalsIgnoreCase("No")) {
+                currentState = ProtocolStates.SECOND_INSPECTOR_POSITIVE_RESPONCE;
+            } else if(userInput.equalsIgnoreCase("No") && ProtocolStates.SECOND_INSPECTOR_NEGATIVE_RESPONCE == currentState) {
                 message = "Bad news inspection can't begin right now."
                         + "*Inspector chat mode OFF*";
                 currentState = ProtocolStates.FREECHAT;
+                updateStateContainer(Movement.OPEN);
+            }else if(userInput.equalsIgnoreCase("No")) {
+                // bridge is half closed, only special vehicles are allowed
+                // ask for second time
+                message = "Second inspector denied inspection. He will be asked for second time.";
+                currentState = ProtocolStates.SECOND_INSPECTOR_NEGATIVE_RESPONCE;
+                updateStateContainer(Movement.HALFCLOSED);
             }else {
                 message = "You're supposed to say \"Yes or No\"! " +
                         "Try again. Can vehicles be stopped?";
             }
         }
 
-        else if(ProtocolStates.GIVENRESPONSE == currentState){
+        else if(ProtocolStates.SECOND_INSPECTOR_POSITIVE_RESPONCE == currentState){
             if (userInput.equalsIgnoreCase("Stop vehicles")) {
                 message = "Vehicles are stopped. An inspection is carried out...";
                 lastInspectorName = inspectorName;
                 currentState = ProtocolStates.STOPCARMOVEMENT;
-                updateStateContainer();
+                updateStateContainer(Movement.FULLYCLOSED);
             }else {
                 message = "You're supposed to say \"Stop vehicles\" " +
                         "Try again.";
@@ -64,7 +74,7 @@ public class InspectorProtocol {
                         + "\n*Inspector chat mode OFF*";
                 lastInspectorName = inspectorName;
                 currentState = ProtocolStates.FREECHAT;
-                updateStateContainer();
+                updateStateContainer(Movement.OPEN);
             }else {
                 message = "You're supposed to say \"End inspection\" " +
                         "Try again.";
@@ -73,11 +83,11 @@ public class InspectorProtocol {
         return inspectorName + ": "+message;
     }
 
-    private static void updateStateContainer(){
+    private static void updateStateContainer(Movement movement){
         Bridge bridge = Bridge.getInstance();
         if(bridge == null) return;
 
-        bridge.closeBridge();
+        bridge.closeBridge(movement);
     }
 
 }
