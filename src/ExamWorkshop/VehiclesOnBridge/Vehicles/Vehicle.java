@@ -1,9 +1,9 @@
-package ExamWorkshop.CarsOnBridge.Vehicles;
+package ExamWorkshop.VehiclesOnBridge.Vehicles;
 
-import ExamWorkshop.CarsOnBridge.Bridge.Bridge;
-import ExamWorkshop.CarsOnBridge.Bridge.Direction;
-import ExamWorkshop.CarsOnBridge.Helpers.ExceptionLogger;
-import ExamWorkshop.CarsOnBridge.Vehicles.VehicleTypes.VehicleType;
+import ExamWorkshop.VehiclesOnBridge.Bridge.Bridge;
+import ExamWorkshop.VehiclesOnBridge.Bridge.Direction;
+import ExamWorkshop.VehiclesOnBridge.Helpers.ExceptionLogger;
+import ExamWorkshop.VehiclesOnBridge.Vehicles.VehicleTypes.VehicleType;
 
 public abstract class Vehicle implements IVehicle,Runnable{
     private String name;
@@ -21,7 +21,8 @@ public abstract class Vehicle implements IVehicle,Runnable{
 
     public Vehicle(Bridge bridge, int consecutiveNumber, int velocity , VehicleType vehicleType){
 
-        boolean isEven = consecutiveNumber % 2 == 0;
+        int random = (int)(Math.random() * 50 + 1);
+        boolean isEven = random % 2 == 0;
         String stringDirection = isEven ? "<-----     |" : "    ------>|";
 
         this.name = String.format("%s %s %d",stringDirection, vehicleType.name(), consecutiveNumber);

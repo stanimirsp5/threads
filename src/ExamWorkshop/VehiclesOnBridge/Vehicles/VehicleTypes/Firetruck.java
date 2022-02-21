@@ -1,8 +1,8 @@
-package ExamWorkshop.CarsOnBridge.Vehicles.VehicleTypes;
+package ExamWorkshop.VehiclesOnBridge.Vehicles.VehicleTypes;
 
-import ExamWorkshop.CarsOnBridge.Bridge.Bridge;
-import ExamWorkshop.CarsOnBridge.Helpers.ThreadSafe;
-import ExamWorkshop.CarsOnBridge.Vehicles.Vehicle;
+import ExamWorkshop.VehiclesOnBridge.Bridge.Bridge;
+import ExamWorkshop.VehiclesOnBridge.Helpers.ThreadSafe;
+import ExamWorkshop.VehiclesOnBridge.Vehicles.Vehicle;
 
 import java.util.ArrayList;
 

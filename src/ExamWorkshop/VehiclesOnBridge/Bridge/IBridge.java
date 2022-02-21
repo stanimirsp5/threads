@@ -1,6 +1,6 @@
-package ExamWorkshop.CarsOnBridge.Bridge;
+package ExamWorkshop.VehiclesOnBridge.Bridge;
 
-import ExamWorkshop.CarsOnBridge.Vehicles.Vehicle;
+import ExamWorkshop.VehiclesOnBridge.Vehicles.Vehicle;
 
 /**
  *  >......1>...........<2
@@ -17,6 +17,8 @@ public interface IBridge {
      */
     void takeRoad(Vehicle vehicle) throws InterruptedException;
 
+    void leaveRoad(Vehicle vehicle);
+
     /**
      * One car at same time can access this method.
      * Only cars at same direction can be on the bridge others must wait.
@@ -32,4 +34,9 @@ public interface IBridge {
      */
     void leaveBridge(Vehicle car);
 
+    /**
+     * Receive command from Client to close or open the bridge for vehicles
+     * @param movement
+     */
+    void closeBridge(Movement movement);
 }

@@ -1,7 +1,7 @@
-package ExamWorkshop.CarsOnBridge.Vehicles;
+package ExamWorkshop.VehiclesOnBridge.Vehicles;
 
-import ExamWorkshop.CarsOnBridge.Helpers.ExceptionLogger;
-import ExamWorkshop.CarsOnBridge.Vehicles.VehicleTypes.VehicleType;
+import ExamWorkshop.VehiclesOnBridge.Helpers.ExceptionLogger;
+import ExamWorkshop.VehiclesOnBridge.Vehicles.VehicleTypes.VehicleType;
 
 public class MovementThread implements Runnable{
 

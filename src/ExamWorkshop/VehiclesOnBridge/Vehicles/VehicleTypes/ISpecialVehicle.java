@@ -1,4 +1,4 @@
-package ExamWorkshop.CarsOnBridge.Vehicles.VehicleTypes;
+package ExamWorkshop.VehiclesOnBridge.Vehicles.VehicleTypes;
 
 public interface ISpecialVehicle {
 

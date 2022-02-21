@@ -1,7 +1,7 @@
-package ExamWorkshop.CarsOnBridge.Inspectors;
+package ExamWorkshop.VehiclesOnBridge.Inspectors;
 
-import ExamWorkshop.CarsOnBridge.Bridge.Bridge;
-import ExamWorkshop.CarsOnBridge.Bridge.Movement;
+import ExamWorkshop.VehiclesOnBridge.Bridge.Bridge;
+import ExamWorkshop.VehiclesOnBridge.Bridge.Movement;
 
 import java.util.Objects;
 import java.util.regex.Pattern;

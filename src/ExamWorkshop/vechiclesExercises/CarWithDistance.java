@@ -1,7 +1,7 @@
 package ExamWorkshop.vechiclesExercises;
 
 
-import ExamWorkshop.CarsOnBridge.Bridge.Bridge;
+import ExamWorkshop.VehiclesOnBridge.Bridge.Bridge;
 import ExamWorkshop.vechiclesExercises.Stopwatch.Stopwatch;
 
 public class CarWithDistance {

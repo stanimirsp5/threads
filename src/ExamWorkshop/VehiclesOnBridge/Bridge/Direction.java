@@ -1,4 +1,4 @@
-package ExamWorkshop.CarsOnBridge.Bridge;
+package ExamWorkshop.VehiclesOnBridge.Bridge;
 
 public enum Direction {
     NONE,

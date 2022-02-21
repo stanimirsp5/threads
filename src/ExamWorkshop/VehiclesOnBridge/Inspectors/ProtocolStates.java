@@ -1,4 +1,4 @@
-package ExamWorkshop.CarsOnBridge.Inspectors;
+package ExamWorkshop.VehiclesOnBridge.Inspectors;
 
 public enum ProtocolStates {
     INSPECTORCHAT,

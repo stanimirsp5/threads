@@ -1,7 +1,7 @@
-package ExamWorkshop.CarsOnBridge.Vehicles.VehicleTypes;
+package ExamWorkshop.VehiclesOnBridge.Vehicles.VehicleTypes;
 
-import ExamWorkshop.CarsOnBridge.Bridge.Bridge;
-import ExamWorkshop.CarsOnBridge.Vehicles.Vehicle;
+import ExamWorkshop.VehiclesOnBridge.Bridge.Bridge;
+import ExamWorkshop.VehiclesOnBridge.Vehicles.Vehicle;
 
 public class Car extends Vehicle {
 

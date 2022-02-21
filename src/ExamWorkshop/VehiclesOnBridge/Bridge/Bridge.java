@@ -1,7 +1,7 @@
-package ExamWorkshop.CarsOnBridge.Bridge;
+package ExamWorkshop.VehiclesOnBridge.Bridge;
 
-import ExamWorkshop.CarsOnBridge.Vehicles.*;
-import ExamWorkshop.CarsOnBridge.Vehicles.VehicleTypes.*;
+import ExamWorkshop.VehiclesOnBridge.Vehicles.*;
+import ExamWorkshop.VehiclesOnBridge.Vehicles.VehicleTypes.*;
 
 public class Bridge implements IBridge {
 
@@ -10,13 +10,17 @@ public class Bridge implements IBridge {
     public int carsOnTheBridge;
     public int roadLength;
     public final int BRIDGE_CAPACITY = 5;
-
     public static Bridge bridgeSingleInstance;
 
-    public Bridge(int roadLength){
+    public int totalVehicles; // record number of all vehicles drove through the bridge
+    public int expectedVehicles;
+
+    public Bridge(int roadLength, int expectedVehicles){
         this.roadLength = roadLength;
+        this.expectedVehicles = expectedVehicles;
         bridgeDirection = Direction.NONE;
         bridgeSingleInstance = this;
+
     }
 
     /**
@@ -35,11 +39,11 @@ public class Bridge implements IBridge {
     }
 
     public synchronized void takeBridge(Vehicle vehicle) throws InterruptedException {
-        while ((bridgeDirection != Direction.NONE &&
-                bridgeDirection != vehicle.getDirection()) || // vehicle is at different direction as other cars on bridge - wait
-                isCarWaitingToTakeBridge(vehicle) ||
+        while (movementOnBridge == Movement.FULLYCLOSED ||
+                (bridgeDirection != Direction.NONE &&
+                    bridgeDirection != vehicle.getDirection()) || // vehicle is at different direction as other cars on bridge - wait
                 isBridgeFull() ||
-                movementOnBridge == Movement.FULLYCLOSED
+                isCarWaitingToTakeBridge(vehicle)
         ){
             printWaitingMessage(vehicle);
             wait();
@@ -126,12 +130,14 @@ public class Bridge implements IBridge {
     }
 
     public synchronized void leaveRoad(Vehicle vehicle){
+        totalVehicles++;
+
+        if(expectedVehicles == totalVehicles){
+            System.out.println("*All vehicles reached the destination*");
+        }
         // System.out.printf("%s left the road. (%d m) \n", vehicle.getName(), vehicle.movementThread.getPosition());
     }
 
-    /**
-     * Receive command from Client to close or open the bridge for vehicles
-     */
     public synchronized void closeBridge(Movement movement){
         movementOnBridge = movement;
 

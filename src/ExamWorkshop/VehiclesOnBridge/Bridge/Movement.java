@@ -1,4 +1,4 @@
-package ExamWorkshop.CarsOnBridge.Bridge;
+package ExamWorkshop.VehiclesOnBridge.Bridge;
 
 /**
  * Three states of movement on the bridge

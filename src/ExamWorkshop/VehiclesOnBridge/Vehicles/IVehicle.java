@@ -1,7 +1,7 @@
-package ExamWorkshop.CarsOnBridge.Vehicles;
+package ExamWorkshop.VehiclesOnBridge.Vehicles;
 
-import ExamWorkshop.CarsOnBridge.Bridge.Direction;
-import ExamWorkshop.CarsOnBridge.Vehicles.VehicleTypes.VehicleType;
+import ExamWorkshop.VehiclesOnBridge.Bridge.Direction;
+import ExamWorkshop.VehiclesOnBridge.Vehicles.VehicleTypes.VehicleType;
 
 public interface IVehicle {
 

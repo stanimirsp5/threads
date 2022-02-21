@@ -1,4 +1,4 @@
-package ExamWorkshop.CarsOnBridge.Helpers;
+package ExamWorkshop.VehiclesOnBridge.Helpers;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

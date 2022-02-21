@@ -1,6 +1,6 @@
-package ExamWorkshop.CarsOnBridge.Inspectors;
+package ExamWorkshop.VehiclesOnBridge.Inspectors;
 
-import ExamWorkshop.CarsOnBridge.Helpers.ExceptionLogger;
+import ExamWorkshop.VehiclesOnBridge.Helpers.ExceptionLogger;
 
 import javax.swing.*;
 

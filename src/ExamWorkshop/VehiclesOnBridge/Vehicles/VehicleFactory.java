@@ -1,10 +1,10 @@
-package ExamWorkshop.CarsOnBridge.Vehicles;
+package ExamWorkshop.VehiclesOnBridge.Vehicles;
 
-import ExamWorkshop.CarsOnBridge.Bridge.Bridge;
-import ExamWorkshop.CarsOnBridge.Vehicles.VehicleTypes.Ambulance;
-import ExamWorkshop.CarsOnBridge.Vehicles.VehicleTypes.Car;
-import ExamWorkshop.CarsOnBridge.Vehicles.VehicleTypes.Firetruck;
-import ExamWorkshop.CarsOnBridge.Vehicles.VehicleTypes.VehicleType;
+import ExamWorkshop.VehiclesOnBridge.Bridge.Bridge;
+import ExamWorkshop.VehiclesOnBridge.Vehicles.VehicleTypes.Ambulance;
+import ExamWorkshop.VehiclesOnBridge.Vehicles.VehicleTypes.Car;
+import ExamWorkshop.VehiclesOnBridge.Vehicles.VehicleTypes.Firetruck;
+import ExamWorkshop.VehiclesOnBridge.Vehicles.VehicleTypes.VehicleType;
 
 public class VehicleFactory {
     /**

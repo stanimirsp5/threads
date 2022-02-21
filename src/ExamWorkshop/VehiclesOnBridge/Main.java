@@ -1,22 +1,22 @@
-package ExamWorkshop.CarsOnBridge;
+package ExamWorkshop.VehiclesOnBridge;
 
-import ExamWorkshop.CarsOnBridge.Bridge.Bridge;
-import ExamWorkshop.CarsOnBridge.Inspectors.Inspector;
-import ExamWorkshop.CarsOnBridge.Inspectors.InspectorChatServer;
-import ExamWorkshop.CarsOnBridge.Vehicles.*;
+import ExamWorkshop.VehiclesOnBridge.Bridge.Bridge;
+import ExamWorkshop.VehiclesOnBridge.Inspectors.Inspector;
+import ExamWorkshop.VehiclesOnBridge.Inspectors.InspectorChatServer;
+import ExamWorkshop.VehiclesOnBridge.Vehicles.*;
 import java.io.IOException;
 
 public class Main {
-    final static int NUM_CARS = 10;
-    final static int ROAD_LENGTH = 5000;
+    final static int NUM_VEHICLES = 15;
+    final static int ROAD_LENGTH = 3000;
 
     public static void main(String[] args) throws InterruptedException, IOException {
-        Bridge bridge = new Bridge(ROAD_LENGTH);
+        Bridge bridge = new Bridge(ROAD_LENGTH, NUM_VEHICLES);
         runChatServer();
-        for(int i = 1; i <= NUM_CARS; i++){
+        for(int i = 1; i <= NUM_VEHICLES; i++){
             IVehicle vehicle = VehicleFactory.createVehicle(bridge,i);
             new Thread((Runnable) vehicle).start();
-            Thread.sleep(3000);
+            Thread.sleep(500);
         }
     }
 
