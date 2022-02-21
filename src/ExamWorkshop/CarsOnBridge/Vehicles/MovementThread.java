@@ -19,7 +19,7 @@ public class MovementThread implements Runnable{
      * @param vehicle vehicle to which it is attached the concrete movement thread
      */
     public MovementThread(double velocity, double totalRoadLength, Vehicle vehicle){
-        this.velocity = velocity; // convert from km/h to m/s
+        this.velocity = velocity;
         this.totalRoadLength = totalRoadLength;
         this.bridgeLength = 0.6 * totalRoadLength;
         this.roadLength = totalRoadLength - bridgeLength;
@@ -68,9 +68,6 @@ public class MovementThread implements Runnable{
                         setPosition();
                     } else if (vehiclePositionOnRoad == halfRoad) { // wait to get on bridge
                         carSetPriority(6);
-                        // vehiclePositionOnRoad to bridge is 0 and vehicle is waiting - notify vehicle
-                        //
-                        // if ready to get on the bridge and
                         waitThread();
                         setPosition();
                     } else if (vehiclePositionOnRoad < bridgeLength) { // on the bridge

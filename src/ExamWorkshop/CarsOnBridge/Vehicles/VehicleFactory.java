@@ -9,8 +9,8 @@ import ExamWorkshop.CarsOnBridge.Vehicles.VehicleTypes.VehicleType;
 public class VehicleFactory {
     /**
      * Create vehicle type.
-     * Firetruck - if consecutiveNumber is divisible by 5 without remainder.
-     * Ambulance - if consecutiveNumber is divisible by 7 without remainder.
+     * Firetruck - if consecutiveNumber is divisible by 3 without remainder.
+     * Ambulance - if consecutiveNumber is divisible by 4 without remainder.
      * Car - in all others cases.
      * @param bridge reference to the bridge on which the vehicle moves
      * @param consecutiveNumber the sequence of the vehicle in the loop

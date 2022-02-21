@@ -18,7 +18,6 @@ public abstract class Vehicle implements IVehicle,Runnable{
      */
     public boolean isMovementPaused; // if movement is paused the car is ready to take next section of the road
     public Thread thread;
-    private Boolean isLeavingBridge = false;
 
     public Vehicle(Bridge bridge, int consecutiveNumber, int velocity , VehicleType vehicleType){
 
@@ -35,12 +34,7 @@ public abstract class Vehicle implements IVehicle,Runnable{
         this.velocity = velocity;//1000 * velocity / 3600; // convert to m/s
         this.vehicleType = vehicleType;
     }
-    public boolean isLeavingBridge(){
-        return isLeavingBridge;
-    }
-    public void setLeavingBridge(boolean isLeavingBridge){
-        this.isLeavingBridge = isLeavingBridge;
-    }
+
     public Direction getDirection(){
         return direction;
     }
@@ -75,7 +69,6 @@ public abstract class Vehicle implements IVehicle,Runnable{
             new Thread(movementThread).start();
 
             bridge.takeRoad(this);
-            //System.out.printf("%s travelling on the bridge. (%d m)  has Amb %b \n",this.getName(), this.movementThread.getPosition(), Ambulance.hasAmbulance());
             while (!movementThread.isReadyToLeaveBridge() || !this.isMovementPaused){
                 Thread.sleep(200);
             }

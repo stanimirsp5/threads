@@ -19,6 +19,12 @@ public class Bridge implements IBridge {
         bridgeSingleInstance = this;
     }
 
+    /**
+     * Vehicle is on the road and is travelling to the bridge.
+     * While vehicle is too far from the bridge it must wait until is closer
+     * @param vehicle
+     * @throws InterruptedException
+     */
     public void takeRoad(Vehicle vehicle) throws InterruptedException {
         while(!vehicle.movementThread.isCloseToBridge(0) || // is far away from bridge - wait
                 !vehicle.isMovementPaused // movement is not paused - wait
